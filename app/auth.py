@@ -8,7 +8,7 @@ from supabase import create_client, Client
 load_dotenv()
 supabase_url = os.getenv("SUPABASE_URL")
 supabase_key = os.getenv("SUPABASE_KEY")
-
+#creer un client supabase pour pouvoir acceder au projet(base de données ,authentification,etc)
 supabase: Client = create_client(supabase_url, supabase_key)
 
 @app.route('/inscrirecode', methods=['POST'])

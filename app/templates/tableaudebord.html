@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>Tableau de bord</title>
+    </head>
+    <body>
+        <h1>Tableau de bord</h1>
+        <p>Bienvenue sur votre tableau de bord, {{session['prenom']}}</p>
+        <p>Voici vos informations :</p>
+        <ul>
+            <li>Prénom : {{ session['prenom'] }}</li>
+            <li>Région : {{ session['region'] }}</li>
+        </ul>
+        <a href="/deconnexion">Déconnexion</a>
+    </body>
+</html>

@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Page de test</title>
+    </head>
+    <body>
+        <form action="/connexioncode" method="POST">
+            {%if message %}
+                <p style="color: rgb(255, 0, 0);">{{ message }}</p>
+            {% endif %}
+            <label for="email">Email</label>
+            <input type="email" name="email" required>
+            <label for="motdepasse">Mot de passe</label>
+            <input type="password" name="motdepasse" required>
+            <input type="submit" value="Se connecter">  
+        </form>
+    </body>
+</html>

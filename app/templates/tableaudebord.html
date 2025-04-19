@@ -10,6 +10,21 @@
             <li>Prénom : {{ session['prenom'] }}</li>
             <li>Région : {{ session['region'] }}</li>
         </ul>
+        {% if session['kits']%}
+            <h2>Vos kits :</h2>
+                {% for kit in session['kits'] %}
+                <div id="kits">
+                    {{ kit['nom'] }}
+                </div>
+                {% endfor %}
+        {% else %}
+            <p>Aucun kit disponible.</p>
+        {% endif %}
+        <form action="/commanderkit" method="POST">
+            <input type="hidden" name="userid" value="{{ session['id'] }}">
+            <input type="hidden" name="userprenom" value="{{ session['prenom'] }}">
+            <input type="submit" value="Commander un kit">
+        </form>
         <a href="/deconnexion">Déconnexion</a>
     </body>
 </html>

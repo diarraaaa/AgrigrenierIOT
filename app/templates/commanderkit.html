@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>
+
+        </title>
+    </head>
+    <body>
+        Bonjour {{session['prenom']}}, avec l'email  bienvenue sur la page de commande de kit.
+        Sur cette page, vous pouvez commander un kit en remplissant le formulaire ci-dessous.
+        Description du kit : Les kits Agrigreniers sont des kits intelligents pour vos greniers.
+        Ils sont concus pour visualiser la temperature et l'humidite de votre grenier.
+        <form action="/requestkit" method="post">
+            <input type="hidden" name="userprenom" value="{{ session['prenom'] }}">
+            <input type="hidden" name="userid" value="{{ session['id'] }}">
+            <input type="submit" value="Commander un kit">
+        </form>  
+    </body>
+</html>

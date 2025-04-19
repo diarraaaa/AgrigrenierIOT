@@ -69,5 +69,14 @@ def connexioncode():
     session['id']=id
     session['region']=region
 
+    #verifier si il a deja des kits 
+    kits=supabase.table('kits').select("*").eq('id_proprio',id).execute()
+    if kits.data:
+        session['kits']=kits.data
+    else:
+        session['kits']=[]
+        
+    
+        
     #Apres avoir stocké les infos je peux enfin le rediriger vers son tableau de bord
     return render_template('tableaudebord.html',session=session)

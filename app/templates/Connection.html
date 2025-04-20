@@ -1,17 +1,177 @@
-<html>
-    <head>
-        <title>Page de test</title>
-    </head>
-    <body>
-        <form action="/connexioncode" method="POST">
-            {%if message %}
-                <p style="color: rgb(255, 0, 0);">{{ message }}</p>
-            {% endif %}
-            <label for="email">Email</label>
-            <input type="email" name="email" required>
-            <label for="motdepasse">Mot de passe</label>
-            <input type="password" name="motdepasse" required>
-            <input type="submit" value="Se connecter">  
-        </form>
-    </body>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion Agriculteur</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #bfe7b2, #fce57e); /* dégradé vert-jaune */
+      overflow: hidden;
+    }
+
+    .leaf {
+      position: absolute;
+      top: -50px;
+      width: 30px;
+      height: 30px;
+      background-image: url('https://cdn-icons-png.flaticon.com/512/415/415733.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: fall linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(120vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 80px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 100, 0, 0.1);
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 40px;
+      margin-bottom: 10px;
+      color: #4CAF50;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 8px;
+    }
+
+    p.subtext {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #2e7d32;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 2px solid #d0e6c3;
+      border-radius: 10px;
+      background-color: #f1faef;
+      font-size: 14px;
+    }
+
+    .btn {
+      background: linear-gradient(to right, #4CAF50, #2e7d32);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn:hover {
+      background: linear-gradient(to right, #388e3c, #1b5e20);
+    }
+
+    .extra-links {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .extra-links a {
+      color: #2e7d32;
+      text-decoration: none;
+    }
+
+    /* feuilles en arrière-plan */
+    .falling-leaves {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <!-- Feuilles animées -->
+  <div class="falling-leaves" id="fallingLeaves"></div>
+ 
+  <!-- Formulaire -->
+  <div class="container">
+    <div class="logo">🍃</div>
+    <h2>Connexion Agriculteur</h2>
+    <p class="subtext">Accédez à votre espace agriculteur</p>
+
+    <form action="/connexioncode" method="POST">
+        {%if message %}
+            <p style="color: rgb(255, 0, 0); text-align: center; margin-bottom: 20px;">{{ message }}</p>
+        {% endif %}
+    
+        <label for="email">Adresse email</label>
+        <input type="email" id="email" name="email" placeholder="email@exemple.com" required>
+    
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="motdepasse" placeholder="••••••••" required>
+    
+        <button type="submit" class="btn">
+            🍃 Se connecter
+        </button>
+    
+        <div class="extra-links">
+            <a href="#">Mot de passe oublié ?</a>
+            <a href="#">Créer un compte</a>
+        </div>
+    </form>
+      
+     
+
+  <!-- Script pour générer les feuilles -->
+  <script>
+    const leafCount = 15;
+    const container = document.getElementById("fallingLeaves");
+
+    for (let i = 0; i < leafCount; i++) {
+      const leaf = document.createElement("div");
+      leaf.className = "leaf";
+      leaf.style.left = Math.random() * 100 + "vw";
+      leaf.style.animationDuration = 5 + Math.random() * 5 + "s";
+      leaf.style.animationDelay = Math.random() * 10 + "s";
+      container.appendChild(leaf);
+    }
+  </script>
+</body>
 </html>

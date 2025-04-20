@@ -1,6 +1,6 @@
 from flask  import Flask, render_template
 from app import app
-from app.fonctions import test,deconnection,commanderkit,requestkit
+from app.fonctions import test,deconnection,commanderkit,requestkit,infokitdetails
 
 @app.route('/')
 def index():
@@ -23,3 +23,9 @@ def commanderkitroute():
 @app.route('/requestkit',methods=['POST'])
 def requestkitroute():
     return requestkit()
+@app.route('/infokit' ,methods=['POST'])
+def infokit():
+    return infokitdetails()
+@app.route('/tableaudebord')
+def tableaudebord():
+    return render_template('tableaudebord.html')

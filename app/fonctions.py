@@ -86,3 +86,14 @@ def requestkit():
         print(f"Une erreur s'est produite lors de l'envoi du message: {e}")
    
     return render_template('commanderkitdone.html',session=session)
+
+def infokitdetails():
+    idkit=request.form['id_kit']
+    nomkit=request.form['nomkit']
+    #je récupére les informations du kit depuis la base de donnés
+    infoskits=supabase.table('kits').select("*").eq('id_kit',idkit).execute()
+    temperature=infoskits.data[0]['temperature']
+    humidite=infoskits.data[0]['humidite']
+
+    return render_template('infokit.html',temperature=temperature,humidite=humidite,session=session,nomkit=nomkit)
+

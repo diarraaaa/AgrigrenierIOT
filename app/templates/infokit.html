@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Infos kits {{nomkit}}</title>
+
+    </head>
+    <body>
+        <h1>Tableau de bord du Kit {{nomkit}}</h1>
+        <p>Bienvenue sur la page d'informations du kit {{nomkit}}, {{session['prenom']}}</p>
+        <h2>Informations sur le kit :</h2>
+        <ul>
+            <li>Nom Kit : {{ nomkit }}</li>
+            <li>Température : {{ temperature }} °C</li>
+            <li>Humidité : {{ humidite }} %</li>
+        </ul>
+        <a href="/tableaudebord">Retour au tableau de bord</a>
+    </body>
+</html>

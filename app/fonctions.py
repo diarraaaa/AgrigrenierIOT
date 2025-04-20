@@ -19,13 +19,13 @@ def test():
     valeur= int(valeur)
 
     if valeur> 100:
-        return render_template('test.html', message="La valeur est supérieure  à 100")
+        return render_template('Connection.html', message="La valeur est supérieure  à 100")
     else:
-        return render_template('test.html', message="La valeur est inférieure à 100")
+        return render_template('Connection.html', message="La valeur est inférieure à 100")
 
 def deconnection():
     session.clear()
-    return render_template('index.html')
+    return render_template('Inscription.html')
 
 def commanderkit():
     session['id']=request.form['userid']

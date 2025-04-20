@@ -22,14 +22,14 @@ def inscrirecode():
     telephone= request.form['telephone']
     #Vérifier si les mots de passe sont identiques
     if motdepasse!= confirmotdepasse:
-        return render_template('index.html',message="Les mots de passe doivent etre identiques")
+        return render_template('Inscription.html',message="Les mots de passe doivent etre identiques")
     if len(motdepasse)<6:
-        return render_template('index.html',message="Le mot de passe doit contenir au moins 6 caractères")
+        return render_template('Inscription.html',message="Le mot de passe doit contenir au moins 6 caractères")
     motdepasse= generate_password_hash(motdepasse)
     #Vérifier si l'email existe déjà
     verif_email=supabase.table('profiles').select('email').eq('email',email).execute()
     if verif_email.data:
-        return render_template('index.html',message="L'email existe deja.Veuillez vous connecter")
+        return render_template('Inscription.html',message="L'email existe deja.Veuillez vous connecter")
     #Inscription dans la base de données
     supabase.table('profiles').insert({
       'nom': nom,
@@ -39,7 +39,7 @@ def inscrirecode():
       'region': region,
       'telephone': telephone
     }).execute()                                  
-    return render_template('index.html')
+    return render_template('Inscription.html')
 
 @app.route('/connexioncode', methods=['POST'])
 def connexioncode():
@@ -48,13 +48,13 @@ def connexioncode():
     #Vérifier si l'email est dans la base
     emailpresent=supabase.table('profiles').select("email").eq('email',email).execute()
     if not emailpresent.data:
-        return render_template('test.html',message="L'email n'existe pas.Veuillez vous inscrire")
+        return render_template('Connection.html',message="L'email n'existe pas.Veuillez vous inscrire")
     #Vérifier si le mot de passe est correct
     motdepassecorrect=supabase.table('profiles').select('motdepasse').eq('email',email).execute()
     motdepassecorrect=motdepassecorrect.data[0]['motdepasse']
     motdepassecorrect=check_password_hash(motdepassecorrect,motdepasse)
     if not motdepassecorrect:
-        return render_template('test.html',message="Le mot de passe est incorrect")
+        return render_template('Connection.html',message="Le mot de passe est incorrect")
     
     #Maintenant on recupére les infos de l'utilisateur
 

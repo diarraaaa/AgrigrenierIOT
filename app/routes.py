@@ -4,16 +4,16 @@ from app.fonctions import test,deconnection,commanderkit,requestkit
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('Inscription.html')
 @app.route('/test', methods=['POST'])
 def testvaleur():
     return test()
 @app.route('/testpage')
 def testpage():
-    return render_template('test.html')
+    return render_template('Connection.html')
 @app.route('/connexionpage')
 def connexionpage():
-    return render_template('test.html')
+    return render_template('Connection.html')
 @app.route('/deconnexion')
 def deconnexion():
     return deconnection()

@@ -35,7 +35,7 @@ def commanderkit():
 
 def requestkit():
     session['id']=request.form['userid']
-    commande=random.randint(1,10000000000)
+    commande=random.randint(1,100000000)
 
     supabase.table('commandes').insert({
         'id_agriculteur': session['id'],

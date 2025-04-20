@@ -5,6 +5,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
+from twilio.rest import Client as TwilioClient
 from supabase import create_client, Client
 import random
 from random import randint
@@ -68,5 +69,20 @@ def requestkit():
             serveur.send_message(email)
     except Exception as e:
         print(f"Une erreur s'est produite lors de l'envoi de l'email: {e}")
+
+    #envoyer un message de confirmation de la commande
+    #creation du client twilio 
+    twilioclient=TwilioClient(os.getenv('twilio_sid'),os.getenv('twilio_token'))
+    #remplir les information du message
+    message=f"Bonjour {session['prenom']}.Merci d'avoir effectué une commande sur notre site.Un agent vous contactera d'ici 24 heures pour la finalisation Merci de de votre confiance"
+    try:
+        #envoyer le message 
+        twilioclient.messages.create(
+            body=message,
+            from_=os.getenv('mynumber'),
+            to="+221"+session['telephone']
+        )
+    except Exception as e:
+        print(f"Une erreur s'est produite lors de l'envoi du message: {e}")
    
     return render_template('commanderkitdone.html',session=session)

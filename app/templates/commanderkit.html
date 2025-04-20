@@ -1,18 +1,82 @@
-<html>
-    <head>
-        <title>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Commande de Kit Agrigrenier</title>
+    <style>
+        body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                padding: 0;
+                min-height: 100vh;
+                background: linear-gradient(135deg, #bfe7b2, #fce57e); /* dégradé vert-jaune */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+           
+        }
 
-        </title>
-    </head>
-    <body>
-        Bonjour {{session['prenom']}}, avec l'email  bienvenue sur la page de commande de kit.
-        Sur cette page, vous pouvez commander un kit en remplissant le formulaire ci-dessous.
-        Description du kit : Les kits Agrigreniers sont des kits intelligents pour vos greniers.
-        Ils sont concus pour visualiser la temperature et l'humidite de votre grenier.
-        <form action="/requestkit" method="post">
+        .container {
+            max-width: 700px;
+            margin: 60px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 128, 0, 0.1);
+            border-left: 8px solid #aad576;
+        }
+
+        h1 {
+            color: #388e3c;
+        }
+
+        .kit-description {
+            background-color: #fef6e0;
+            padding: 20px;
+            border-left: 6px solid #ffcd38;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .kit-form {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .kit-form button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .kit-form button:hover {
+            background-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bienvenue {{ session['prenom'] }} 👋</h1>
+        <p>
+            Avec l'email enregistré, bienvenue sur la page de commande de kit.
+        </p>
+        <div class="kit-description">
+            <h2>Kit Agrigrenier 🌾</h2>
+            <p>
+                Les kits Agrigreniers sont des kits intelligents pour vos greniers.<br>
+                Ils permettent de visualiser <strong>la température</strong> et <strong>l'humidité</strong> en temps réel.
+            </p>
+        </div>
+        <form action="/requestkit" method="post" class="kit-form">
             <input type="hidden" name="userprenom" value="{{ session['prenom'] }}">
             <input type="hidden" name="userid" value="{{ session['id'] }}">
-            <input type="submit" value="Commander un kit">
-        </form>  
-    </body>
+            <button type="submit">Commander un Kit</button>
+        </form>
+    </div>
+</body>
 </html>

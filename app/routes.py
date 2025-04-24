@@ -30,3 +30,6 @@ def inscriptionpage():
 @app.route('/infokit',methods=['POST'])
 def infokitroute():
     return infokitdetails()
+@app.route('/tableaudebord')
+def tableaudebordpage():
+    return render_template('tableaudebord.html')

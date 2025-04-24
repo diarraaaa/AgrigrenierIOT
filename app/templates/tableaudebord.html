@@ -14,7 +14,12 @@
             <h2>Vos kits :</h2>
                 {% for kit in session['kits'] %}
                 <div id="kits">
-                    {{ kit['nom'] }}
+                    <form action="/infokit" method="POST">
+                        {{ kit['nom'] }}
+                        <input type="hidden" name="id_kit" value="{{ kit['id_kit'] }}">
+                        <input type="hidden" name="nomkit" value="{{ kit['nom'] }}">
+                        <input type="submit" value="Voir les détails de ce grenier">
+                    </form>
                 </div>
                 {% endfor %}
         {% else %}

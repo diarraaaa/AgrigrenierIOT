@@ -3,8 +3,9 @@ from app import app
 from app.fonctions import test,deconnection,commanderkit,requestkit
 
 @app.route('/')
+
 def index():
-    return render_template('Inscription.html')
+    return render_template('accueil.html')
 @app.route('/test', methods=['POST'])
 def testvaleur():
     return test()
@@ -23,3 +24,6 @@ def commanderkitroute():
 @app.route('/requestkit',methods=['POST'])
 def requestkitroute():
     return requestkit()
+@app.route('/inscriptionpage')
+def inscriptionpage():
+    return render_template('Inscription.html')

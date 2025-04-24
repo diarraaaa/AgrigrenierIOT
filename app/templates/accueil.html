@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrenierSmart - Surveillance intelligente de votre grenier</title>
+    <style>
+        :root {
+            --primary-color: #e67e22;
+            --secondary-color: #27ae60;
+            --dark-color: #333;
+            --light-color: #f9f9f9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: url('/api/placeholder/1200/800') center/cover fixed;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: rgb(42, 112, 19);
+        }
+        
+        .logo span {
+            color:rgb(42, 112, 19);
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color:rgb(42, 112, 19);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color:  #fce57e;
+        }
+        
+        .btn {
+            background-color: #fce57e;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #fce57e;
+        }
+        
+        .hero {
+            background:linear-gradient(135deg,rgb(42, 112, 19), #fce57e), url('/api/placeholder/1200/600') center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color:#4caf50;
+            padding: 0 5%;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .features {
+            padding: 5rem 5%;
+            background-color:white;
+            margin: 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: rgb(42, 112, 19);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: #4caf50;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            background-color: rgb(42, 112, 19);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .feature-card p {
+            color: #777;
+        }
+        
+        .how-it-works {
+            padding: 5rem 5%;
+            background-color: rgba(255, 255, 255, 0.85);
+        }
+        
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .step {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            background-color: var(--secondary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .step h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .cta {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, rgb(42, 112, 19), #fce57e);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 1.2rem;
+        }
+        
+        .btn-cta {
+            background-color: white;
+            color: var(--primary-color);
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            display: inline-block;
+        }
+        
+        .btn-cta:hover {
+            background-color: #f0f0f0;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 5%;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: rgb(42, 112, 19);
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-col ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-col ul li a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            background-color: #444;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color:rgb(42, 112, 19);
+        }
+        
+        .copyright {
+            margin-top: 3rem;
+            text-align: center;
+            color: #aaa;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-warehouse"></i>
+                Grenier<span>Smart</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Accueil</a></li>
+                <li><a href="#">Fonctionnalités</a></li>
+                <li><a href="#">Comment ça marche</a></li>
+                <li><a href="#">Tarifs</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <a href="/inscriptionpage" class="btn">S'inscrire</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Surveillez votre grenier en toute tranquillité</h1>
+            <p>La première solution intelligente de surveillance de grenier au Sénégal. Protégez vos récoltes et recevez des alertes en temps réel sur les produits endommagés.</p>
+            <a href="/inscriptionpage" class="btn btn-cta">Commencer maintenant</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="section-title">
+            <h2>Fonctionnalités clés</h2>
+            <p>Découvrez comment GrenierSmart peut vous aider à protéger vos précieuses récoltes</p>
+        </div>
+        <div class="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-camera"></i>
+                </div>
+                <h3>Surveillance en temps réel</h3>
+                <p>Accédez à tout moment à votre grenier via notre application mobile ou interface web.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Alertes instantanées</h3>
+                <p>Recevez des notifications immédiates en cas de détection de produits endommagés ou à risque.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Analyses détaillées</h3>
+                <p>Suivez l'état de vos stocks avec des rapports complets et des suggestions d'amélioration.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <div class="section-title">
+            <h2>Comment ça marche</h2>
+            <p>Un processus simple pour sécuriser vos récoltes</p>
+        </div>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Installation</h3>
+                <p>Nos experts installent les capteurs intelligents dans votre grenier et configurent le système selon vos besoins.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Connexion</h3>
+                <p>Connectez-vous à notre plateforme via l'application mobile ou le site web pour commencer à surveiller votre grenier.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Surveillance</h3>
+                <p>Le système surveille en permanence votre grenier et vous alerte en cas de problème détecté.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <h2>Prêt à protéger vos récoltes ?</h2>
+        <p>Rejoignez des centaines d'agriculteurs sénégalais qui font confiance à GrenierSmart pour la protection de leurs greniers.</p>
+        <a href="/inscriptionpage" class="btn-cta">S'inscrire maintenant</a>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>GrenierSmart</h3>
+                <p>La solution intelligente pour surveiller et protéger vos récoltes au Sénégal.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Liens utiles</h3>
+                <ul>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Témoignages</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Centre d'aide</a></li>
+                    <li><a href="#">Conditions d'utilisation</a></li>
+                    <li><a href="#">Politique de confidentialité</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact</h3>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> Dakar, Sénégal</li>
+                    <li><i class="fas fa-phone"></i> +221 XX XXX XX XX</li>
+                    <li><i class="fas fa-envelope"></i> info@greniersmart.sn</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 GrenierSmart. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -4,11 +4,17 @@
   <meta charset="UTF-8">
   <title>Connexion Agriculteur</title>
   <style>
+    :root {
+      --primary-color: #e67e22;
+      --secondary-color: #27ae60;
+      --dark-color: #333;
+      --light-color: #f9f9f9;
+  }
     body {
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #bfe7b2, #fce57e); /* dégradé vert-jaune */
+      background:linear-gradient(135deg,rgb(42, 112, 19), #fce57e);
       overflow: hidden;
     }
 
@@ -52,7 +58,15 @@
       margin-bottom: 10px;
       color: #4CAF50;
     }
-
+    .grenier-orange {
+      color: #fce57e;
+      font-weight: bold;
+    }
+    .smart {
+      color: #27ae60;
+      font-weight: bold;
+    }
+    
     h2 {
       text-align: center;
       color: #2e7d32;
@@ -126,14 +140,17 @@
     }
   </style>
 </head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <body>
   <!-- Feuilles animées -->
   <div class="falling-leaves" id="fallingLeaves"></div>
  
   <!-- Formulaire -->
   <div class="container">
-    <div class="logo">🍃</div>
-    <h2>Connexion Agriculteur</h2>
+    <div class="logo">
+      <i class="fas fa-warehouse"></i>
+      <span class="grenier-orange">Grenier</span><span class="smart">Smart</span>
+  </div>
     <p class="subtext">Accédez à votre espace agriculteur</p>
 
     <form action="/connexioncode" method="POST">

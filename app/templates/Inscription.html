@@ -3,11 +3,17 @@
     <head>
         <title>Agrigrenier</title>
         <style>
+          :root {
+            --primary-color: #e67e22;
+            --secondary-color: #27ae60;
+            --dark-color: #333;
+            --light-color: #f9f9f9;
+        }
             body {
               margin: 0;
               padding: 0;
               font-family: 'Segoe UI', sans-serif;
-              background: linear-gradient(135deg, #bfe7b2, #fce57e); /* dégradé vert-jaune */
+              background:linear-gradient(135deg,rgb(42, 112, 19), #fce57e);
               overflow: hidden;
             }
         
@@ -33,59 +39,70 @@
                 opacity: 0;
               }
             }
-        
+            .grenier-orange {
+              color: #fce57e;
+              font-weight: bold;
+            }
+            .smart {
+              color: #27ae60;
+              font-weight: bold;
+            }
+            
             .container {
-              max-width: 400px;
-              margin: 80px auto;
+              max-width: 480px;
+              margin: 40px auto;
               background: white;
-              padding: 40px;
+              padding: 30px;
               border-radius: 20px;
               box-shadow: 0 10px 30px rgba(0, 100, 0, 0.1);
               position: relative;
               max-height: 90vh;  /* Limite la hauteur à 90% de la fenêtre */
               overflow-y: auto;   /* Active le défilement vertical si nécessaire */
               scrollbar-width: thin; /* Pour Firefox */
-             scrollbar-color: #4CAF50 #f1faef; /* Pour Firefox */
-              }
+              scrollbar-color: #4CAF50 #f1faef; /* Pour Firefox */
+            }
               
-              /* Style de la barre de défilement pour Chrome/Edge/Safari */
-              .container::-webkit-scrollbar {
-                width: 8px;
-              }
+            /* Style de la barre de défilement pour Chrome/Edge/Safari */
+            .container::-webkit-scrollbar {
+              width: 6px;
+            }
               
-              .container::-webkit-scrollbar-track {
-                background: #f1faef;
-                border-radius: 10px;
-              }
+            .container::-webkit-scrollbar-track {
+              background: #f1faef;
+              border-radius: 10px;
+            }
               
-              .container::-webkit-scrollbar-thumb {
-                background-color: #4CAF50;
-                border-radius: 10px;
-              }
+            .container::-webkit-scrollbar-thumb {
+              background-color: #4CAF50;
+              border-radius: 10px;
+            }
+            
             .logo {
               text-align: center;
               font-size: 40px;
-              margin-bottom: 10px;
+              margin-bottom: 5px;
               color: #4CAF50;
             }
         
-            h2 {
+            h1 {
               text-align: center;
               color: #2e7d32;
-              margin-bottom: 8px;
+              margin-bottom: 25px;
+              font-size: 24px;
             }
         
             p.subtext {
               text-align: center;
               font-size: 14px;
               color: #666;
-              margin-bottom: 30px;
+              margin-bottom: 20px;
             }
-            /* Ajoutez ceci à votre section CSS */
+            
+            /* Grille pour les champs côte à côte */
             .form-row {
                 display: flex;
-                gap: 15px;
-                margin-bottom: 15px;
+                gap: 20px; /* Augmenté l'espace entre les colonnes */
+                margin-bottom: 16px; /* Augmenté l'espace entre les rangées */
             }
             
             .form-group {
@@ -99,30 +116,23 @@
                     gap: 0;
                 }
             }
+            
             label {
               display: block;
-              margin-bottom: 5px;
+              margin-bottom: 6px; /* Augmenté l'espace sous les labels */
               color: #2e7d32;
               font-weight: bold;
-            }
-        
-            input {
-              width: 100%;
-              padding: 12px;
-              margin-bottom: 20px;
-              border: 2px solid #d0e6c3;
-              border-radius: 10px;
-              background-color: #f1faef;
               font-size: 14px;
             }
+        
             input, select {
                 width: 100%;
-                padding: 12px;
-                margin-top: 5px;
+                padding: 10px;
                 border: 1px solid #d0e6c3;
-                border-radius: 10px;
+                border-radius: 8px;
                 background-color: #f1faef;
                 font-size: 14px;
+                margin-bottom: 5px;
             }
     
             select {
@@ -133,12 +143,13 @@
                 background-position: right 10px center;
                 background-size: 15px;
             }
+            
             .btn {
               background: linear-gradient(to right, #4CAF50, #2e7d32);
               color: white;
               border: none;
               width: 100%;
-              padding: 14px;
+              padding: 12px;
               font-size: 16px;
               border-radius: 10px;
               cursor: pointer;
@@ -146,6 +157,8 @@
               align-items: center;
               justify-content: center;
               gap: 10px;
+              margin-top: 15px; /* Augmenté l'espace au-dessus du bouton */
+              text-decoration: none;  /* Pour les liens avec classe btn */
             }
         
             .btn:hover {
@@ -155,7 +168,7 @@
             .extra-links {
               display: flex;
               justify-content: space-between;
-              margin-top: 20px;
+              margin-top: 15px;
               font-size: 14px;
             }
         
@@ -174,9 +187,10 @@
               left: 0;
               z-index: 1;
             }
+            
             .footer-text {
                 text-align: center;
-                margin-top: 15px;
+                margin-top: 20px; /* Augmenté l'espace au-dessus du footer */
                 font-size: 0.9em;
                 color: #3a6b38;
             }
@@ -186,78 +200,100 @@
                 text-decoration: underline;
                 font-weight: bold;
             }
+            
+            /* Email field with more space */
+            .email-field {
+                margin-bottom: 16px; /* Plus d'espace après le champ email */
+            }
           </style>
-</head>
-<body>
-    <!-- Feuilles animées -->
-      <!-- Feuilles animées -->
-  <div class="falling-leaves" id="fallingLeaves"></div>
- 
-    <script>
-        <!-- Script pour générer les feuilles -->
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </head>
+    <body>
+        <!-- Feuilles animées -->
+        <div class="falling-leaves" id="fallingLeaves"></div>
      
-          const leafCount = 15;
-          const container = document.getElementById("fallingLeaves");
-      
-          for (let i = 0; i < leafCount; i++) {
-            const leaf = document.createElement("div");
-            leaf.className = "leaf";
-            leaf.style.left = Math.random() * 100 + "vw";
-            leaf.style.animationDuration = 5 + Math.random() * 5 + "s";
-            leaf.style.animationDelay = Math.random() * 10 + "s";
-            container.appendChild(leaf);
-          }
-      
-    </script>
-
-    <div class="container">
-        <div class="logo">🍃</div>
-        <h1>Bienvenue sur Agrigrenier</h1>
+        <script>
+            const leafCount = 15;
+            const container = document.getElementById("fallingLeaves");
         
-        {%if message %} 
-            <p class="message">{{ message }}</p>
-        {% endif %}
-        <form action="/inscrirecode" method="POST">
-            <label for="nom">Nom</label>
-            <input type="text" id="nom" name="nom" required>
-            
-            <label for="prenom">Prénom</label>
-            <input type="text" id="prenom" name="prenom" required>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-            
-            <label for="motdepasse">Mot de passe</label>
-            <input type="password" id="motdepasse" name="motdepasse" required>
-            
-            <label for="confirm_motdepasse">Confirmer le mot de passe</label>
-            <input type="password" id="confirm_motdepasse" name="confirm_motdepasse" required>
-            
-            <label for="telephone">Téléphone</label>
-            <input type="tel" name="telephone" required>
-            
-            <label for="region">Region</label>
-            <select name="region">
-                <option value="dakar">Dakar</option>
-                <option value="diourbel">Diourbel</option>
-                <option value="fatick">Fatick</option>
-                <option value="kaolack">Kaolack</option>
-                <option value="kolda">Kolda</option>
-                <option value="tambacounda">Tambacounda</option>
-                <option value="sedhiou">Sédhiou</option>
-                <option value="ziguinchor">Ziguinchor</option>
-                <option value="saint-louis">Saint-Louis</option>
-                <option value="louga">Louga</option>
-                <option value="thies">Thiès</option>
-                <option value="louga">Louga</option>
-                <option value="matam">Matam</option>
-                <option value="kedougou">Kédougou</option>    
-            </select>
-            
-            <a href="/connexionpage" class="btn" style="display: inline-block; text-decoration: none; margin-top: 15px;">
-                🍃 Se connecter
-            </a>
-            <p class="footer-text">Déjà inscrit ? <a href="/connexionpage">Connectez-vous</a></p>
-        </form>
+            for (let i = 0; i < leafCount; i++) {
+                const leaf = document.createElement("div");
+                leaf.className = "leaf";
+                leaf.style.left = Math.random() * 100 + "vw";
+                leaf.style.animationDuration = 5 + Math.random() * 5 + "s";
+                leaf.style.animationDelay = Math.random() * 10 + "s";
+                container.appendChild(leaf);
+            }
+        </script>
+
+        <div class="container">
+          <div class="logo">
+            <i class="fas fa-warehouse"></i>
+            <span class="grenier-orange">Grenier</span><span class="smart">Smart</span>
         </div>
-</body>
+            <h1>Bienvenue </h1>
+            
+            <form action="/inscrirecode" method="POST">
+                <!-- Nom et Prénom côte à côte -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nom">Nom</label>
+                        <input type="text" id="nom" name="nom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prenom">Prénom</label>
+                        <input type="text" id="prenom" name="prenom" required>
+                    </div>
+                </div>
+                
+                <!-- Email avec plus d'espace en dessous -->
+                <div class="email-field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <!-- Mot de passe et confirmation côte à côte -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="motdepasse">Mot de passe</label>
+                        <input type="password" id="motdepasse" name="motdepasse" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_motdepasse">Confirmer</label>
+                        <input type="password" id="confirm_motdepasse" name="confirm_motdepasse" required>
+                    </div>
+                </div>
+                
+                <!-- Téléphone et région côte à côte -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="telephone">Téléphone</label>
+                        <input type="tel" id="telephone" name="telephone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="region">Région</label>
+                        <select id="region" name="region">
+                            <option value="dakar">Dakar</option>
+                            <option value="diourbel">Diourbel</option>
+                            <option value="fatick">Fatick</option>
+                            <option value="kaolack">Kaolack</option>
+                            <option value="kolda">Kolda</option>
+                            <option value="tambacounda">Tambacounda</option>
+                            <option value="sedhiou">Sédhiou</option>
+                            <option value="ziguinchor">Ziguinchor</option>
+                            <option value="saint-louis">Saint-Louis</option>
+                            <option value="louga">Louga</option>
+                            <option value="thies">Thiès</option>
+                            <option value="matam">Matam</option>
+                            <option value="kedougou">Kédougou</option>    
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn">🍃 S'inscrire</button>
+                
+                <p class="footer-text">Déjà inscrit ? <a href="/connexionpage">Connectez-vous</a></p>
+            </form>
+        </div>
+    </body>
 </html>

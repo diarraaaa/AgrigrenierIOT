@@ -24,3 +24,6 @@ def commanderkitroute():
 @app.route('/requestkit',methods=['POST'])
 def requestkitroute():
     return requestkit()
+@app.route('/inscriptionpage')
+def inscriptionpage():
+    return render_template('Inscription.html')

@@ -61,13 +61,15 @@ def connexioncode():
     infos=supabase.table('profiles').select("*").eq('email',email).execute()
     prenom=infos.data[0]['prenom']
     id=infos.data[0]['id']
-    region=infos.data[0]['region']  
+    region=infos.data[0]['region'] 
+    telephone=infos.data[0]['telephone'] 
 
     #Je crée les variables de session
     session['prenom']=prenom
     session['email']=email
     session['id']=id
     session['region']=region
+    session['telephone']=telephone
 
     #verifier si il a deja des kits 
     kits=supabase.table('kits').select("*").eq('id_proprio',id).execute()

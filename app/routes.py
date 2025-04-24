@@ -1,6 +1,6 @@
 from flask  import Flask, render_template
 from app import app
-from app.fonctions import test,deconnection,commanderkit,requestkit
+from app.fonctions import test,deconnection,commanderkit,requestkit,infokitdetails
 
 @app.route('/')
 
@@ -24,6 +24,3 @@ def commanderkitroute():
 @app.route('/requestkit',methods=['POST'])
 def requestkitroute():
     return requestkit()
-@app.route('/inscriptionpage')
-def inscriptionpage():
-    return render_template('Inscription.html')

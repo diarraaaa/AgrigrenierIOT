@@ -27,3 +27,6 @@ def requestkitroute():
 @app.route('/inscriptionpage')
 def inscriptionpage():
     return render_template('Inscription.html')
+@app.route('/boutiquepage')
+def boutiquepage():
+    return render_template('boutique.html')

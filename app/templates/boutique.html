@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Boutique - Kit Grenier Intelligent</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+
+    header {
+      background: #4CAF50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      padding: 20px;
+      gap: 40px;
+    }
+
+    .products {
+      flex: 2;
+    }
+
+    .product {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .product h3 {
+      margin-top: 0;
+    }
+
+    .product button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .product button:hover {
+      background: #388E3C;
+    }
+
+    .cart {
+      flex: 1;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .cart h3 {
+      margin-top: 0;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .checkout-btn {
+      margin-top: 20px;
+      background: #388E3C;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .checkout-btn:hover {
+      background: #2E7D32;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Composez votre Kit Grenier Intelligent</h1>
+  </header>
+
+  <div class="container">
+    <div class="products">
+      <div class="product">
+        <h3>Kit Grenier Intelligent</h3>
+        <p>Composants de base pour la surveillance automatisée.</p>
+        <p><strong>Prix :</strong> 120€</p>
+        <button onclick="addToCart('Kit Grenier Intelligent', 120)">Ajouter au panier</button>
+      </div>
+
+      <div class="product">
+        <h3>Caméra HD</h3>
+        <p>Pour capturer des images en haute définition.</p>
+        <p><strong>Prix :</strong> 45€</p>
+        <button onclick="addToCart('Caméra HD', 45)">Ajouter au panier</button>
+      </div>
+
+      <div class="product">
+        <h3>Capteur Température & Humidité</h3>
+        <p>Surveille les conditions de stockage.</p>
+        <p><strong>Prix :</strong> 25€</p>
+        <button onclick="addToCart('Capteur Température & Humidité', 25)">Ajouter au panier</button>
+      </div>
+    </div>
+
+    <div class="cart">
+      <h3>🛒 Votre Panier</h3>
+      <div id="cart-items"></div>
+      <p><strong>Total :</strong> <span id="total">0</span>€</p>
+      <form id="checkout-form" action="/commande" method="POST">
+        <input type="hidden" name="panier" id="panier-json">
+        <button type="submit" class="checkout-btn">Valider la commande</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let panier = [];
+
+    function addToCart(nom, prix) {
+      const item = panier.find(p => p.nom === nom);
+      if (item) {
+        item.qte++;
+      } else {
+        panier.push({ nom, prix, qte: 1 });
+      }
+      updateCart();
+    }
+
+    function updateCart() {
+      const cart = document.getElementById("cart-items");
+      cart.innerHTML = "";
+      let total = 0;
+
+      panier.forEach(produit => {
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <span>${produit.nom} x${produit.qte}</span>
+          <span>${produit.prix * produit.qte}€</span>
+        `;
+        cart.appendChild(div);
+        total += produit.prix * produit.qte;
+      });
+
+      document.getElementById("total").textContent = total;
+      document.getElementById("panier-json").value = JSON.stringify(panier);
+    }
+  </script>
+</body>
+</html>

@@ -1,88 +1,189 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmation de commande</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #bfe7b2, #fce57e); /* dégradé vert-jaune */
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmation de commande</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #bfe7b2, #fce57e);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .confirmation-card {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
+    .confirmation-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      max-width: 700px;
+      width: 95%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .confirmation-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 8px;
-            background: linear-gradient(90deg, #4CAF50, #8BC34A);
-        }
+    .confirmation-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, #4CAF50, #8BC34A);
+    }
 
-        .confirmation-icon {
-            font-size: 60px;
-            color: #4CAF50;
-            margin-bottom: 20px;
-        }
+    .confirmation-icon {
+      font-size: 60px;
+      color: #4CAF50;
+      margin-bottom: 20px;
+    }
 
-        h1 {
-            color: #2E7D32;
-            margin-bottom: 20px;
-        }
+    h1 {
+      color: #2E7D32;
+      margin-bottom: 10px;
+    }
 
-        p {
-            color: #555;
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
+    p {
+      color: #555;
+      font-size: 18px;
+      line-height: 1.6;
+    }
 
-        .home-link {
-            display: inline-block;
-            background: #4CAF50;
-            color: white;
-            text-decoration: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-        }
+    .home-link {
+      display: inline-block;
+      background: #4CAF50;
+      color: white;
+      text-decoration: none;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+    }
 
-        .home-link:hover {
-            background: #388E3C;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-        }
-    </style>
+    .home-link:hover {
+      background: #388E3C;
+      transform: translateY(-2px);
+    }
+
+    .invoice {
+      text-align: left;
+      margin-top: 30px;
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .invoice h2 {
+      color: #388E3C;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+    }
+
+    .invoice table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .invoice th, .invoice td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .invoice th {
+      background-color: #4CAF50;
+      color: white;
+      text-align: left;
+    }
+
+    .summary {
+      text-align: right;
+      margin-top: 10px;
+    }
+
+    .summary p {
+      margin: 5px 0;
+      font-weight: bold;
+    }
+
+    .info-ligne {
+      margin-bottom: 5px;
+    }
+
+    .pdf-button {
+      background: #388E3C;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .pdf-button:hover {
+      background: #2E7D32;
+    }
+  </style>
 </head>
 <body>
-    <div class="confirmation-card">
-        <div class="confirmation-icon">✓</div>
-        <h1>Merci pour votre commande !</h1>
-        <p>Nous avons bien reçu votre demande et vous contacterons bientôt pour la livraison de votre kit.</p>
-       <p>Nous vous remercions pour votre confiance et restons à votre disposition pour toute question.</p>
-       <h2>Au revoir !</h2>
-        <a href="/" class="home-link">Retour à l'accueil</a>
+  <div class="confirmation-card" id="facture">
+    <div class="confirmation-icon">✓</div>
+    <h1>Merci pour votre commande !</h1>
+    <p>Votre kit sera livré bientôt à l'adresse indiquée.</p>
+
+    <div class="invoice">
+      <h2>Facture</h2>
+      <div class="info-ligne"><strong>Nom du client :</strong> {{nom }}</div>
+      <div class="info-ligne"><strong>Adresse de livraison :</strong> {{ region }}</div>
+      <div class="info-ligne"><strong>Date de commande :</strong> {{ date_commande }}</div>
+      <div class="info-ligne"><strong>Livraison estimée :</strong> {{ date_livraison }}</div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Produit</th>
+            <th>Quantité</th>
+            <th>Prix unitaire</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for produit in produits %}
+          <tr>
+            <td>{{ produit.nom }}</td>
+            <td>{{ produit.qte }}</td>
+            <td>{{ produit.prix }}€</td>
+            <td>{{ produit.qte * produit.prix }}€</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="summary">
+        <p>Sous-total : {{ sous_total }}CFA</p>
+        <p>Frais de livraison : {{ livraison }}CFA</p>
+        <p><strong>Total TTC : {{ total }}CFA</strong></p>
+      </div>
     </div>
+
+    <button class="pdf-button" onclick="downloadPDF()">Télécharger la facture</button><br>
+    <a href="/" class="home-link">Retour à l'accueil</a>
+  </div>
+
+  <!-- html2pdf -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    function downloadPDF() {
+      const element = document.getElementById('facture');
+      html2pdf().from(element).save('facture_commande.pdf');
+    }
+  </script>
 </body>
 </html>

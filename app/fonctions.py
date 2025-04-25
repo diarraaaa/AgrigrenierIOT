@@ -10,7 +10,6 @@ from supabase import create_client, Client
 import random
 from random import randint
 from datetime import datetime
-import locale
 
 
 #Récuperer les variables d'environnement dans le fichier .env
@@ -111,7 +110,6 @@ def alertecode():
         kits=supabase.table('kits').select('nom').eq('id_kit',id_kit).execute()
         alertes.data[i]['nom_kit']=kits.data[0]['nom']
         dt = datetime.fromisoformat(alertes.data[i]['date_alerte'])
-        locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
-        alertes.data[i]['date_alerte']= dt.strftime("%A %d %B %Y à %H h:%M min%p").capitalize()    
+        alertes.data[i]['date_alerte']= dt.strftime("%A %d %B %Y à %H :%M %p").capitalize()    
     contenu=alertes.data  
     return render_template('Alertes.html',contenu=contenu,session=session)

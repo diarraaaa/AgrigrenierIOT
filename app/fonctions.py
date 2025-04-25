@@ -9,6 +9,9 @@ from twilio.rest import Client as TwilioClient
 from supabase import create_client, Client
 import random
 from random import randint
+from datetime import datetime
+import locale
+
 
 #Récuperer les variables d'environnement dans le fichier .env
 load_dotenv()
@@ -97,3 +100,18 @@ def infokitdetails():
 
     return render_template('infokit.html',temperature=temperature,humidite=humidite,session=session,nomkit=nomkit)
 
+def alertecode():
+    userid=request.form['userid']
+    #je récupére les alertes depuis la base de donnés
+    alertes=supabase.table('alertes').select('enonce,id_kit,date_alerte').eq('id_agriculteur',userid).execute()
+    for i in range(len(alertes.data)):
+        id_kit=alertes.data[i]['id_kit']
+        date_alerte=alertes.data[i]['date_alerte']
+        #je récupére les kits depuis la base de donnés
+        kits=supabase.table('kits').select('nom').eq('id_kit',id_kit).execute()
+        alertes.data[i]['nom_kit']=kits.data[0]['nom']
+        dt = datetime.fromisoformat(alertes.data[i]['date_alerte'])
+        locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
+        alertes.data[i]['date_alerte']= dt.strftime("%A %d %B %Y à %H h:%M min%p").capitalize()    
+    contenu=alertes.data  
+    return render_template('Alertes.html',contenu=contenu,session=session)

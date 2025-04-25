@@ -30,6 +30,10 @@
             <input type="hidden" name="userprenom" value="{{ session['prenom'] }}">
             <input type="submit" value="Commander un kit">
         </form>
+        <form action="/alertekits", method="POST">
+            <input type="hidden" name="userid" value="{{ session['id'] }}">
+            <input type="submit" value="Notifications kits">
+        </form>
         <a href="/deconnexion">Déconnexion</a>
     </body>
 </html>

@@ -1,167 +1,984 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Boutique - Kit Grenier Intelligent</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique - Grenier Intelligent</title>
+    <style>
+        :root {
+            --primary-color: rgb(42, 112, 19);
+            --secondary-color: #fce57e;
+            --background-color: #f5f5f5;
+            --text-color: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .page-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+        
+        .shop-categories {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .category-btn {
+            background-color: white;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 180px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            max-width: 100%;
+            max-height: 160px;
+            object-fit: contain;
+        }
+        
+        .product-info {
+            padding: 1rem;
+        }
+        
+        .product-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .product-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .product-price {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .add-to-cart {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            background-color: #1e5b0c;
+        }
+        
+        .cart-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .cart-title {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .cart-items {
+            margin-bottom: 1.5rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .item-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .item-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+        
+        .item-image img {
+            max-width: 40px;
+            max-height: 40px;
+        }
+        
+        .item-details h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .item-price {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .item-quantity {
+            display: flex;
+            align-items: center;
+        }
+        
+        .quantity-btn {
+            background-color: #eee;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .quantity-input {
+            width: 40px;
+            text-align: center;
+            margin: 0 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 0.2rem;
+        }
+        
+        .remove-item {
+            color: #f44336;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .cart-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .total-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .checkout-btn {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .checkout-btn:hover {
+            background-color: #e9d16c;
+        }
+        
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        .modal-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .payment-options {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1.5rem;
+        }
+        
+        .payment-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .payment-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .payment-option.selected .payment-logo {
+            border: 2px solid var(--primary-color);
+        }
+        
+        .payment-form {
+            margin-top: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: #666;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+        
+        .cancel-btn {
+            background-color: #f5f5f5;
+            color: #666;
+            border: 1px solid #ddd;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .pay-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .order-success {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .success-icon {
+            color: var(--primary-color);
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .back-to-shop {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            color: #666;
+            padding: 2rem 0;
+        }
 
-    header {
-      background: #4CAF50;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+            }
+            
+            nav ul li {
+                margin-left: 1rem;
+                margin-right: 1rem;
+            }
+            
+            .shop-categories {
+                flex-wrap: wrap;
+            }
+            
+            .category-btn {
+                margin-bottom: 0.5rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
 
-    .container {
-      display: flex;
-      padding: 20px;
-      gap: 40px;
-    }
-
-    .products {
-      flex: 2;
-    }
-
-    .product {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .product h3 {
-      margin-top: 0;
-    }
-
-    .product button {
-      background: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .product button:hover {
-      background: #388E3C;
-    }
-
-    .cart {
-      flex: 1;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      max-height: 400px;
-      overflow-y: auto;
-    }
-
-    .cart h3 {
-      margin-top: 0;
-    }
-
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .checkout-btn {
-      margin-top: 20px;
-      background: #388E3C;
-      color: white;
-      border: none;
-      padding: 10px;
-      width: 100%;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .checkout-btn:hover {
-      background: #2E7D32;
-    }
-  </style>
+        .hidden {
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <header>
-    <h1>Composez votre Kit Grenier Intelligent</h1>
-  </header>
+    <header>
+        <div class="logo">
+            <i class="fas fa-warehouse"></i>
+            Grenier Intelligent
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/tableaudebord">Tableau de Bord</a></li>
+                <li><a href="/boutiquepage">Boutique</a></li>
+                <li><a href="/requestkit">Mes Commandes</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <div class="container">
-    <div class="products">
-      <div class="product">
-        <h3>Kit Grenier Intelligent</h3>
-        <p>Composants de base pour la surveillance automatisée.</p>
-        <p><strong>Prix :</strong> 120€</p>
-        <button onclick="addToCart('Kit Grenier Intelligent', 120)">Ajouter au panier</button>
-      </div>
-
-      <div class="product">
-        <h3>Caméra HD</h3>
-        <p>Pour capturer des images en haute définition.</p>
-        <p><strong>Prix :</strong> 45€</p>
-        <button onclick="addToCart('Caméra HD', 45)">Ajouter au panier</button>
-      </div>
-
-      <div class="product">
-        <h3>Capteur Température & Humidité</h3>
-        <p>Surveille les conditions de stockage.</p>
-        <p><strong>Prix :</strong> 25€</p>
-        <button onclick="addToCart('Capteur Température & Humidité', 25)">Ajouter au panier</button>
-      </div>
+    <div class="container">
+        <h1 class="page-title">Boutique d'équipement</h1>
+        
+        <div class="shop-categories">
+            <button class="category-btn active" data-category="all">Tous</button>
+            <button class="category-btn" data-category="capteurs">Capteurs</button>
+            <button class="category-btn" data-category="cameras">Caméras</button>
+            <button class="category-btn" data-category="ventilateurs">Ventilateurs</button>
+            <button class="category-btn" data-category="kits">Kits complets</button>
+        </div>
+        
+        <div class="products-grid">
+            <!-- Capteurs -->
+            <div class="product-card" data-category="capteurs">
+                <div class="product-image">
+                    <img src="/api/placeholder/250/180" alt="Capteur de température">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Capteur de température</h3>
+                    <p class="product-description">Capteur haute précision pour surveiller la température de votre grenier.</p>
+                    <p class="product-price">15 000 FCFA</p>
+                    <button class="add-to-cart" data-id="1" data-name="Capteur de température" data-price="15000">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <div class="product-card" data-category="capteurs">
+                <div class="product-image">
+                    <img src="/api/placeholder/250/180" alt="Capteur d'humidité">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Capteur d'humidité</h3>
+                    <p class="product-description">Mesure précise de l'humidité ambiante avec alarme paramétrable.</p>
+                    <p class="product-price">18 000 FCFA</p>
+                    <button class="add-to-cart" data-id="2" data-name="Capteur d'humidité" data-price="18000">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <div class="product-card" data-category="capteurs">
+                <div class="product-image">
+                    <img src="/api/placeholder/250/180" alt="Capteur de mouvement">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Capteur de mouvement</h3>
+                    <p class="product-description">Détection de mouvement à infrarouge pour sécuriser votre espace.</p>
+                    <p class="product-price">12 500 FCFA</p>
+                    <button class="add-to-cart" data-id="3" data-name="Capteur de mouvement" data-price="12500">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <!-- Caméras -->
+            <div class="product-card" data-category="cameras">
+                <div class="product-image">
+                    <img src="/api/placeholder/250/180" alt="Caméra HD intérieure">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Caméra HD intérieure</h3>
+                    <p class="product-description">Caméra 1080p avec vision nocturne pour surveiller votre grenier.</p>
+                    <p class="product-price">35 000 FCFA</p>
+                    <button class="add-to-cart" data-id="4" data-name="Caméra HD intérieure" data-price="35000">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <div class="product-card" data-category="cameras">
+                <div class="product-image">
+                    <img src="/api/placeholder/250/180" alt="Caméra sans fil">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Caméra sans fil</h3>
+                    <p class="product-description">Caméra Wi-Fi rechargeable, installation facile sans câble.</p>
+                    <p class="product-price">45 000 FCFA</p>
+                    <button class="add-to-cart" data-id="5" data-name="Caméra sans fil" data-price="45000">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <!-- Ventilateurs -->
+            <div class="product-card" data-category="ventilateurs">
+                <div class="product-image">
+                    <img src="/api/placeholder/250/180" alt="Ventilateur intelligent">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Ventilateur intelligent</h3>
+                    <p class="product-description">Ventilateur contrôlable à distance avec ajustement automatique.</p>
+                    <p class="product-price">25 000 FCFA</p>
+                    <button class="add-to-cart" data-id="6" data-name="Ventilateur intelligent" data-price="25000">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <div class="product-card" data-category="ventilateurs">
+                <div class="product-image">
+                    <img src="/api/placeholder/250/180" alt="Système d'aération">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Système d'aération</h3>
+                    <p class="product-description">Système complet pour l'aération de votre grenier, facile à installer.</p>
+                    <p class="product-price">60 000 FCFA</p>
+                    <button class="add-to-cart" data-id="7" data-name="Système d'aération" data-price="60000">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <!-- Kits complets -->
+            <div class="product-card" data-category="kits">
+                <div class="product-image">
+                    <img src="/api/placeholder/250/180" alt="Kit de base">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Kit de base</h3>
+                    <p class="product-description">Ensemble comprenant 2 capteurs et 1 caméra pour débuter.</p>
+                    <p class="product-price">55 000 FCFA</p>
+                    <button class="add-to-cart" data-id="8" data-name="Kit de base" data-price="55000">Ajouter au panier</button>
+                </div>
+            </div>
+            
+            <div class="product-card" data-category="kits">
+                <div class="product-image">
+                    <img src="/api/placeholder/250/180" alt="Kit avancé">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Kit avancé</h3>
+                    <p class="product-description">Solution complète avec 4 capteurs, 2 caméras et 1 système d'aération.</p>
+                    <p class="product-price">120 000 FCFA</p>
+                    <button class="add-to-cart" data-id="9" data-name="Kit avancé" data-price="120000">Ajouter au panier</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cart-section">
+            <div class="cart-title">
+                <h2>Votre Panier</h2>
+                <span id="cart-count">0 article(s)</span>
+            </div>
+            
+            <div id="cart-items" class="cart-items">
+                <div class="empty-cart">Votre panier est vide</div>
+                <!-- Items will be added here dynamically -->
+            </div>
+            
+            <div class="cart-summary">
+                <div class="total-price">Total: 0 FCFA</div>
+                <button class="checkout-btn" id="checkout-btn" disabled>Passer à la caisse</button>
+            </div>
+        </div>
     </div>
-
-    <div class="cart">
-      <h3>🛒 Votre Panier</h3>
-      <div id="cart-items"></div>
-      <p><strong>Total :</strong> <span id="total">0</span>€</p>
-      <form id="checkout-form" action="/commande" method="POST">
-        <input type="hidden" name="panier" id="panier-json">
-        <button type="submit" class="checkout-btn">Valider la commande</button>
-      </form>
+    
+    <!-- Payment Modal -->
+    <div class="payment-modal" id="payment-modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Choisissez votre méthode de paiement</h2>
+            
+            <div class="payment-options">
+                <div class="payment-option" data-method="orange">
+                    <div class="payment-logo">
+                        <img src="/api/placeholder/70/70" alt="Orange Money">
+                    </div>
+                    <span>Orange Money</span>
+                </div>
+                
+                <div class="payment-option" data-method="wave">
+                    <div class="payment-logo">
+                        <img src="/api/placeholder/70/70" alt="Wave">
+                    </div>
+                    <span>Wave</span>
+                </div>
+            </div>
+            
+            <div id="orange-money-form" class="payment-form hidden">
+                <div class="form-group">
+                    <label for="orange-phone">Numéro de téléphone Orange</label>
+                    <input type="tel" id="orange-phone" placeholder="Entrez votre numéro">
+                </div>
+            </div>
+            
+            <div id="wave-form" class="payment-form hidden">
+                <div class="form-group">
+                    <label for="wave-phone">Numéro de téléphone Wave</label>
+                    <input type="tel" id="wave-phone" placeholder="Entrez votre numéro">
+                </div>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="cancel-btn" id="cancel-payment">Annuler</button>
+                <button class="pay-btn" id="confirm-payment">Confirmer le paiement</button>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <script>
-    let panier = [];
-
-    function addToCart(nom, prix) {
-      const item = panier.find(p => p.nom === nom);
-      if (item) {
-        item.qte++;
-      } else {
-        panier.push({ nom, prix, qte: 1 });
-      }
-      updateCart();
+    
+    <!-- Order Success -->
+    <div class="payment-modal" id="success-modal">
+        <div class="modal-content order-success">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Commande confirmée !</h2>
+            <p>Votre commande a été traitée avec succès. Vous recevrez bientôt un SMS de confirmation.</p>
+            <form id="redirect-form" action="/requestkit" method="POST">
+                <button type="submit" class="back-to-shop">Voir mes commandes</button>
+            </form>
+        </div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gestion des catégories
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const productCards = document.querySelectorAll('.product-card');
+        
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Retirer la classe active de tous les boutons
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                // Ajouter la classe active au bouton cliqué
+                button.classList.add('active');
+                
+                const category = button.dataset.category;
+                
+                // Filtrer les produits
+                productCards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Gestion du panier
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartCountElement = document.getElementById('cart-count');
+        const totalPriceElement = document.querySelector('.total-price');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        let cart = [];
+        
+        // Ajouter un produit au panier
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', () => {
+                const productId = button.dataset.id;
+                const productName = button.dataset.name;
+                const productPrice = parseInt(button.dataset.price);
+                
+                // Vérifier si le produit est déjà dans le panier
+                const existingItem = cart.find(item => item.id === productId);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        id: productId,
+                        name: productName,
+                        price: productPrice,
+                        quantity: 1
+                    });
+                }
+                
+                updateCart();
+            });
+        });
+        
+        // Mettre à jour le panier
+        function updateCart() {
+            // Mettre à jour le compteur
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCountElement.textContent = `${totalItems} article(s)`;
+            
+            // Mettre à jour la liste des articles
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<div class="empty-cart">Votre panier est vide</div>';
+                checkoutBtn.disabled = true;
+            } else {
+                cartItemsContainer.innerHTML = '';
+                cart.forEach(item => {
+                    const cartItemElement = document.createElement('div');
+                    cartItemElement.className = 'cart-item';
+                    cartItemElement.innerHTML = `
+                        <div class="cart-item-info">
+                            <span class="cart-item-name">${item.name}</span>
+                            <span class="cart-item-price">${item.price} FCFA</span>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                            <button class="remove-btn" data-id="${item.id}">×</button>
+                        </div>
+                    `;
+                    cartItemsContainer.appendChild(cartItemElement);
+                });
+                
+                // Activer le bouton de paiement
+                checkoutBtn.disabled = false;
+            }
+            
+            // Mettre à jour le total
+            const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            totalPriceElement.textContent = `Total: ${totalPrice} FCFA`;
+            
+            // Ajouter les événements pour les boutons de quantité
+            document.querySelectorAll('.quantity-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = this.dataset.id;
+                    const item = cart.find(item => item.id === productId);
+                    
+                    if (this.classList.contains('minus')) {
+                        if (item.quantity > 1) {
+                            item.quantity -= 1;
+                        } else {
+                            cart = cart.filter(i => i.id !== productId);
+                        }
+                    } else if (this.classList.contains('plus')) {
+                        item.quantity += 1;
+                    }
+                    
+                    updateCart();
+                });
+            });
+            
+            // Ajouter les événements pour les boutons de suppression
+            document.querySelectorAll('.remove-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = this.dataset.id;
+                    cart = cart.filter(item => item.id !== productId);
+                    updateCart();
+                });
+            });
+        }
+        
+        // Gestion du paiement
+        const paymentModal = document.getElementById('payment-modal');
+        const successModal = document.getElementById('success-modal');
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        const orangeForm = document.getElementById('orange-money-form');
+        const waveForm = document.getElementById('wave-form');
+        const cancelPaymentBtn = document.getElementById('cancel-payment');
+        const confirmPaymentBtn = document.getElementById('confirm-payment');
+        let selectedPaymentMethod = null;
+        
+        // Ouvrir le modal de paiement
+        checkoutBtn.addEventListener('click', () => {
+            paymentModal.style.display = 'flex';
+        });
+        
+        // Choisir une méthode de paiement
+        paymentOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                
+                selectedPaymentMethod = option.dataset.method;
+                
+                // Afficher le formulaire correspondant
+                orangeForm.classList.add('hidden');
+                waveForm.classList.add('hidden');
+                
+                if (selectedPaymentMethod === 'orange') {
+                    orangeForm.classList.remove('hidden');
+                } else if (selectedPaymentMethod === 'wave') {
+                    waveForm.classList.remove('hidden');
+                }
+            });
+        });
+        
+        // Annuler le paiement
+        cancelPaymentBtn.addEventListener('click', () => {
+            paymentModal.style.display = 'none';
+            selectedPaymentMethod = null;
+            paymentOptions.forEach(opt => opt.classList.remove('selected'));
+            orangeForm.classList.add('hidden');
+            waveForm.classList.add('hidden');
+        });
+        
+        // Confirmer le paiement (simulé)
+        confirmPaymentBtn.addEventListener('click', () => {
+            if (!selectedPaymentMethod) {
+                alert('Veuillez sélectionner une méthode de paiement');
+                return;
+            }
+            
+            const phoneField = selectedPaymentMethod === 'orange' 
+                ? document.getElementById('orange-phone') 
+                : document.getElementById('wave-phone');
+            
+            if (!phoneField.value) {
+                alert('Veuillez entrer votre numéro de téléphone');
+                return;
+            }
+            
+            // Simuler un paiement réussi
+            paymentModal.style.display = 'none';
+            successModal.style.display = 'flex';
+            
+            // Sauvegarder la commande dans le localStorage
+            const order = {
+                id: Date.now(),
+                date: new Date().toLocaleString(),
+                items: [...cart],
+                total: cart.reduce((total, item) => total + (item.price * item.quantity), 0),
+                paymentMethod: selectedPaymentMethod,
+                status: 'En traitement'
+            };
+            
+            let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            // Vider le panier
+            cart = [];
+            updateCart();
+        });
+        
+        // Redirection vers la page des commandes
+        document.getElementById('redirect-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            successModal.style.display = 'none';
+            
+            // Stocker les informations pour la page des commandes
+            localStorage.setItem('showOrders', 'true');
+            
+            // Rediriger vers la page des commandes
+            window.location.href = '/requestkit';
+        });
+        
+        // Fermer le modal de succès si on clique à l'extérieur
+        window.addEventListener('click', (e) => {
+            if (e.target === paymentModal) {
+                paymentModal.style.display = 'none';
+            }
+            if (e.target === successModal) {
+                successModal.style.display = 'none';
+            }
+        });
+    });
+    
+    // Code pour la page des commandes (/requestkit)
+    if (window.location.pathname === '/requestkit') {
+        document.addEventListener('DOMContentLoaded', function() {
+            const ordersContainer = document.querySelector('.orders-container') || document.createElement('div');
+            
+            // Vérifier si on doit afficher les commandes
+            if (localStorage.getItem('showOrders') === 'true') {
+                localStorage.removeItem('showOrders');
+                
+                const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+                
+                if (orders.length === 0) {
+                    ordersContainer.innerHTML = '<p>Aucune commande trouvée</p>';
+                } else {
+                    ordersContainer.innerHTML = '<h2>Mes Commandes</h2>';
+                    
+                    orders.forEach(order => {
+                        const orderElement = document.createElement('div');
+                        orderElement.className = 'order-card';
+                        orderElement.innerHTML = `
+                            <div class="order-header">
+                                <span class="order-id">Commande #${order.id}</span>
+                                <span class="order-date">${order.date}</span>
+                                <span class="order-status">${order.status}</span>
+                            </div>
+                            <div class="order-items">
+                                ${order.items.map(item => `
+                                    <div class="order-item" data-category="${item.name.includes('Capteur') ? 'capteurs' : 
+                                        item.name.includes('Caméra') ? 'cameras' : 
+                                        item.name.includes('Ventilateur') ? 'ventilateurs' : 'kits'}">
+                                        <span class="item-name">${item.name}</span>
+                                        <span class="item-quantity">${item.quantity}x</span>
+                                        <span class="item-price">${item.price * item.quantity} FCFA</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="order-footer">
+                                <span class="order-total">Total: ${order.total} FCFA</span>
+                                <span class="order-payment">Paiement: ${order.paymentMethod === 'orange' ? 'Orange Money' : 'Wave'}</span>
+                            </div>
+                        `;
+                        ordersContainer.appendChild(orderElement);
+                    });
+                    
+                    // Ajouter des événements pour les éléments de commande
+                    document.querySelectorAll('.order-item').forEach(item => {
+                        item.addEventListener('click', function() {
+                            const category = this.dataset.category;
+                            // Stocker la catégorie sélectionnée
+                            localStorage.setItem('selectedCategory', category);
+                            // Rediriger vers la boutique
+                            window.location.href = '/boutiquepage';
+                        });
+                    });
+                }
+            }
+        });
     }
-
-    function updateCart() {
-      const cart = document.getElementById("cart-items");
-      cart.innerHTML = "";
-      let total = 0;
-
-      panier.forEach(produit => {
-        const div = document.createElement("div");
-        div.className = "cart-item";
-        div.innerHTML = `
-          <span>${produit.nom} x${produit.qte}</span>
-          <span>${produit.prix * produit.qte}€</span>
-        `;
-        cart.appendChild(div);
-        total += produit.prix * produit.qte;
-      });
-
-      document.getElementById("total").textContent = total;
-      document.getElementById("panier-json").value = JSON.stringify(panier);
+    
+    // Code pour filtrer les produits si on vient de la page des commandes
+    if (window.location.pathname === '/boutiquepage' && localStorage.getItem('selectedCategory')) {
+        document.addEventListener('DOMContentLoaded', function() {
+            const category = localStorage.getItem('selectedCategory');
+            localStorage.removeItem('selectedCategory');
+            
+            // Trouver le bouton correspondant et simuler un clic
+            const categoryButton = document.querySelector(`.category-btn[data-category="${category}"]`);
+            if (categoryButton) {
+                categoryButton.click();
+                
+                // Faire défiler jusqu'à la section boutique
+                document.querySelector('.shop-categories').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
     }
-  </script>
-</body>
-</html>
+</script>  

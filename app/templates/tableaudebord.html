@@ -388,6 +388,7 @@
                     </div>
                     {% endfor %}
                 </div>
+<<<<<<< HEAD
             {% else %}
                 <p>Aucun grenier connecté disponible.</p>
             {% endif %}
@@ -659,4 +660,21 @@
         }
     </script>
 </body>
+=======
+                {% endfor %}
+        {% else %}
+            <p>Aucun kit disponible.</p>
+        {% endif %}
+        <form action="/commanderkit" method="POST">
+            <input type="hidden" name="userid" value="{{ session['id'] }}">
+            <input type="hidden" name="userprenom" value="{{ session['prenom'] }}">
+            <input type="submit" value="Commander un kit">
+        </form>
+        <form action="/alertekits", method="POST">
+            <input type="hidden" name="userid" value="{{ session['id'] }}">
+            <input type="submit" value="Notifications kits">
+        </form>
+        <a href="/deconnexion">Déconnexion</a>
+    </body>
+>>>>>>> ea282301a90c8acde227f29fa087176e706f4133
 </html>

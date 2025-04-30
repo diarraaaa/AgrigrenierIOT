@@ -1,6 +1,6 @@
 from flask  import Flask, render_template
 from app import app
-from app.fonctions import test,deconnection,commanderkit,requestkit,infokitdetails
+from app.fonctions import test,deconnection,commanderkit,requestkit,infokitdetails,alertecode
 
 @app.route('/')
 
@@ -36,4 +36,10 @@ def infokitroute():
 @app.route('/tableaudebord')
 def tableaudebordpage():
     return render_template('tableaudebord.html')
+<<<<<<< HEAD
 
+=======
+@app.route('/alertekits' ,methods=['POST'])
+def alertespage():
+    return alertecode()
+>>>>>>> ea282301a90c8acde227f29fa087176e706f4133

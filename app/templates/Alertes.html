@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Mes Alertes</title>
+    </head>
+    <body>
+        <h1>Mes Alertes</h1>
+        <p>Bienvenue sur la page de vos alertes, {{session['prenom']}}</p>
+        <p>Voici vos alertes :</p>
+        {% if contenu %}
+            <ul>
+                {% for alerte in contenu %}
+                    <li><b> {{alerte['date_alerte']}} {{ alerte['nom_kit']}} </b>:{{ alerte['enonce'] }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucune alerte disponible.</p>
+        {% endif %}
+        <form action="/tableaudebord">
+            <input type="submit" value="Retour au tableau de bord">
+        </form>
+    </body>
+</html>

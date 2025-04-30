@@ -27,6 +27,13 @@ def requestkitroute():
 @app.route('/inscriptionpage')
 def inscriptionpage():
     return render_template('Inscription.html')
-@app.route('/boutiquepage')
+@app.route('/boutiquepage',methods=['Get','POST'])
 def boutiquepage():
     return render_template('boutique.html')
+@app.route('/infokit',methods=['POST'])
+def infokitroute():
+    return infokitdetails()
+@app.route('/tableaudebord')
+def tableaudebordpage():
+    return render_template('tableaudebord.html')
+

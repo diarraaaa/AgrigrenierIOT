@@ -133,6 +133,7 @@
   </style>
 </head>
 <body>
+
   <div class="confirmation-card" id="facture">
     <div class="confirmation-icon">✓</div>
     <h1>Merci pour votre commande !</h1>
@@ -170,11 +171,16 @@
         <p>Sous-total : {{ sous_total }}CFA</p>
         <p>Frais de livraison : {{ livraison }}CFA</p>
         <p><strong>Total TTC : {{ total }}CFA</strong></p>
-      </div>
+      </div>       
     </div>
 
     <button class="pdf-button" onclick="downloadPDF()">Télécharger la facture</button><br>
     <a href="/" class="home-link">Retour à l'accueil</a>
+    <a href="/tableaudebord" class="home-link">Retour au tableau de bord</a>
+    
+       
+    
+       
   </div>
 
   <!-- html2pdf -->

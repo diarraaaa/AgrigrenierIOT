@@ -1,17 +1,1027 @@
-<html>
-    <head>
-        <title>Infos kits {{nomkit}}</title>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grenier Intelligent - Surveillance des Cultures</title>
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --primary-light: #60ad5e;
+            --primary-dark: #005005;
+            --secondary: #ff8f00;
+            --danger: #d32f2f;
+            --warning: #ffa000;
+            --success: #388e3c;
+            --gray-light: #f5f5f5;
+            --gray: #9e9e9e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .culture-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .culture-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .culture-header {
+            padding: 1rem;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .culture-content {
+            padding: 1rem;
+        }
+        
+        .parameters {
+            margin: 1rem 0;
+        }
+        
+        .param-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .current-value {
+            font-weight: bold;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .status-normal {
+            background-color: var(--success);
+        }
+        
+        .status-warning {
+            background-color: var(--warning);
+        }
+        
+        .status-alert {
+            background-color: var(--danger);
+        }
+        
+        .notifications {
+            margin-top: 2rem;
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .notification-item {
+            padding: 0.8rem;
+            border-left: 4px solid var(--gray);
+            background-color: var(--gray-light);
+            margin-bottom: 0.8rem;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .notification-alert {
+            border-left-color: var(--danger);
+        }
+        
+        .notification-warning {
+            border-left-color: var(--warning);
+        }
+        
+        .notification-info {
+            border-left-color: var(--primary);
+        }
+        
+        .notification-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 0.3rem;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+        
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        button:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background-color: #b71c1c;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-top: 1.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .chart-box {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .settings-form {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 1.5rem;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .actions {
+            margin-top: 1.5rem;
+            text-align: right;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Grenier Intelligent</h1>
+            <p>Système de surveillance des cultures</p>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="tabs">
+            <div class="tab active" data-tab="dashboard">Tableau de bord</div>
+            <div class="tab" data-tab="charts">Graphiques</div>
+            <div class="tab" data-tab="settings">Paramètres</div>
+        </div>
+        
+        <div id="dashboard" class="tab-content active">
+            <div class="dashboard" id="cultures-container">
+                <!-- Les cartes des cultures seront injectées ici par JavaScript -->
+            </div>
+            
+            <div class="notifications">
+                <h2>Notifications récentes</h2>
+                <div id="notifications-container">
+                    <!-- Les notifications seront injectées ici par JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="charts" class="tab-content">
+            <div class="charts-container">
+                <div class="chart-box">
+                    <h3>Température par zone (dernières 24h)</h3>
+                    <canvas id="tempChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>Humidité par zone (dernières 24h)</h3>
+                    <canvas id="humidityChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div id="settings" class="tab-content">
+            <div class="settings-form">
+                <h2>Configuration des cultures</h2>
+                <form id="cultures-form">
+                    <div id="cultures-settings">
+                        <!-- Les paramètres des cultures seront injectés ici par JavaScript -->
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="new-culture">Ajouter une nouvelle culture:</label>
+                            <select id="new-culture">
+                                <option value="">-- Sélectionner une culture --</option>
+                                <option value="pommes">Pommes</option>
+                                <option value="carottes">Carottes</option>
+                                <option value="oignons">Oignons</option>
+                                <option value="pommes_de_terre">Pommes de terre</option>
+                                <option value="ail">Ail</option>
+                                <option value="navets">Navets</option>
+                                <option value="betteraves">Betteraves</option>
+                                <option value="custom">Personnalisée...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-zone">Zone:</label>
+                            <input type="text" id="new-zone" placeholder="Nom de la zone">
+                        </div>
+                        <div class="form-group" style="align-self: flex-end;">
+                            <button type="button" id="add-culture-btn">Ajouter</button>
+                        </div>
+                    </div>
+                    
+                    <div class="actions">
+                        <button type="submit">Enregistrer les modifications</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="settings-form">
+                <h2>Configuration des notifications</h2>
+                <form id="notifications-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="notification-method">Méthode de notification:</label>
+                            <select id="notification-method">
+                                <option value="browser">Navigateur</option>
+                                <option value="email">E-mail</option>
+                                <option value="sms">SMS</option>
+                                <option value="all">Toutes les méthodes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="notification-frequency">Fréquence des notifications:</label>
+                            <select id="notification-frequency">
+                                <option value="immediate">Immédiate</option>
+                                <option value="hourly">Toutes les heures</option>
+                                <option value="daily">Quotidienne</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email-address">Adresse e-mail:</label>
+                            <input type="email" id="email-address" placeholder="votre@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone-number">Numéro de téléphone (pour SMS):</label>
+                            <input type="tel" id="phone-number" placeholder="+33 6 XX XX XX XX">
+                        </div>
+                    </div>
+                    
+                    <div class="actions">
+                        <button type="submit">Enregistrer les paramètres</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // Définition des cultures et leurs paramètres optimaux
+        const CULTURES = {
+            "pommes": {
+                "temp_min": 0,
+                "temp_max": 4,
+                "humidite_min": 85,
+                "humidite_max": 95,
+                "nom_affichage": "Pommes"
+            },
+            "carottes": {
+                "temp_min": 0,
+                "temp_max": 3,
+                "humidite_min": 90,
+                "humidite_max": 98,
+                "nom_affichage": "Carottes"
+            },
+            "oignons": {
+                "temp_min": 0,
+                "temp_max": 5,
+                "humidite_min": 65,
+                "humidite_max": 75,
+                "nom_affichage": "Oignons"
+            },
+            "pommes_de_terre": {
+                "temp_min": 7,
+                "temp_max": 10,
+                "humidite_min": 85,
+                "humidite_max": 90,
+                "nom_affichage": "Pommes de terre"
+            },
+            "ail": {
+                "temp_min": 0,
+                "temp_max": 4,
+                "humidite_min": 60,
+                "humidite_max": 70,
+                "nom_affichage": "Ail"
+            },
+            "navets": {
+                "temp_min": 0,
+                "temp_max": 2,
+                "humidite_min": 90,
+                "humidite_max": 95,
+                "nom_affichage": "Navets"
+            },
+            "betteraves": {
+                "temp_min": 1,
+                "temp_max": 4,
+                "humidite_min": 90,
+                "humidite_max": 95,
+                "nom_affichage": "Betteraves"
+            }
+        };
 
-    </head>
-    <body>
-        <h1>Tableau de bord du Kit {{nomkit}}</h1>
-        <p>Bienvenue sur la page d'informations du kit {{nomkit}}, {{session['prenom']}}</p>
-        <h2>Informations sur le kit :</h2>
-        <ul>
-            <li>Nom Kit : {{ nomkit }}</li>
-            <li>Température : {{ temperature }} °C</li>
-            <li>Humidité : {{ humidite }} %</li>
-        </ul>
-        <a href="/tableaudebord">Retour au tableau de bord</a>
-    </body>
+        // Zones actives du grenier
+        let ZONES = [
+            { id: 1, nom: "Zone Nord", culture: "pommes", active: true },
+            { id: 2, nom: "Zone Sud", culture: "carottes", active: true },
+            { id: 3, nom: "Zone Est", culture: "oignons", active: true }
+        ];
+
+        // Notifications
+        let notifications = [
+            {
+                id: 1,
+                type: "alert",
+                message: "Température trop élevée dans la Zone Nord (Pommes): 5.2°C, max recommandé: 4°C",
+                time: "2025-05-04T10:32:18"
+            },
+            {
+                id: 2,
+                type: "warning",
+                message: "Humidité proche du seuil minimum dans la Zone Est (Oignons): 67%, min recommandé: 65%",
+                time: "2025-05-04T09:15:45"
+            },
+            {
+                id: 3,
+                type: "info",
+                message: "Conditions optimales rétablies dans la Zone Sud (Carottes)",
+                time: "2025-05-04T08:42:31"
+            }
+        ];
+
+        // Données simulées pour les graphiques
+        const generateHistoricalData = () => {
+            const now = new Date();
+            const data = {
+                labels: [],
+                temperatures: {},
+                humidity: {}
+            };
+            
+            // Initialiser les données pour chaque zone
+            ZONES.forEach(zone => {
+                if (zone.active) {
+                    data.temperatures[zone.nom] = [];
+                    data.humidity[zone.nom] = [];
+                }
+            });
+            
+            // Générer des données pour les dernières 24 heures (par intervalles de 2 heures)
+            for (let i = 12; i >= 0; i--) {
+                const timePoint = new Date(now.getTime() - i * 2 * 60 * 60 * 1000);
+                const hours = timePoint.getHours().toString().padStart(2, '0');
+                const minutes = timePoint.getMinutes().toString().padStart(2, '0');
+                data.labels.push(`${hours}:${minutes}`);
+                
+                ZONES.forEach(zone => {
+                    if (zone.active && CULTURES[zone.culture]) {
+                        const culture = CULTURES[zone.culture];
+                        
+                        // Température: valeur moyenne avec une petite variation
+                        const avgTemp = (culture.temp_min + culture.temp_max) / 2;
+                        const tempVariation = (culture.temp_max - culture.temp_min) * 0.8; // 80% de la plage
+                        const temp = avgTemp + (Math.random() * 2 - 1) * tempVariation;
+                        data.temperatures[zone.nom].push(temp.toFixed(1));
+                        
+                        // Humidité: valeur moyenne avec une petite variation
+                        const avgHum = (culture.humidite_min + culture.humidite_max) / 2;
+                        const humVariation = (culture.humidite_max - culture.humidite_min) * 0.6; // 60% de la plage
+                        const hum = avgHum + (Math.random() * 2 - 1) * humVariation;
+                        data.humidity[zone.nom].push(hum.toFixed(1));
+                    }
+                });
+            }
+            
+            return data;
+        };
+
+        // Fonction pour générer des valeurs actuelles pour les capteurs
+        const generateCurrentValues = (zone) => {
+            if (!CULTURES[zone.culture]) return { temperature: null, humidite: null };
+            
+            const culture = CULTURES[zone.culture];
+            
+            // Température: valeur dans la plage avec débordement occasionnel
+            const tempDebordement = Math.random() > 0.8 ? (Math.random() > 0.5 ? 1.5 : -1.5) : 0;
+            const tempBase = culture.temp_min + (culture.temp_max - culture.temp_min) * Math.random();
+            const temperature = Math.max(-5, Math.min(30, tempBase + tempDebordement));
+            
+            // Humidité: valeur dans la plage avec débordement occasionnel
+            const humDebordement = Math.random() > 0.8 ? (Math.random() > 0.5 ? 10 : -10) : 0;
+            const humBase = culture.humidite_min + (culture.humidite_max - culture.humidite_min) * Math.random();
+            const humidite = Math.max(10, Math.min(100, humBase + humDebordement));
+            
+            return {
+                temperature: temperature.toFixed(1),
+                humidite: humidite.toFixed(1)
+            };
+        };
+
+        // Fonction pour évaluer si une valeur est dans la plage optimale
+        const evaluateStatus = (value, min, max) => {
+            if (value < min * 0.9 || value > max * 1.1) return "alert";
+            if (value < min || value > max) return "warning";
+            return "normal";
+        };
+
+        // Fonction pour formater la date/heure
+        const formatDateTime = (dateString) => {
+            const date = new Date(dateString);
+            const options = { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' };
+            return date.toLocaleDateString('fr-FR', options);
+        };
+
+        // Fonctions d'affichage des informations
+        const renderCultureCards = () => {
+            const container = document.getElementById('cultures-container');
+            container.innerHTML = '';
+            
+            ZONES.forEach(zone => {
+                if (!zone.active) return;
+                
+                const currentValues = generateCurrentValues(zone);
+                const cultureName = CULTURES[zone.culture] ? CULTURES[zone.culture].nom_affichage : "Culture inconnue";
+                
+                // Déterminer le statut des valeurs actuelles
+                let tempStatus = "normal";
+                let humStatus = "normal";
+                
+                if (CULTURES[zone.culture]) {
+                    const culture = CULTURES[zone.culture];
+                    tempStatus = evaluateStatus(currentValues.temperature, culture.temp_min, culture.temp_max);
+                    humStatus = evaluateStatus(currentValues.humidite, culture.humidite_min, culture.humidite_max);
+                }
+                
+                const card = document.createElement('div');
+                card.className = 'culture-card';
+                card.innerHTML = `
+                    <div class="culture-header">
+                        <h2>${zone.nom} - ${cultureName}</h2>
+                    </div>
+                    <div class="culture-content">
+                        <div class="parameters">
+                            <div class="param-row">
+                                <span>Température:</span>
+                                <span class="current-value">
+                                    <span class="status-indicator status-${tempStatus}"></span>
+                                    ${currentValues.temperature}°C
+                                </span>
+                            </div>
+                            <div class="param-row">
+                                <span>Humidité:</span>
+                                <span class="current-value">
+                                    <span class="status-indicator status-${humStatus}"></span>
+                                    ${currentValues.humidite}%
+                                </span>
+                            </div>
+                            <div class="param-row">
+                                <span>Plage optimale (temp.):</span>
+                                <span>${CULTURES[zone.culture] ? `${CULTURES[zone.culture].temp_min}°C - ${CULTURES[zone.culture].temp_max}°C` : "N/A"}</span>
+                            </div>
+                            <div class="param-row">
+                                <span>Plage optimale (hum.):</span>
+                                <span>${CULTURES[zone.culture] ? `${CULTURES[zone.culture].humidite_min}% - ${CULTURES[zone.culture].humidite_max}%` : "N/A"}</span>
+                            </div>
+                        </div>
+                        <div class="controls">
+                            <button class="refresh-btn" data-zone-id="${zone.id}">Actualiser</button>
+                            <button class="btn-danger delete-zone-btn" data-zone-id="${zone.id}">Supprimer</button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            // Ajouter les écouteurs d'événements
+            document.querySelectorAll('.refresh-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const zoneId = parseInt(this.getAttribute('data-zone-id'));
+                    refreshZoneData(zoneId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-zone-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const zoneId = parseInt(this.getAttribute('data-zone-id'));
+                    deleteZone(zoneId);
+                });
+            });
+        };
+
+        const renderNotifications = () => {
+            const container = document.getElementById('notifications-container');
+            container.innerHTML = '';
+            
+            if (notifications.length === 0) {
+                container.innerHTML = '<p>Aucune notification récente</p>';
+                return;
+            }
+            
+            // Trier les notifications par date (plus récentes en premier)
+            notifications.sort((a, b) => new Date(b.time) - new Date(a.time));
+            
+            notifications.forEach(notif => {
+                const item = document.createElement('div');
+                item.className = `notification-item notification-${notif.type}`;
+                item.innerHTML = `
+                    <div class="notification-content">${notif.message}</div>
+                    <div class="notification-time">${formatDateTime(notif.time)}</div>
+                `;
+                container.appendChild(item);
+            });
+        };
+
+        const renderCulturesSettings = () => {
+            const container = document.getElementById('cultures-settings');
+            container.innerHTML = '';
+            
+            ZONES.forEach((zone, index) => {
+                if (!zone.active) return;
+                
+                const culture = CULTURES[zone.culture] || {
+                    temp_min: 0,
+                    temp_max: 10,
+                    humidite_min: 60,
+                    humidite_max: 90,
+                    nom_affichage: "Personnalisée"
+                };
+                
+                const settingGroup = document.createElement('div');
+                settingGroup.className = 'settings-group';
+                settingGroup.innerHTML = `
+                    <h3>${zone.nom} - ${culture.nom_affichage}</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="temp-min-${zone.id}">Température minimale (°C):</label>
+                            <input type="number" step="0.1" id="temp-min-${zone.id}" value="${culture.temp_min}" data-zone-id="${zone.id}" data-param="temp_min">
+                        </div>
+                        <div class="form-group">
+                            <label for="temp-max-${zone.id}">Température maximale (°C):</label>
+                            <input type="number" step="0.1" id="temp-max-${zone.id}" value="${culture.temp_max}" data-zone-id="${zone.id}" data-param="temp_max">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hum-min-${zone.id}">Humidité minimale (%):</label>
+                            <input type="number" step="1" id="hum-min-${zone.id}" value="${culture.humidite_min}" data-zone-id="${zone.id}" data-param="humidite_min">
+                        </div>
+                        <div class="form-group">
+                            <label for="hum-max-${zone.id}">Humidité maximale (%):</label>
+                            <input type="number" step="1" id="hum-max-${zone.id}" value="${culture.humidite_max}" data-zone-id="${zone.id}" data-param="humidite_max">
+                        </div>
+                    </div>
+                    ${index < ZONES.filter(z => z.active).length - 1 ? '<hr style="margin: 1.5rem 0;">' : ''}
+                `;
+                
+                container.appendChild(settingGroup);
+            });
+        };
+
+        // Fonctions de gestion des données
+        const refreshZoneData = (zoneId) => {
+            const zoneIndex = ZONES.findIndex(z => z.id === zoneId);
+            if (zoneIndex === -1) return;
+            
+            // Régénérer les valeurs pour cette zone
+            renderCultureCards();
+            
+            // Simuler la vérification des alertes
+            const zone = ZONES[zoneIndex];
+            const currentValues = generateCurrentValues(zone);
+            const culture = CULTURES[zone.culture];
+            
+            if (!culture) return;
+            
+            // Vérifier si les valeurs sont hors limites
+            if (currentValues.temperature < culture.temp_min || currentValues.temperature > culture.temp_max) {
+                const severity = currentValues.temperature < culture.temp_min * 0.9 || currentValues.temperature > culture.temp_max * 1.1 ? "alert" : "warning";
+                const message = `Température ${currentValues.temperature > culture.temp_max ? "trop élevée" : "trop basse"} dans la ${zone.nom} (${culture.nom_affichage}): ${currentValues.temperature}°C, ${currentValues.temperature > culture.temp_max ? "max" : "min"} recommandé: ${currentValues.temperature > culture.temp_max ? culture.temp_max : culture.temp_min}°C`;
+                
+                addNotification(severity, message);
+            }
+            
+            if (currentValues.humidite < culture.humidite_min || currentValues.humidite > culture.humidite_max) {
+                const severity = currentValues.humidite < culture.humidite_min * 0.9 || currentValues.humidite > culture.humidite_max * 1.1 ? "alert" : "warning";
+                const message = `Humidité ${currentValues.humidite > culture.humidite_max ? "trop élevée" : "trop basse"} dans la ${zone.nom} (${culture.nom_affichage}): ${currentValues.humidite}%, ${currentValues.humidite > culture.humidite_max ? "max" : "min"} recommandé: ${currentValues.humidite > culture.humidite_max ? culture.humidite_max : culture.humidite_min}%`;
+                
+                addNotification(severity, message);
+            }
+        };
+
+        const deleteZone = (zoneId) => {
+            const confirmation = confirm("Êtes-vous sûr de vouloir supprimer cette zone ?");
+            if (!confirmation) return;
+            
+            const zoneIndex = ZONES.findIndex(z => z.id === zoneId);
+            if (zoneIndex === -1) return;
+            
+            ZONES[zoneIndex].active = false;
+            renderCultureCards();
+            renderCulturesSettings();
+            initCharts(); // Mise à jour des graphiques
+            
+            addNotification("info", `La zone "${ZONES[zoneIndex].nom}" a été supprimée`);
+        };
+
+        const addNotification = (type, message) => {
+            const newNotification = {
+                id: Date.now(),
+                type: type,
+                message: message,
+                time: new Date().toISOString()
+            };
+            
+            notifications.unshift(newNotification);
+            
+            // Limiter le nombre de notifications à 10
+            if (notifications.length > 10) {
+                notifications.pop();
+            }
+            
+            renderNotifications();
+            
+            // Notification du navigateur si disponible
+            if (Notification.permission === "granted") {
+                new Notification(`Grenier Intelligent - ${type.toUpperCase()}`, {
+                    body: message
+                });
+            }
+        };
+
+        const addZone = () => {
+            const cultureSelect = document.getElementById('new-culture');
+            const zoneName = document.getElementById('new-zone').value.trim();
+            
+            if (!cultureSelect.value || !zoneName) {
+                alert("Veuillez sélectionner une culture et saisir un nom de zone");
+                return;
+            }
+            
+            // Créer un nouvel ID unique
+            const newId = Math.max(...ZONES.map(z => z.id), 0) + 1;
+            
+            // Ajouter la nouvelle zone
+            ZONES.push({
+                id: newId,
+                nom: zoneName,
+                culture: cultureSelect.value,
+                active: true
+            });
+            
+            // Réinitialiser les champs du formulaire
+            cultureSelect.value = "";
+            document.getElementById('new-zone').value = "";
+            
+            // Mettre à jour l'interface
+            renderCultureCards();
+            renderCulturesSettings();
+            initCharts();
+            
+            addNotification("info", `Nouvelle zone "${zoneName}" ajoutée avec succès (culture: ${CULTURES[cultureSelect.value]?.nom_affichage || cultureSelect.value})`);
+        };
+
+        // Gestion des onglets
+        const setupTabs = () => {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetId = tab.getAttribute('data-tab');
+                    
+                    // Réinitialiser tous les onglets et contenus
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Activer l'onglet et le contenu sélectionnés
+                    tab.classList.add('active');
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    // Si l'onglet est "charts", initialiser les graphiques
+                    if (targetId === 'charts') {
+                        initCharts();
+                    }
+                });
+            });
+        };
+
+        // Gestion des graphiques
+        let tempChart, humidityChart;
+
+        const initCharts = () => {
+            const tempCtx = document.getElementById('tempChart');
+            const humCtx = document.getElementById('humidityChart');
+            
+            // Détruire les graphiques existants s'ils existent
+            if (tempChart) tempChart.destroy();
+            if (humidityChart) humidityChart.destroy();
+            
+            // Générer les données historiques
+            const data = generateHistoricalData();
+            
+            // Créer un tableau de couleurs pour les zones
+            const colors = ['#2e7d32', '#1976d2', '#e65100', '#6a1b9a', '#c62828'];
+            
+            // Préparer les datasets pour la température
+            const tempDatasets = [];
+            let colorIndex = 0;
+            
+            Object.keys(data.temperatures).forEach(zoneName => {
+                tempDatasets.push({
+                    label: zoneName,
+                    data: data.temperatures[zoneName],
+                    borderColor: colors[colorIndex % colors.length],
+                    backgroundColor: colors[colorIndex % colors.length] + '20',
+                    tension: 0.4
+                });
+                colorIndex++;
+            });
+            
+            // Préparer les datasets pour l'humidité
+            const humDatasets = [];
+            colorIndex = 0;
+            
+            Object.keys(data.humidity).forEach(zoneName => {
+                humDatasets.push({
+                    label: zoneName,
+                    data: data.humidity[zoneName],
+                    borderColor: colors[colorIndex % colors.length],
+                    backgroundColor: colors[colorIndex % colors.length] + '20',
+                    tension: 0.4
+                });
+                colorIndex++;
+            });
+            
+            // Créer le graphique de température
+            tempChart = new Chart(tempCtx, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: tempDatasets
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Température (°C)'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Créer le graphique d'humidité
+            humidityChart = new Chart(humCtx, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: humDatasets
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Humidité (%)'
+                            }
+                        }
+                    }
+                }
+            });
+        };
+
+        // Simulation de l'actualisation automatique des données
+        const startAutoRefresh = () => {
+            // Actualiser une zone aléatoire toutes les 45 secondes
+            setInterval(() => {
+                const activeZones = ZONES.filter(z => z.active);
+                if (activeZones.length === 0) return;
+                
+                const randomZone = activeZones[Math.floor(Math.random() * activeZones.length)];
+                refreshZoneData(randomZone.id);
+            }, 45000);
+            
+            // Actualiser toutes les zones toutes les 5 minutes
+            setInterval(() => {
+                ZONES.filter(z => z.active).forEach(zone => {
+                    refreshZoneData(zone.id);
+                });
+                
+                // Mise à jour des graphiques si l'onglet est actif
+                if (document.getElementById('charts').classList.contains('active')) {
+                    initCharts();
+                }
+            }, 300000);
+        };
+
+        // Initialisation de l'application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion des onglets
+            setupTabs();
+            
+            // Affichage initial des données
+            renderCultureCards();
+            renderNotifications();
+            renderCulturesSettings();
+            
+            // Initialisation des graphiques (importation de Chart.js)
+            const chartScript = document.createElement('script');
+            chartScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js';
+            chartScript.onload = function() {
+                initCharts();
+            };
+            document.body.appendChild(chartScript);
+            
+            // Écouteurs d'événements pour les boutons d'ajout
+            document.getElementById('add-culture-btn').addEventListener('click', addZone);
+            
+            // Écouteurs d'événements pour les formulaires
+            document.getElementById('cultures-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Récupérer les nouvelles valeurs des paramètres
+                const inputs = document.querySelectorAll('#cultures-settings input[type="number"]');
+                inputs.forEach(input => {
+                    const zoneId = parseInt(input.getAttribute('data-zone-id'));
+                    const param = input.getAttribute('data-param');
+                    const value = parseFloat(input.value);
+                    
+                    const zoneIndex = ZONES.findIndex(z => z.id === zoneId);
+                    if (zoneIndex !== -1) {
+                        const culture = ZONES[zoneIndex].culture;
+                        if (!CULTURES[culture]) {
+                            CULTURES[culture] = {
+                                nom_affichage: "Personnalisée"
+                            };
+                        }
+                        CULTURES[culture][param] = value;
+                    }
+                });
+                
+                alert("Paramètres des cultures enregistrés avec succès");
+                renderCultureCards();
+            });
+            
+            document.getElementById('notifications-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Simuler l'enregistrement des paramètres de notification
+                alert("Paramètres de notification enregistrés avec succès");
+            });
+            
+            // Demander la permission pour les notifications du navigateur
+            if ('Notification' in window) {
+                if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+                    Notification.requestPermission();
+                }
+            }
+            
+            // Démarrer l'actualisation automatique
+            startAutoRefresh();
+        });
+    </script>
+</body>
 </html>

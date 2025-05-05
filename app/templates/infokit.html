@@ -12,6 +12,13 @@
             <li>Température : {{ temperature }} °C</li>
             <li>Humidité : {{ humidite }} %</li>
         </ul>
+        
+        <form action="/ajouterculturepage" method="post">
+
+            <input type="hidden" name="idkit" value="{{ idkit }}">
+            <input type="hidden" name="nomkit" value="{{ nomkit }}">
+            <input type="submit" value="Ajouter une culture">
+        </form>
         <a href="/tableaudebord">Retour au tableau de bord</a>
     </body>
 </html>

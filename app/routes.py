@@ -1,7 +1,13 @@
-from flask  import Flask, render_template
+from flask  import Flask, render_template,request
 from app import app
-from app.fonctions import test,deconnection,commanderkit,requestkit,infokitdetails,alertecode
+from supabase import create_client, Client
+from app.fonctions import test,deconnection,commanderkit,requestkit,infokitdetails,alertecode,ajouterculture
+import os
+from dotenv import load_dotenv
 
+supabase_url = os.getenv("SUPABASE_URL")
+supabase_key = os.getenv("SUPABASE_KEY")
+supabase: Client = create_client(supabase_url, supabase_key)
 @app.route('/')
 
 def index():
@@ -39,4 +45,21 @@ def tableaudebordpage():
 @app.route('/alertekits' ,methods=['POST'])
 def alertespage():
     return alertecode()
-#deploy
+@app.route('/ajouterculturepage',methods=['POST'])
+def ajoutercultureroute():
+    nomkit=request.form['nomkit']
+    idkit=request.form['idkit']
+    #recuperer les id des cultures dans le kit
+    cultures=supabase.table('kit_culture').select("*").eq('id_kit',idkit).execute()
+    print(cultures.data)
+    for i in range(len(cultures.data)):
+        id_culture=cultures.data[i]['id_culture']
+        #recuperer le nom de la culture
+        nom=supabase.table('culture').select('nom').eq('id_culture',id_culture).execute()
+        cultures.data[i]['nom']=nom.data[0]['nom']
+        #recuperer les informations de la culture
+    return render_template('ajouterculture.html',idkit=idkit,nomkit=nomkit,cultures=cultures.data)
+
+@app.route('/ajoutculturecode',methods=['POST'])
+def ajouterculturecoderoute():
+    return ajouterculture()

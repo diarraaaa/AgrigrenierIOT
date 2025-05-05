@@ -40,3 +40,5 @@ def tableaudebordpage():
 def alertespage():
     return alertecode()
 
+
+

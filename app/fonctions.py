@@ -97,7 +97,7 @@ def infokitdetails():
     temperature=infoskits.data[0]['temperature']
     humidite=infoskits.data[0]['humidite']
 
-    return render_template('infokit.html',temperature=temperature,humidite=humidite,session=session,nomkit=nomkit)
+    return render_template('infokit.html',temperature=temperature,humidite=humidite,session=session,nomkit=nomkit,idkit=idkit)
 
 def alertecode():
     userid=request.form['userid']
@@ -113,3 +113,32 @@ def alertecode():
         alertes.data[i]['date_alerte']= dt.strftime("%A %d %B %Y à %H :%M %p").capitalize()    
     contenu=alertes.data  
     return render_template('Alertes.html',contenu=contenu,session=session)
+
+def ajouterculture():
+    idkit=request.form['idkit']
+    nomculture=request.form['nomculture']
+    quantite=request.form['quantite']
+    quantite=int(quantite)
+
+    try:
+       #prendre l'id de la culture à partir de la base de données
+       id=supabase.table('culture').select('id_culture').eq('nom',nomculture).execute()
+       id_culture=id.data[0]['id_culture']
+       if not id_culture:
+           print("La culture n'existe pas dans la base de données")
+       #ajouter la culture dans la base de données
+       supabase.table('kit_culture').insert({
+              'id_kit':idkit,
+              'id_culture':id_culture,
+              'quantité':quantite
+       }).execute()
+       cultures=supabase.table('kit_culture').select("*").eq('id_kit',idkit).execute()
+       for i in range(len(cultures.data)):
+            id_culture=cultures.data[i]['id_culture']
+            #recuperer le nom de la culture
+            nom=supabase.table('culture').select('nom').eq('id_culture',id_culture).execute()
+            cultures.data[i]['nom']=nom.data[0]['nom']
+       return render_template('ajouterculture.html',message="La culture a été ajoutée avec succès",session=session,idkit=idkit,cultures=cultures.data)
+    except Exception as e:
+        print(f"Une erreur s'est produite lors de l'ajout de la culture: {e}")
+        return render_template('ajouterculture.html',message="Une erreur s'est produite lors de l'ajout de la culture",session=session,idkit=idkit)

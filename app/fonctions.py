@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for,session
+from flask import Flask, render_template, request, redirect, url_for,session,json,jsonify
 from app import app
 import os
 import smtplib
@@ -97,8 +97,31 @@ def infokitdetails():
     temperature=infoskits.data[0]['temperature']
     humidite=infoskits.data[0]['humidite']
 
-    return render_template('infokit.html',temperature=temperature,humidite=humidite,session=session,nomkit=nomkit,idkit=idkit)
-
+    #recuperer les cultures qui sont dans le kit
+    cultures=supabase.table('kit_culture').select('id_culture').eq('id_kit',idkit).execute()
+    for i in range(len(cultures.data)):
+        id_culture=cultures.data[i]['id_culture']
+        #recuperer  le nom et les constantes de chaque culture
+        infos=supabase.table('culture').select('*').eq('id_culture',id_culture).execute()
+        nom=infos.data[0]['nom']
+        tempmin=infos.data[0]['temperaturemin']
+        tempmax=infos.data[0]['temperaturemax']
+        humiditemin=infos.data[0]['humiditemin']
+        humiditemax=infos.data[0]['humiditemax']
+        #on ajoute cette valeur dans les infos de chaque culture
+        cultures.data[i]['nom']=nom
+        cultures.data[i]['temperaturemin']=tempmin
+        cultures.data[i]['temperaturemax']=tempmax
+        cultures.data[i]['humiditemin']=humiditemin
+        cultures.data[i]['humiditemax']=humiditemax
+        
+    contenu=cultures.data
+    #je recupére les alertes au niveau de la base de données
+    alertes=supabase.table('alertes').select('*').eq('id_kit',idkit).order('date_alerte',desc=True).limit(15).execute()
+    alertes=alertes.data
+    alertes=json.dumps(alertes)
+    contenu=json.dumps(contenu)
+    return render_template('infokit.html',contenu=contenu,session=session,nomkit=nomkit,temperature=temperature,humidite=humidite,alertes=alertes)
 def alertecode():
     userid=request.form['userid']
     #je récupére les alertes depuis la base de donnés

@@ -386,89 +386,13 @@
             </div>
         </div>
     </main>
-    
     <script>
         // Définition des cultures et leurs paramètres optimaux
-        const CULTURES = {
-            "pommes": {
-                "temp_min": 0,
-                "temp_max": 4,
-                "humidite_min": 85,
-                "humidite_max": 95,
-                "nom_affichage": "Pommes"
-            },
-            "carottes": {
-                "temp_min": 0,
-                "temp_max": 3,
-                "humidite_min": 90,
-                "humidite_max": 98,
-                "nom_affichage": "Carottes"
-            },
-            "oignons": {
-                "temp_min": 0,
-                "temp_max": 5,
-                "humidite_min": 65,
-                "humidite_max": 75,
-                "nom_affichage": "Oignons"
-            },
-            "pommes_de_terre": {
-                "temp_min": 7,
-                "temp_max": 10,
-                "humidite_min": 85,
-                "humidite_max": 90,
-                "nom_affichage": "Pommes de terre"
-            },
-            "ail": {
-                "temp_min": 0,
-                "temp_max": 4,
-                "humidite_min": 60,
-                "humidite_max": 70,
-                "nom_affichage": "Ail"
-            },
-            "navets": {
-                "temp_min": 0,
-                "temp_max": 2,
-                "humidite_min": 90,
-                "humidite_max": 95,
-                "nom_affichage": "Navets"
-            },
-            "betteraves": {
-                "temp_min": 1,
-                "temp_max": 4,
-                "humidite_min": 90,
-                "humidite_max": 95,
-                "nom_affichage": "Betteraves"
-            }
-        };
 
-        // Zones actives du grenier
-        let ZONES = [
-            { id: 1, nom: "Zone Nord", culture: "pommes", active: true },
-            { id: 2, nom: "Zone Sud", culture: "carottes", active: true },
-            { id: 3, nom: "Zone Est", culture: "oignons", active: true }
-        ];
+        const CULTURES = JSON.parse({{contenu|tojson}});
 
         // Notifications
-        let notifications = [
-            {
-                id: 1,
-                type: "alert",
-                message: "Température trop élevée dans la Zone Nord (Pommes): 5.2°C, max recommandé: 4°C",
-                time: "2025-05-04T10:32:18"
-            },
-            {
-                id: 2,
-                type: "warning",
-                message: "Humidité proche du seuil minimum dans la Zone Est (Oignons): 67%, min recommandé: 65%",
-                time: "2025-05-04T09:15:45"
-            },
-            {
-                id: 3,
-                type: "info",
-                message: "Conditions optimales rétablies dans la Zone Sud (Carottes)",
-                time: "2025-05-04T08:42:31"
-            }
-        ];
+        let notifications = JSON.parse({{alertes|tojson}});
 
         // Données simulées pour les graphiques
         const generateHistoricalData = () => {
@@ -516,27 +440,6 @@
             return data;
         };
 
-        // Fonction pour générer des valeurs actuelles pour les capteurs
-        const generateCurrentValues = (zone) => {
-            if (!CULTURES[zone.culture]) return { temperature: null, humidite: null };
-            
-            const culture = CULTURES[zone.culture];
-            
-            // Température: valeur dans la plage avec débordement occasionnel
-            const tempDebordement = Math.random() > 0.8 ? (Math.random() > 0.5 ? 1.5 : -1.5) : 0;
-            const tempBase = culture.temp_min + (culture.temp_max - culture.temp_min) * Math.random();
-            const temperature = Math.max(-5, Math.min(30, tempBase + tempDebordement));
-            
-            // Humidité: valeur dans la plage avec débordement occasionnel
-            const humDebordement = Math.random() > 0.8 ? (Math.random() > 0.5 ? 10 : -10) : 0;
-            const humBase = culture.humidite_min + (culture.humidite_max - culture.humidite_min) * Math.random();
-            const humidite = Math.max(10, Math.min(100, humBase + humDebordement));
-            
-            return {
-                temperature: temperature.toFixed(1),
-                humidite: humidite.toFixed(1)
-            };
-        };
 
         // Fonction pour évaluer si une valeur est dans la plage optimale
         const evaluateStatus = (value, min, max) => {
@@ -557,27 +460,25 @@
             const container = document.getElementById('cultures-container');
             container.innerHTML = '';
             
-            ZONES.forEach(zone => {
-                if (!zone.active) return;
-                
-                const currentValues = generateCurrentValues(zone);
-                const cultureName = CULTURES[zone.culture] ? CULTURES[zone.culture].nom_affichage : "Culture inconnue";
+            CULTURES.forEach(culture => {
+
+                const cultureName = culture.nom
+                const culturetempmin=culture.temperaturemin
+                const culturetempmax=culture.temperaturemax 
+                const culturehumiditemin=culture.humiditemin
+                const culturehumiditemax=culture.humiditemax
+        
                 
                 // Déterminer le statut des valeurs actuelles
                 let tempStatus = "normal";
                 let humStatus = "normal";
                 
-                if (CULTURES[zone.culture]) {
-                    const culture = CULTURES[zone.culture];
-                    tempStatus = evaluateStatus(currentValues.temperature, culture.temp_min, culture.temp_max);
-                    humStatus = evaluateStatus(currentValues.humidite, culture.humidite_min, culture.humidite_max);
-                }
                 
                 const card = document.createElement('div');
                 card.className = 'culture-card';
                 card.innerHTML = `
                     <div class="culture-header">
-                        <h2>${zone.nom} - ${cultureName}</h2>
+                        <h2>${cultureName}</h2>
                     </div>
                     <div class="culture-content">
                         <div class="parameters">
@@ -585,28 +486,24 @@
                                 <span>Température:</span>
                                 <span class="current-value">
                                     <span class="status-indicator status-${tempStatus}"></span>
-                                    ${currentValues.temperature}°C
+                                   {{temperature}}°C
                                 </span>
                             </div>
                             <div class="param-row">
                                 <span>Humidité:</span>
                                 <span class="current-value">
                                     <span class="status-indicator status-${humStatus}"></span>
-                                    ${currentValues.humidite}%
+                                    {{humidite}}%
                                 </span>
                             </div>
                             <div class="param-row">
                                 <span>Plage optimale (temp.):</span>
-                                <span>${CULTURES[zone.culture] ? `${CULTURES[zone.culture].temp_min}°C - ${CULTURES[zone.culture].temp_max}°C` : "N/A"}</span>
+                                <span>${culturetempmin}C -${culturetempmax}C</span>
                             </div>
                             <div class="param-row">
                                 <span>Plage optimale (hum.):</span>
-                                <span>${CULTURES[zone.culture] ? `${CULTURES[zone.culture].humidite_min}% - ${CULTURES[zone.culture].humidite_max}%` : "N/A"}</span>
+                                <span>${culturehumiditemin}%-${culturehumiditemax}%</span>
                             </div>
-                        </div>
-                        <div class="controls">
-                            <button class="refresh-btn" data-zone-id="${zone.id}">Actualiser</button>
-                            <button class="btn-danger delete-zone-btn" data-zone-id="${zone.id}">Supprimer</button>
                         </div>
                     </div>
                 `;
@@ -639,15 +536,13 @@
                 return;
             }
             
-            // Trier les notifications par date (plus récentes en premier)
-            notifications.sort((a, b) => new Date(b.time) - new Date(a.time));
             
             notifications.forEach(notif => {
                 const item = document.createElement('div');
-                item.className = `notification-item notification-${notif.type}`;
+                item.className = `notification-item notification-`;
                 item.innerHTML = `
-                    <div class="notification-content">${notif.message}</div>
-                    <div class="notification-time">${formatDateTime(notif.time)}</div>
+                    <div class="notification-content">${notif.enonce}</div>
+                    <div class="notification-time">${formatDateTime(notif.date_alerte)}</div>
                 `;
                 container.appendChild(item);
             });

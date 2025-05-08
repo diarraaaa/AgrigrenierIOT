@@ -473,7 +473,6 @@
             </ul>
         </nav>
     </header>
-
     <div class="container">
         <h1 class="page-title">Boutique d'équipement</h1>
         
@@ -673,6 +672,43 @@
         </div>
     </div>
     <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('message');
+        if (message) {
+            alert(decodeURIComponent(message));
+        }
+
+        // Code pour la gestion du panier et des produits
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartCountElement = document.getElementById('cart-count');
+        const totalPriceElement = document.querySelector('.total-price');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        let cart = [];
+        
+        // Ajouter un produit au panier
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', () => {
+                const productId = button.dataset.id;
+                const productName = button.dataset.name;
+                const productPrice = parseInt(button.dataset.price);
+                
+                // Vérifier si le produit est déjà dans le panier
+                const existingItem = cart.find(item => item.id === productId);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        id: productId,
+                        name: productName,
+                        price: productPrice,
+                        quantity: 1
+                    });
+                }
+                
+                updateCart();
+            });
+        });
     document.addEventListener('DOMContentLoaded', function() {
         // Gestion des catégories
         const categoryButtons = document.querySelectorAll('.category-btn');
@@ -871,7 +907,24 @@
                 paymentMethod: selectedPaymentMethod,
                 status: 'En traitement'
             };
-            
+            fetch('/commande',{
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(order) 
+            })
+        .then(response => response.json()
+        .then(data => {
+            if(data.status === 'success'){
+                console.log('Commande enregistrée avec succès');
+                window.location.href = '/boutiquepage?message=Votre%20commande%20a%20été%20enregistrée%20avec%20succès';
+
+            } else {
+                console.error('Erreur lors de l\'enregistrement de la commande');
+            }
+        }));
+
             let orders = JSON.parse(localStorage.getItem('orders') || '[]');
             orders.push(order);
             localStorage.setItem('orders', JSON.stringify(orders));

@@ -1,7 +1,7 @@
 from flask  import Flask, render_template,request,jsonify
 from app import app
 from supabase import create_client, Client
-from app.fonctions import test,deconnection,commanderkit,requestkit,infokitdetails,alertecode,ajouterculture
+from app.fonctions import test,deconnection,commanderkit,requestkit,infokitdetails,alertecode,ajouterculture,boutiquepagecode,enregistrercommandecode
 import os
 from dotenv import load_dotenv
 
@@ -36,6 +36,10 @@ def inscriptionpage():
 @app.route('/boutiquepage',methods=['Get','POST'])
 def boutiquepage():
     return render_template('boutique.html')
+
+@app.route('/boutiquepagecode',methods=['POST'])
+def boutiquepagecoderoute():
+    return boutiquepagecode()
 @app.route('/infokit',methods=['POST'])
 def infokitroute():
     return infokitdetails()
@@ -47,9 +51,4 @@ def alertespage():
     return alertecode()
 @app.route('/commande',methods=['POST'])
 def enregistrercommande():
-    info_commande=request.get_json()
-    print(info_commande)
-    if info_commande:
-        return jsonify({"message":"commande enregistrée","status":"success"})
-    else:
-        return jsonify({"message":"Commande non enregistrée","status":"error"})
+   return enregistrercommandecode()

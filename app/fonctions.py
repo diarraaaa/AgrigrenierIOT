@@ -165,3 +165,25 @@ def ajouterculture():
     except Exception as e:
         print(f"Une erreur s'est produite lors de l'ajout de la culture: {e}")
         return render_template('ajouterculture.html',message="Une erreur s'est produite lors de l'ajout de la culture",session=session,idkit=idkit)
+def boutiquepagecode():
+    session['id']=request.form['userid']
+    userid=session['id']
+    return render_template('boutique.html',session=session,userid=userid)
+
+def enregistrercommandecode():
+    info_commande=request.get_json()
+    print(info_commande)
+    
+    if info_commande:
+        supabase.table('commandes').insert({
+            'id_agriculteur': info_commande['userId'],
+            'id_commande': info_commande['id'],
+            'date_commande': info_commande['date'],
+            'montant': info_commande['total'],
+            'éléments': info_commande['items'],
+            'methode': info_commande['paymentMethod']
+        }).execute()
+        
+        return jsonify({"message":"commande enregistrée","status":"success"})
+    else:
+        return jsonify({"message":"Commande non enregistrée","status":"error"})

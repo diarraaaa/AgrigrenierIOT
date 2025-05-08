@@ -672,6 +672,7 @@
         </div>
     </div>
     <script>
+        const userid="{{session['id']}}";
         const urlParams = new URLSearchParams(window.location.search);
         const message = urlParams.get('message');
         if (message) {
@@ -710,7 +711,7 @@
             });
         });
     document.addEventListener('DOMContentLoaded', function() {
-        // Gestion des catégories
+        // Gestion des 
         const categoryButtons = document.querySelectorAll('.category-btn');
         const productCards = document.querySelectorAll('.product-card');
         
@@ -905,14 +906,15 @@
                 items: [...cart],
                 total: cart.reduce((total, item) => total + (item.price * item.quantity), 0),
                 paymentMethod: selectedPaymentMethod,
-                status: 'En traitement'
+                status: 'En traitement',
+                userId: userid
             };
             fetch('/commande',{
                 method:'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(order) 
+                body: JSON.stringify(order) ,
             })
         .then(response => response.json()
         .then(data => {

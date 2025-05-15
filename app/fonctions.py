@@ -10,12 +10,13 @@ from supabase import create_client, Client
 import random
 from random import randint
 from datetime import datetime
-
+import urllib.parse
 
 #Récuperer les variables d'environnement dans le fichier .env
 load_dotenv()
 supabase_url = os.getenv("SUPABASE_URL")
 supabase_key = os.getenv("SUPABASE_KEY")
+supabase_url = supabase_url.replace("\\x3a", ":") 
 #creer un client supabase pour pouvoir acceder au projet(base de données ,authentification,etc)
 supabase :Client = create_client(supabase_url, supabase_key)
 

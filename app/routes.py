@@ -4,9 +4,10 @@ from supabase import create_client, Client
 from app.fonctions import test,deconnection,commanderkit,requestkit,infokitdetails,alertecode,ajouterculture,boutiquepagecode,enregistrercommandecode
 import os
 from dotenv import load_dotenv
-
+import urllib.parse
 supabase_url = os.getenv("SUPABASE_URL")
 supabase_key = os.getenv("SUPABASE_KEY")
+supabase_url = supabase_url.replace("\\x3a", ":") 
 supabase: Client = create_client(supabase_url, supabase_key)
 @app.route('/')
 

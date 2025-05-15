@@ -3,10 +3,11 @@ from flask import render_template
 from supabase import create_client, Client
 from dotenv import load_dotenv
 import os
-
+import urllib.parse
 load_dotenv()
 supabase_url = os.getenv("SUPABASE_URL")
 supabase_key = os.getenv("SUPABASE_KEY")
+supabase_url = supabase_url.replace("\\x3a", ":") 
 #creer un client supabase pour pouvoir acceder au projet(base de données ,authentification,etc)
 supabase :Client = create_client(supabase_url, supabase_key)
 

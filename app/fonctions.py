@@ -134,6 +134,7 @@ def enregistrercommandecode():
             'éléments': info_commande['items'],
             'methode': info_commande['paymentMethod']
         }).execute()
+
         #envoyer un mail de confirmation de la commande
         infostwilio=supabase.table('keys').select('*').eq('nom',"twillio").execute()
         infostwiliodata=infostwilio.data

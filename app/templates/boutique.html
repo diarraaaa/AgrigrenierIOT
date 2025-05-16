@@ -598,7 +598,7 @@
             </div>
         </div>
         
-        <div class="cart-section">
+        <div class="cart-section">                
             <div class="cart-title">
                 <h2>Votre Panier</h2>
                 <span id="cart-count">0 article(s)</span>
@@ -901,8 +901,7 @@
             
             // Sauvegarder la commande dans le localStorage
             const order = {
-                id: Date.now(),
-                date: new Date().toLocaleString(),
+                date: new Date(),
                 items: [...cart],
                 total: cart.reduce((total, item) => total + (item.price * item.quantity), 0),
                 paymentMethod: selectedPaymentMethod,

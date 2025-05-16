@@ -10,13 +10,13 @@ from supabase import create_client, Client
 import random
 from random import randint
 from datetime import datetime
-import urllib.parse
 
 #Récuperer les variables d'environnement dans le fichier .env
 load_dotenv()
 supabase_url = os.getenv("SUPABASE_URL")
 supabase_key = os.getenv("SUPABASE_KEY")
 supabase_url = supabase_url.replace("\\x3a", ":") 
+supabase_key = supabase_key.replace("\\x3a", ":") 
 #creer un client supabase pour pouvoir acceder au projet(base de données ,authentification,etc)
 supabase :Client = create_client(supabase_url, supabase_key)
 
@@ -40,55 +40,6 @@ def commanderkit():
 
     return render_template('commanderkit.html',session=session)
 
-def requestkit():
-    session['id']=request.form['userid']
-    commande=random.randint(1,100000000)
-
-    supabase.table('commandes').insert({
-        'id_agriculteur': session['id'],
-        'id_commande':commande
-    }).execute()
-
-    #envoyer un mail de confirmation de la commande
-    expediteur=os.getenv("SENDER")
-    mot_de_passe=os.getenv("PASSWORD")
-    destinataire=session['email']
-    #remplir les information du mail
-    email=MIMEMultipart()
-    email['From']=expediteur
-    email['To']=destinataire
-    email['Subject']="Commande de kit Agrigrenier"
-    contenu=f"Bonjour {session['prenom']}.Merci d'avoir effectué une commande sur notre site.Un agent vous contactera d'ici 24 heures pour la finalisation Merci de de votre confiance"
-    #creer le mail
-    email.attach(MIMEText(contenu,'plain'))
-    #envoyer le mail
-    try:
-        with smtplib.SMTP('smtp.gmail.com',587) as serveur:
-            #securiser la connexion
-            serveur.starttls()
-            #se connecter au serveur 
-            serveur.login(expediteur,mot_de_passe)
-            #envoyer le email
-            serveur.send_message(email)
-    except Exception as e:
-        print(f"Une erreur s'est produite lors de l'envoi de l'email: {e}")
-
-    #envoyer un message de confirmation de la commande
-    #creation du client twilio 
-    twilioclient=TwilioClient(os.getenv('twilio_sid'),os.getenv('twilio_token'))
-    #remplir les information du message
-    message=f"Bonjour {session['prenom']}.Merci d'avoir effectué une commande sur notre site.Un agent vous contactera d'ici 24 heures pour la finalisation Merci de de votre confiance"
-    try:
-        #envoyer le message 
-        twilioclient.messages.create(
-            body=message,
-            from_=os.getenv('mynumber'),
-            to="+221"+session['telephone']
-        )
-    except Exception as e:
-        print(f"Une erreur s'est produite lors de l'envoi du message: {e}")
-   
-    return render_template('commanderkitdone.html',session=session)
 
 def infokitdetails():
     idkit=request.form['id_kit']
@@ -97,12 +48,11 @@ def infokitdetails():
     infoskits=supabase.table('kits').select("*").eq('id_kit',idkit).execute()
     temperature=infoskits.data[0]['temperature']
     humidite=infoskits.data[0]['humidite']
-
     #recuperer les cultures qui sont dans le kit
     cultures=supabase.table('kit_culture').select('id_culture').eq('id_kit',idkit).execute()
     for i in range(len(cultures.data)):
         id_culture=cultures.data[i]['id_culture']
-        #recuperer  le nom et les constantes de chaque culture
+        #recuperer le nom et les constantes de chaque culture
         infos=supabase.table('culture').select('*').eq('id_culture',id_culture).execute()
         nom=infos.data[0]['nom']
         tempmin=infos.data[0]['temperaturemin']
@@ -174,16 +124,56 @@ def boutiquepagecode():
 def enregistrercommandecode():
     info_commande=request.get_json()
     print(info_commande)
-    
+    idcommande=random.randint(1,100000000)
     if info_commande:
         supabase.table('commandes').insert({
             'id_agriculteur': info_commande['userId'],
-            'id_commande': info_commande['id'],
+            'id_commande': idcommande,
             'date_commande': info_commande['date'],
             'montant': info_commande['total'],
             'éléments': info_commande['items'],
             'methode': info_commande['paymentMethod']
         }).execute()
+        #envoyer un mail de confirmation de la commande
+        infostwilio=supabase.table('keys').select('*').eq('nom',"twillio").execute()
+        infostwiliodata=infostwilio.data
+        #recuperer les informations de l'api twillio
+        username=infostwiliodata[0]['username']
+        password=infostwiliodata[0]['password']
+        twilioclient=TwilioClient(username,password)
+        #remplir les information du message
+        message=f"Bonjour {session['prenom']}.Merci d'avoir effectué une commande sur notre site.Un agent vous contactera d'ici 24 heures pour la finalisation.Merci de de votre confiance"
+        try:
+            #envoyer le message 
+            twilioclient.messages.create(
+                body=message,
+                from_=os.getenv('mynumber'),
+                to="+221"+session['telephone']
+            )
+        except Exception as e:
+            print(f"Une erreur s'est produite lors de l'envoi du message: {e}")
+        expediteur=os.getenv("SENDER")
+        mot_de_passe=os.getenv("PASSWORD")
+        destinataire=session['email']
+        #Remplir les informations du mail
+        email=MIMEMultipart()
+        email['From']=expediteur
+        email['To']=destinataire
+        email['Subject']="Commande de kit Agrigrenier"
+        contenu=f"Bonjour {session['prenom']}.Merci d'avoir effectué une commande sur notre site.Un agent vous contactera d'ici 24 heures pour la finalisation .Merci de de votre confiance"
+        #creer le mail
+        email.attach(MIMEText(contenu,'plain'))
+        #envoyer le mail 
+        try:
+            with smtplib.SMTP('smtp.gmail.com',587) as serveur:
+                #securiser la connexion
+                serveur.starttls()
+                #se connecter au serveur 
+                serveur.login(expediteur,mot_de_passe)
+                #envoyer le email
+                serveur.send_message(email)
+        except Exception as e:
+            print(f"Une erreur s'est produite lors de l'envoi de l'email: {e}")
         
         return jsonify({"message":"commande enregistrée","status":"success"})
     else:

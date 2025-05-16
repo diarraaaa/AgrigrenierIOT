@@ -4,7 +4,6 @@ import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from supabase import create_client, Client
-import urllib.parse
 #Récuperer les variables d'environnement dans le fichier .env
 load_dotenv()
 supabase_url = os.getenv("SUPABASE_URL")

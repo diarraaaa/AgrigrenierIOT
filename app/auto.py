@@ -3,7 +3,6 @@ from flask import render_template
 from supabase import create_client, Client
 from dotenv import load_dotenv
 import os
-import urllib.parse
 load_dotenv()
 supabase_url = os.getenv("SUPABASE_URL")
 supabase_key = os.getenv("SUPABASE_KEY")
@@ -26,7 +25,15 @@ def automatictask():
                     'id_kit': id_kit,
                     'enonce': "La temperature est trop basse"
                 }).execute()
-                print("alerte envoyée")
+                print("alerte temperature envoyée")
                 print(id_kit)
-        time.sleep(300)
+            if humidite<1000:
+                supabase.table('alertes').insert({
+                    'id_agriculteur': id_proprio,
+                    'id_kit': id_kit,
+                    'enonce': "L'humidité est trop basse"
+                }).execute()
+                print("alerte humidité envoyée")
+                print(id_kit)
+        time.sleep(1200)  # Atendre 20 minutes avant de vérifier à nouveau
 

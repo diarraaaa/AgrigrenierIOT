@@ -1,7 +1,7 @@
 from flask  import Flask, render_template,request,jsonify
 from app import app
 from supabase import create_client, Client
-from app.fonctions import test,deconnection,commanderkit,requestkit,infokitdetails,alertecode,ajouterculture,boutiquepagecode,enregistrercommandecode
+from app.fonctions import test,deconnection,commanderkit,infokitdetails,alertecode,ajouterculture,boutiquepagecode,enregistrercommandecode
 import os
 from dotenv import load_dotenv
 import urllib.parse

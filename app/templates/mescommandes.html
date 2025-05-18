@@ -8,18 +8,18 @@
         {% for commande in commandes %}
             <h2>Commande {{ commande.id_commande }}</h2>
             <p>Date: {{ commande.date_commande }}</p>
-            <p>Statut: {%if commande.etat==FALSE %}
+            <p>Montant:{{commande.montant}} Francs CFA</p>
+             <p>Statut: {%if commande.etat==FALSE %}
                 <span style="color: red;">En attente</span>
             {% else %}
                 <span style="color: green;">Livrée</span>
             {% endif %}</p>
             </p>
-            <p>Montant:{{commande.montant}}</p>
             <h3>Produits</h3>
                 {% for produit in commande.éléments %}
                     <ul>
                         <li>Nom: {{ produit.name }}</li>
-                        <li>Prix: {{ produit.price }}</li>
+                        <li>Prix: {{ produit.price }} Francs CFA</li>
                         <li>Quantité: {{ produit.quantity }}</li>
                     </ul>
                 {% endfor %}

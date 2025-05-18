@@ -179,3 +179,9 @@ def enregistrercommandecode():
         return jsonify({"message":"commande enregistrée","status":"success"})
     else:
         return jsonify({"message":"Commande non enregistrée","status":"error"})
+
+def voirmescommandescode():
+    id=session['id']
+    commandes=supabase.table('commandes').select('*').eq('id_agriculteur',id).execute()
+    commandes=commandes.data
+    return render_template('mescommandes.html',session=session,commandes=commandes)

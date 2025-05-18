@@ -44,6 +44,7 @@ def commanderkit():
 def infokitdetails():
     idkit=request.form['id_kit']
     nomkit=request.form['nomkit']
+    session['idkit']=idkit
     #je récupére les informations du kit depuis la base de donnés
     infoskits=supabase.table('kits').select("*").eq('id_kit',idkit).execute()
     temperature=infoskits.data[0]['temperature']
@@ -85,37 +86,26 @@ def alertecode():
         alertes.data[i]['nom_kit']=kits.data[0]['nom']
         dt = datetime.fromisoformat(alertes.data[i]['date_alerte'])
         alertes.data[i]['date_alerte']= dt.strftime("%A %d %B %Y à %H :%M %p").capitalize()    
-    contenu=alertes.data  
+    contenu=alertes.data
     return render_template('Alertes.html',contenu=contenu,session=session)
 
 def ajouterculture():
-    idkit=request.form['idkit']
-    nomculture=request.form['nomculture']
+    idkit=session['idkit']
+    print(idkit)
+    culture=request.form['culture']
+    print(culture)
     quantite=request.form['quantite']
-    quantite=int(quantite)
+    print(quantite)
+    idculture=supabase.table('culture').select('id_culture').eq('nom',culture).execute()
+    idculture=idculture.data[0]['id_culture']
+    #ajouter la culture dans la table kit_culture
+    supabase.table('kit_culture').insert({
+        'id_kit': idkit,
+        'id_culture': idculture,
+        'quantité': quantite
+    }).execute()
+    return render_template('tableaudebord.html',session=session)
 
-    try:
-       #prendre l'id de la culture à partir de la base de données
-       id=supabase.table('culture').select('id_culture').eq('nom',nomculture).execute()
-       id_culture=id.data[0]['id_culture']
-       if not id_culture:
-           print("La culture n'existe pas dans la base de données")
-       #ajouter la culture dans la base de données
-       supabase.table('kit_culture').insert({
-              'id_kit':idkit,
-              'id_culture':id_culture,
-              'quantité':quantite
-       }).execute()
-       cultures=supabase.table('kit_culture').select("*").eq('id_kit',idkit).execute()
-       for i in range(len(cultures.data)):
-            id_culture=cultures.data[i]['id_culture']
-            #recuperer le nom de la culture
-            nom=supabase.table('culture').select('nom').eq('id_culture',id_culture).execute()
-            cultures.data[i]['nom']=nom.data[0]['nom']
-       return render_template('ajouterculture.html',message="La culture a été ajoutée avec succès",session=session,idkit=idkit,cultures=cultures.data)
-    except Exception as e:
-        print(f"Une erreur s'est produite lors de l'ajout de la culture: {e}")
-        return render_template('ajouterculture.html',message="Une erreur s'est produite lors de l'ajout de la culture",session=session,idkit=idkit)
 def boutiquepagecode():
     session['id']=request.form['userid']
     userid=session['id']

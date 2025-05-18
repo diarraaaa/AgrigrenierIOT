@@ -318,36 +318,35 @@
         <div id="settings" class="tab-content">
             <div class="settings-form">
                 <h2>Configuration des cultures</h2>
-                <form id="cultures-form">
+                <form id="cultures-form" action="/ajouterculture" method="post">
                     <div id="cultures-settings">
                         <!-- Les paramètres des cultures seront injectés ici par JavaScript -->
                     </div>
-                    
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="new-culture">Ajouter une nouvelle culture:</label>
-                            <select id="new-culture">
-                                <option value="">-- Sélectionner une culture --</option>
-                                <option value="pommes">Pommes</option>
-                                <option value="carottes">Carottes</option>
-                                <option value="oignons">Oignons</option>
-                                <option value="pommes_de_terre">Pommes de terre</option>
-                                <option value="ail">Ail</option>
-                                <option value="navets">Navets</option>
-                                <option value="betteraves">Betteraves</option>
+                            <label for="produit">Choisissez un produit :</label>
+                            <select id="new-culture" name="culture">
+                            <option value="Mangue">Mil</option>
+                            <option value="Maïs">Maïs</option>
+                            <option value="Riz">Riz (brut)</option>
+                            <option value="Arachide">Arachide</option>
+                            <option value="Patate douce">Patate douce</option>
+                            <option value="Pomme de terre">Pomme de terre</option>
+                            <option value="Oignon">Oignon</option>
+                            <option value="Tomates séchées">Tomates séchées</option>
+                            <option value="Niébé">Niébé</option>
+                            <option value="Sésame">Sésame</option>
+                            <option value="Mangue séchée">Mangue séchée</option>
+                            <option value="Ail (sec)">Ail (sec)</option>
+                            <option value="Banane plantain">Banane plantain</option>
+                            <option value="Piment (frais)">Piment (frais)</option>
+                            <option value="Poivron (frais)">Poivron (frais)</option>
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="new-zone">Zone:</label>
-                            <input type="text" id="new-zone" placeholder="Nom de la zone">
-                        </div>
-                        <div class="form-group" style="align-self: flex-end;">
-                            <button type="button" id="add-culture-btn">Ajouter</button>
-                        </div>
-                    </div>
-                    
+                        </div> 
+                        <label for="quantite">Quantité</label> 
+                        <input type="number" name="quantite" placeholder="Quantité (kg)" required>
                     <div class="actions">
-                        <button type="submit">Enregistrer les modifications</button>
+                        <button type="submit">Ajouter le culture</button>
                     </div>
                 </form>
             </div>

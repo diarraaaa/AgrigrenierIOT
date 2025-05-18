@@ -5,6 +5,14 @@
         </title>
     </head>
     <body>
+         <nav>
+            <ul>
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/tableaudebord">Tableau de Bord</a></li>
+                <li><a href="/boutiquepage">Boutique</a></li>
+                <li><a href="/mescommandes">Mes Commandes</a></li>
+            </ul>
+        </nav>
         {% for commande in commandes %}
             <h2>Commande {{ commande.id_commande }}</h2>
             <p>Date: {{ commande.date_commande }}</p>

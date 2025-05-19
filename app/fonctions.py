@@ -174,4 +174,11 @@ def voirmescommandescode():
     id=session['id']
     commandes=supabase.table('commandes').select('*').eq('id_agriculteur',id).execute()
     commandes=commandes.data
-    return render_template('mescommandes.html',session=session,commandes=commandes)
+    livré=0
+    enattente=0
+    for i in range(len(commandes)):
+        if commandes.data[i]['Livré'] =="FALSE":
+            enattente+=1
+        elif commandes.data[i]['Livré'] =="TRUE":
+            livré+=1
+    return render_template('mescommandes.html',session=session,commandes=commandes,livré=livré,enattente=enattente)

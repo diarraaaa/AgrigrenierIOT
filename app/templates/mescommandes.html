@@ -32,70 +32,42 @@
         
         header {
             background-color: var(--primary-color);
-            color: var(--white);
+            color: white;
             padding: 1rem 2rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
+            display: flex;
+            align-items: center;
         }
         
-        nav {
-            background-color: var(--secondary-color);
-            padding: 0.5rem 2rem;
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
         }
         
         nav ul {
-            list-style: none;
             display: flex;
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            list-style: none;
+        }
+         nav ul li {
+            margin-left: 1.5rem;
         }
         
         nav ul li a {
-            color: var(--white);
+            color: white;
             text-decoration: none;
             font-weight: 500;
-            padding: 0.5rem 0;
-            display: inline-block;
-            position: relative;
+            transition: color 0.3s;
         }
         
-        nav ul li a:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background: var(--accent-color);
-            left: 0;
-            bottom: 0;
-            transition: width 0.3s ease;
-        }
-        
-        nav ul li a:hover:after {
-            width: 100%;
-        }
-        
-        nav ul li a.active {
-            font-weight: 700;
-        }
-        
-        nav ul li a.active:after {
-            width: 100%;
-        }
-        
-        main {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        
-        .page-title {
-            margin-bottom: 2rem;
-            position: relative;
+        nav ul li a:hover {
             color: var(--secondary-color);
         }
         
@@ -327,19 +299,20 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">Grenier Intelligent</div>
+     <header>
+        <div class="logo">
+            <i class="fas fa-warehouse"></i>
+            Grenier Intelligent
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/tableaudebord">Tableau de Bord</a></li>
+                <li><a href="/boutiquepage">Boutique</a></li>
+                <li><a href="/mescommandes">Mes Commandes</a></li>
+            </ul>
+        </nav>
     </header>
-    
-    <nav>
-        <ul>
-            <li><a href="/">Accueil</a></li>
-            <li><a href="/tableaudebord">Tableau de Bord</a></li>
-            <li><a href="/boutiquepage">Boutique</a></li>
-            <li><a href="/mescommandes" class="active">Mes Commandes</a></li>
-        </ul>
-    </nav>
-    
     <main>
         <h1 class="page-title">Mes Commandes</h1>
         

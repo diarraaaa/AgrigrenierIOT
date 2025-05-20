@@ -487,6 +487,15 @@
             <div class="tab" data-tab="settings">Paramètres</div>
              <div class="tab" data-tab="controle">Contrôle </div>
         </div>
+        {%if culturepresent %}
+        <div class="kit-description">
+            <p style="color: red;">{{culturepresent}}</p>
+        </div>
+        {%elif cultureajoute%}
+        <div class="kit-description">
+            <p style="color: green;">{{cultureajoute}}</p>
+        </div>
+        {%endif%}
         
         <div id="dashboard" class="tab-content active">
             <div class="dashboard" id="cultures-container">
@@ -629,9 +638,9 @@
                         <div class="form-group">
                             <label for="produit">Choisissez un produit :</label>
                             <select id="new-culture" name="culture">
-                            <option value="Mangue">Mil</option>
+                            <option value="Mil">Mil</option>
                             <option value="Maïs">Maïs</option>
-                            <option value="Riz">Riz (brut)</option>
+                            <option value="Riz(brut)">Riz (brut)</option>
                             <option value="Arachide">Arachide</option>
                             <option value="Patate douce">Patate douce</option>
                             <option value="Pomme de terre">Pomme de terre</option>
@@ -654,6 +663,7 @@
                 </form>
             </div>
             
+<<<<<<< HEAD
             <div class="settings-form">
                 <h2>Configuration des notifications</h2>
                 <form id="notifications-form">
@@ -721,6 +731,9 @@
                     </div>
                 </form>
             </div>
+=======
+            
+>>>>>>> f395deb7c85fa0ff659f4821cf4ad328ac3c5726
         </div>
     </main>
     <script>
@@ -804,13 +817,10 @@
                 const culturetempmax=culture.temperaturemax 
                 const culturehumiditemin=culture.humiditemin
                 const culturehumiditemax=culture.humiditemax
-        
-                
+                const culturequantite=culture.quantité
                 // Déterminer le statut des valeurs actuelles
                 let tempStatus = "normal";
-                let humStatus = "normal";
-                
-                
+                let humStatus = "normal";     
                 const card = document.createElement('div');
                 card.className = 'culture-card';
                 card.innerHTML = `
@@ -840,6 +850,10 @@
                             <div class="param-row">
                                 <span>Plage optimale (hum.):</span>
                                 <span>${culturehumiditemin}%-${culturehumiditemax}%</span>
+                            </div>
+                            <div class="param-row">
+                                <span>Quantité:</span>
+                                <span>${culturequantite}kg</span>
                             </div>
                         </div>
                     </div>

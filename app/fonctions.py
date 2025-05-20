@@ -98,6 +98,8 @@ def ajouterculture():
     print(quantite)
     idculture=supabase.table('culture').select('id_culture').eq('nom',culture).execute()
     idculture=idculture.data[0]['id_culture']
+    #regarder si la culture est déjà dans le kit
+    culturepresent=supabase.table('kit_culture').select('id_culture').eq('id_kit',idkit).eq('id_culture',idculture).execute()
     #ajouter la culture dans la table kit_culture
     supabase.table('kit_culture').insert({
         'id_kit': idkit,

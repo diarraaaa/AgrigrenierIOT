@@ -91,6 +91,9 @@ def alertecode():
 
 def ajouterculture():
     idkit=session['idkit']
+    nomkit=supabase.table('kits').select('nom').eq('id_kit',idkit).execute()
+    nomkit=nomkit.data[0]['nom']
+    session['nomkit']=nomkit
     print(idkit)
     culture=request.form['culture']
     print(culture)
@@ -100,6 +103,31 @@ def ajouterculture():
     idculture=idculture.data[0]['id_culture']
     #regarder si la culture est déjà dans le kit
     culturepresent=supabase.table('kit_culture').select('id_culture').eq('id_kit',idkit).eq('id_culture',idculture).execute()
+    if culturepresent.data:
+        cultures=supabase.table('kit_culture').select('id_culture').eq('id_kit',idkit).execute()
+        for i in range(len(cultures.data)):
+            id_culture=cultures.data[i]['id_culture']
+            #recuperer le nom et les constantes de chaque culture
+            infos=supabase.table('culture').select('*').eq('id_culture',id_culture).execute()
+            nom=infos.data[0]['nom']
+            tempmin=infos.data[0]['temperaturemin']
+            tempmax=infos.data[0]['temperaturemax']
+            humiditemin=infos.data[0]['humiditemin']
+            humiditemax=infos.data[0]['humiditemax']
+            #on ajoute cette valeur dans les infos de chaque culture
+            cultures.data[i]['nom']=nom
+            cultures.data[i]['temperaturemin']=tempmin
+            cultures.data[i]['temperaturemax']=tempmax
+            cultures.data[i]['humiditemin']=humiditemin
+            cultures.data[i]['humiditemax']=humiditemax
+        
+        contenu=cultures.data
+        #je recupére les alertes au niveau de la base de données
+        alertes=supabase.table('alertes').select('*').eq('id_kit',idkit).order('date_alerte',desc=True).limit(15).execute()
+        alertes=alertes.data
+        alertes=json.dumps(alertes)
+        contenu=json.dumps(contenu)
+        return render_template('infokit.html',session=session,nomkit=session['nomkit'],culturepresent="Cette culture est déjà présente dans le kit .Veuillez juste mettre à jour la quantité",alertes=alertes,contenu=contenu)
     #ajouter la culture dans la table kit_culture
     supabase.table('kit_culture').insert({
         'id_kit': idkit,

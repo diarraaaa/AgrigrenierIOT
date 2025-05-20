@@ -288,6 +288,11 @@
             <div class="tab" data-tab="charts">Graphiques</div>
             <div class="tab" data-tab="settings">Paramètres</div>
         </div>
+        {%if culturepresent %}
+        <div class="kit-description">
+            <p style="color: red;">{{culturepresent}}</p>
+        </div>
+        {%endif%}
         
         <div id="dashboard" class="tab-content active">
             <div class="dashboard" id="cultures-container">
@@ -326,9 +331,9 @@
                         <div class="form-group">
                             <label for="produit">Choisissez un produit :</label>
                             <select id="new-culture" name="culture">
-                            <option value="Mangue">Mil</option>
+                            <option value="Mil">Mil</option>
                             <option value="Maïs">Maïs</option>
-                            <option value="Riz">Riz (brut)</option>
+                            <option value="Riz(brut)">Riz (brut)</option>
                             <option value="Arachide">Arachide</option>
                             <option value="Patate douce">Patate douce</option>
                             <option value="Pomme de terre">Pomme de terre</option>

@@ -23,27 +23,51 @@
             background-color: #f5f5f5;
             color: #333;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            background-color: var(--primary-green);
+         header {
+            background-color:rgb(42, 112, 19);
             color: white;
-            padding: 20px;
-            border-radius: 10px 10px 0 0;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
-        header h1 {
-            font-size: 24px;
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
         }
         
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+         nav ul {
+            display: flex;
+            list-style: none;
+        }
+         nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+                      
         .welcome-section {
             background-color: white;
             padding: 20px;
@@ -360,7 +384,12 @@
     </style>
 </head>
 <body>
-     <nav>
+    <header>
+        <div class="logo">
+            <i class="fas fa-warehouse"></i>
+            Grenier Intelligent
+        </div>
+        <nav>
             <ul>
                 <li><a href="/">Accueil</a></li>
                 <li><a href="/tableaudebord">Tableau de Bord</a></li>
@@ -368,6 +397,7 @@
                 <li><a href="/mescommandes">Mes Commandes</a></li>
             </ul>
         </nav>
+    </header>
     <div class="container">
         <header>
             <h1>Dashboard Grenier Connecté</h1>

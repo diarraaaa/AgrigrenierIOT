@@ -292,6 +292,10 @@
         <div class="kit-description">
             <p style="color: red;">{{culturepresent}}</p>
         </div>
+        {%elif cultureajoute%}
+        <div class="kit-description">
+            <p style="color: green;">{{cultureajoute}}</p>
+        </div>
         {%endif%}
         
         <div id="dashboard" class="tab-content active">
@@ -356,45 +360,7 @@
                 </form>
             </div>
             
-            <div class="settings-form">
-                <h2>Configuration des notifications</h2>
-                <form id="notifications-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="notification-method">Méthode de notification:</label>
-                            <select id="notification-method">
-                                <option value="browser">Navigateur</option>
-                                <option value="email">E-mail</option>
-                                <option value="sms">SMS</option>
-                                <option value="all">Toutes les méthodes</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="notification-frequency">Fréquence des notifications:</label>
-                            <select id="notification-frequency">
-                                <option value="immediate">Immédiate</option>
-                                <option value="hourly">Toutes les heures</option>
-                                <option value="daily">Quotidienne</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email-address">Adresse e-mail:</label>
-                            <input type="email" id="email-address" placeholder="votre@email.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone-number">Numéro de téléphone (pour SMS):</label>
-                            <input type="tel" id="phone-number" placeholder="+33 6 XX XX XX XX">
-                        </div>
-                    </div>
-                    
-                    <div class="actions">
-                        <button type="submit">Enregistrer les paramètres</button>
-                    </div>
-                </form>
-            </div>
+           
         </div>
     </main>
     <script>
@@ -478,6 +444,7 @@
                 const culturetempmax=culture.temperaturemax 
                 const culturehumiditemin=culture.humiditemin
                 const culturehumiditemax=culture.humiditemax
+                const culturequantite=culture.quantité
         
                 
                 // Déterminer le statut des valeurs actuelles
@@ -514,6 +481,10 @@
                             <div class="param-row">
                                 <span>Plage optimale (hum.):</span>
                                 <span>${culturehumiditemin}%-${culturehumiditemax}%</span>
+                            </div>
+                            <div class="param-row">
+                                <span>Quantité:</span>
+                                <span>${culturequantite}kg</span>
                             </div>
                         </div>
                     </div>

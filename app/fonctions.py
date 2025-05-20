@@ -92,6 +92,9 @@ def alertecode():
 def ajouterculture():
     idkit=session['idkit']
     nomkit=supabase.table('kits').select('nom').eq('id_kit',idkit).execute()
+    infoskits=supabase.table('kits').select("*").eq('id_kit',idkit).execute()
+    temperature=infoskits.data[0]['temperature']
+    humidite=infoskits.data[0]['humidite']
     nomkit=nomkit.data[0]['nom']
     session['nomkit']=nomkit
     print(idkit)
@@ -101,11 +104,8 @@ def ajouterculture():
     print(quantite)
     idculture=supabase.table('culture').select('id_culture').eq('nom',culture).execute()
     idculture=idculture.data[0]['id_culture']
-    #regarder si la culture est déjà dans le kit
-    culturepresent=supabase.table('kit_culture').select('id_culture').eq('id_kit',idkit).eq('id_culture',idculture).execute()
-    if culturepresent.data:
-        cultures=supabase.table('kit_culture').select('id_culture').eq('id_kit',idkit).execute()
-        for i in range(len(cultures.data)):
+    cultures=supabase.table('kit_culture').select('id_culture').eq('id_kit',idkit).execute()
+    for i in range(len(cultures.data)):
             id_culture=cultures.data[i]['id_culture']
             #recuperer le nom et les constantes de chaque culture
             infos=supabase.table('culture').select('*').eq('id_culture',id_culture).execute()
@@ -120,21 +120,28 @@ def ajouterculture():
             cultures.data[i]['temperaturemax']=tempmax
             cultures.data[i]['humiditemin']=humiditemin
             cultures.data[i]['humiditemax']=humiditemax
+            #je recupere la quantité de chaque culture
+            quantite=supabase.table('kit_culture').select('quantité').eq('id_kit',idkit).eq('id_culture',id_culture).execute()
+            cultures.data[i]['quantité']=quantite.data[0]['quantité']
         
-        contenu=cultures.data
-        #je recupére les alertes au niveau de la base de données
-        alertes=supabase.table('alertes').select('*').eq('id_kit',idkit).order('date_alerte',desc=True).limit(15).execute()
-        alertes=alertes.data
-        alertes=json.dumps(alertes)
-        contenu=json.dumps(contenu)
-        return render_template('infokit.html',session=session,nomkit=session['nomkit'],culturepresent="Cette culture est déjà présente dans le kit .Veuillez juste mettre à jour la quantité",alertes=alertes,contenu=contenu)
+    contenu=cultures.data
+    #je recupére les alertes au niveau de la base de données
+    alertes=supabase.table('alertes').select('*').eq('id_kit',idkit).order('date_alerte',desc=True).limit(15).execute()
+    alertes=alertes.data
+    alertes=json.dumps(alertes)
+    contenu=json.dumps(contenu)
+    #regarder si la culture est déjà dans le kit
+    culturepresent=supabase.table('kit_culture').select('id_culture').eq('id_kit',idkit).eq('id_culture',idculture).execute()
+    if culturepresent.data:
+        return render_template('infokit.html',session=session,nomkit=session['nomkit'],culturepresent="Cette culture est déjà présente dans le kit .Veuillez juste mettre à jour la quantité",alertes=alertes,contenu=contenu,temperature=temperature,humidite=humidite)
     #ajouter la culture dans la table kit_culture
     supabase.table('kit_culture').insert({
         'id_kit': idkit,
         'id_culture': idculture,
         'quantité': quantite
     }).execute()
-    return render_template('tableaudebord.html',session=session)
+    return render_template('infokit.html',session=session,nomkit=session['nomkit'],cultureajoute="Votre culture a été ajoutée avec succés",alertes=alertes,contenu=contenu,temperature=temperature,humidite=humidite)
+    #ajouter la culture dans la table kit_culture
 
 def boutiquepagecode():
     session['id']=request.form['userid']

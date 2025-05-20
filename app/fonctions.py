@@ -177,8 +177,8 @@ def voirmescommandescode():
     livré=0
     enattente=0
     for i in range(len(commandes)):
-        if commandes.data[i]['Livré'] =="FALSE":
+        if commandes[i]['Livré'] ==False:
             enattente+=1
-        elif commandes.data[i]['Livré'] =="TRUE":
+        elif commandes[i]['Livré'] ==True:
             livré+=1
     return render_template('mescommandes.html',session=session,commandes=commandes,livré=livré,enattente=enattente)

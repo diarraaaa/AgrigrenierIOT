@@ -351,11 +351,11 @@
                     <div class="stat-label">Commandes totales</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" id="pending-orders">{{ commandes|selectattr('etat', 'equalto', FALSE)|list|length }}</div>
+                    <div class="stat-value" id="pending-orders">{{ enattente }}</div>
                     <div class="stat-label">En attente</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" id="delivered-orders">{{ commandes|selectattr('etat', 'equalto', TRUE)|list|length }}</div>
+                    <div class="stat-value" id="delivered-orders">{{ livré }}</div>
                     <div class="stat-label">Livrées</div>
                 </div>
                 <div class="stat-card">
@@ -372,7 +372,7 @@
                     <div class="order-header">
                         <div class="order-id">Commande #{{ commande.id_commande }}</div>
                         <div class="order-date">{{ commande.date_commande }}</div>
-                        {% if commande.etat == FALSE %}
+                        {% if commande.Livré == false %}
                             <div class="order-status status-pending">En attente</div>
                         {% else %}
                             <div class="order-status status-delivered">Livrée</div>

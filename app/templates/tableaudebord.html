@@ -431,67 +431,7 @@
             {% endif %}
         </div>
         
-        <!-- Dashboard affiché dans tous les cas maintenant -->
-        <div class="dashboard">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Données Capteurs</h2>
-                    <span id="lastUpdate">Mis à jour il y a 2 min</span>
-                </div>
-                <div class="sensor-readings">
-                    <div class="reading">
-                        <h3>Température</h3>
-                        <div class="value" id="temperature">24°C</div>
-                    </div>
-                    <div class="reading">
-                        <h3>Humidité</h3>
-                        <div class="value" id="humidity">65%</div>
-                    </div>
-                </div>
-                <div class="card-header">
-                    <h2>Contrôle de Température</h2>
-                </div>
-                <div class="temp-control">
-                    <button id="tempDown">-</button>
-                    <span id="tempTarget">22°C</span>
-                    <button id="tempUp">+</button>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-header">
-                    <h2>Contrôles</h2>
-                </div>
-                <div class="controls">
-                    <div class="control-row">
-                        <div>Ventilateurs</div>
-                        <label class="switch">
-                            <input type="checkbox" id="fanSwitch">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="control-row">
-                        <div>Chauffage</div>
-                        <label class="switch">
-                            <input type="checkbox" id="heatSwitch">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="control-row">
-                        <div>Mode Automatique</div>
-                        <label class="switch">
-                            <input type="checkbox" id="autoSwitch" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="control-row">
-                        <div>Lumières</div>
-                        <label class="switch">
-                            <input type="checkbox" id="lightSwitch">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
+        
                 <div class="card-header" style="margin-top: 20px;">
                     <h2>Météo Locale - {{ session['region'] }}</h2>
                 </div>
@@ -503,58 +443,7 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="card full-width">
-                <div class="card-header">
-                    <h2>Caméras de Surveillance</h2>
-                    <button class="btn" id="refreshCameras">Actualiser</button>
-                </div>
-                <div class="camera-feed">
-                    <div class="camera">
-                        <img src="/api/placeholder/400/320" alt="placeholder" />
-                        <div class="camera-label">Caméra 1 - Entrée</div>
-                    </div>
-                    <div class="camera">
-                        <img src="/api/placeholder/400/320" alt="placeholder" />
-                        <div class="camera-label">Caméra 2 - Côté Nord</div>
-                    </div>
-                    <div class="camera">
-                        <img src="/api/placeholder/400/320" alt="placeholder" />
-                        <div class="camera-label">Caméra 3 - Côté Sud</div>
-                    </div>
-                    <div class="camera">
-                        <img src="/api/placeholder/400/320" alt="placeholder" />
-                        <div class="camera-label">Caméra 4 - Fenêtre</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card full-width">
-                <div class="card-header">
-                    <h2>Notifications</h2>
-                    <button class="btn btn-yellow" id="clearNotif">Tout effacer</button>
-                </div>
-                <div class="notifications" id="notificationArea">
-                    <div class="notification">
-                        <div>Température élevée détectée (28°C)</div>
-                        <div class="notification-time">Aujourd'hui, 10:45</div>
-                    </div>
-                    <div class="notification">
-                        <div>Les ventilateurs se sont mis en marche automatiquement</div>
-                        <div class="notification-time">Aujourd'hui, 10:46</div>
-                    </div>
-                    <div class="notification">
-                        <div>Mouvement détecté - Caméra 2</div>
-                        <div class="notification-time">Aujourd'hui, 09:32</div>
-                    </div>
-                    <div class="notification">
-                        <div>Taux d'humidité optimal atteint (65%)</div>
-                        <div class="notification-time">Hier, 18:12</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+
         <div class="footer">
             <form action="/boutiquepagecode" method="POST">
                 <input type="hidden" name="userid" value="{{ session['id'] }}">

@@ -1,7 +1,7 @@
 from flask  import Flask, render_template,request,jsonify
 from app import app
 from supabase import create_client, Client
-from app.fonctions import test,deconnection,commanderkit,infokitdetails,alertecode,ajouterculture,boutiquepagecode,enregistrercommandecode,voirmescommandescode
+from app.fonctions import test,deconnection,commanderkit,infokitdetails,alertecode,ajouterculture,boutiquepagecode,enregistrercommandecode,voirmescommandescode,updateculture
 import os
 from dotenv import load_dotenv
 import urllib.parse
@@ -53,3 +53,6 @@ def voirmescommandes():
 @app.route('/ajouterculture',methods=['POST'])
 def ajoutercultureroute():
     return ajouterculture()
+@app.route('/updateculture',methods=['POST'])
+def updatecultureroute():
+    return updateculture()

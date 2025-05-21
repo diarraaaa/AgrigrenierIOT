@@ -228,6 +228,49 @@ def updateculture():
     nomculture=request.form['nom']
     idkit=session['idkit']
     quantité=request.form['newquantite']
+    
+    idculture=supabase.table('culture').select('id_culture').eq('nom',nomculture).execute()
+    idculture=idculture.data[0]['id_culture']
+    #je met à jour la quantité de la culture
+    try:
+        supabase.table('kit_culture').update({
+            'quantité': quantité
+        }).eq('id_kit',idkit).eq('id_culture',idculture).execute()
+        infoskits=supabase.table('kits').select("*").eq('id_kit',idkit).execute()
+        temperature=infoskits.data[0]['temperature']
+        humidite=infoskits.data[0]['humidite']
+        #recuperer les cultures qui sont dans le kit
+        cultures=supabase.table('kit_culture').select('id_culture').eq('id_kit',idkit).execute()
+        for i in range(len(cultures.data)):
+            id_culture=cultures.data[i]['id_culture']
+            #recuperer le nom et les constantes de chaque culture
+            infos=supabase.table('culture').select('*').eq('id_culture',id_culture).execute()
+            nom=infos.data[0]['nom']
+            tempmin=infos.data[0]['temperaturemin']
+            tempmax=infos.data[0]['temperaturemax']
+            humiditemin=infos.data[0]['humiditemin']
+            humiditemax=infos.data[0]['humiditemax']
+            #on ajoute cette valeur dans les infos de chaque culture
+            cultures.data[i]['nom']=nom
+            cultures.data[i]['temperaturemin']=tempmin
+            cultures.data[i]['temperaturemax']=tempmax
+            cultures.data[i]['humiditemin']=humiditemin
+            cultures.data[i]['humiditemax']=humiditemax  
+            #je recupere la quantité de chaque culture
+            quantite=supabase.table('kit_culture').select('quantité').eq('id_kit',idkit).eq('id_culture',id_culture).execute()
+            cultures.data[i]['quantité']=quantite.data[0]['quantité']
+        contenu=cultures.data
+        contenunorme=cultures.data
+        #je recupére les alertes au niveau de la base de données
+        alertes=supabase.table('alertes').select('*').eq('id_kit',idkit).order('date_alerte',desc=True).limit(15).execute()
+        alertes=alertes.data
+        alertes=json.dumps(alertes)
+        contenu=json.dumps(contenu)
+        #je recupére l'id de la culture
+    except Exception as e:
+        print(f"Une erreur s'est produite lors de la mise à jour de la culture: {e}")
+        return render_template('infokit.html',session=session,nomkit=session['nomkit'],culturepresent="Erreur lors de la mise à jour de la culture",alertes=alertes,contenu=contenu,temperature=temperature,humidite=humidite,contenunorme=contenunorme)
+    
     infoskits=supabase.table('kits').select("*").eq('id_kit',idkit).execute()
     temperature=infoskits.data[0]['temperature']
     humidite=infoskits.data[0]['humidite']
@@ -259,15 +302,4 @@ def updateculture():
     alertes=json.dumps(alertes)
     contenu=json.dumps(contenu)
     #je recupére l'id de la culture
-    idculture=supabase.table('culture').select('id_culture').eq('nom',nomculture).execute()
-    idculture=idculture.data[0]['id_culture']
-    #je met à jour la quantité de la culture
-    try:
-        supabase.table('kit_culture').update({
-            'quantité': quantité
-        }).eq('id_kit',idkit).eq('id_culture',idculture).execute()
-    except Exception as e:
-        print(f"Une erreur s'est produite lors de la mise à jour de la culture: {e}")
-        return render_template('infokit.html',session=session,nomkit=session['nomkit'],culturepresent="Erreur lors de la mise à jour de la culture",alertes=alertes,contenu=contenu,temperature=temperature,humidite=humidite,contenunorme=contenunorme)
-    
     return render_template('infokit.html',session=session,nomkit=session['nomkit'],cultureajoute="Votre culture a été mise à jour avec succés",alertes=alertes,contenu=contenu,temperature=temperature,humidite=humidite,contenunorme=contenunorme)

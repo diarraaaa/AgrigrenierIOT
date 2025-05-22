@@ -50,6 +50,10 @@ def enregistrercommande():
 @app.route('/mescommandes')
 def voirmescommandes():
     return voirmescommandescode()
+
 @app.route('/ajouterculture',methods=['POST'])
 def ajoutercultureroute():
     return ajouterculture()
+@app.route('/monprofil',methods=['Get','POST'])
+def monprofil():
+    return render_template('monprofil.html')

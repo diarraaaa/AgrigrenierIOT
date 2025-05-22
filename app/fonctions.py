@@ -20,16 +20,6 @@ supabase_key = supabase_key.replace("\\x3a", ":")
 #creer un client supabase pour pouvoir acceder au projet(base de données ,authentification,etc)
 supabase :Client = create_client(supabase_url, supabase_key)
 
-
-def test():
-    valeur= request.form['valeur']
-    valeur= int(valeur)
-
-    if valeur> 100:
-        return render_template('Connection.html', message="La valeur est supérieure  à 100")
-    else:
-        return render_template('Connection.html', message="La valeur est inférieure à 100")
-
 def deconnection():
     session.clear()
     return render_template('Inscription.html')

@@ -9,12 +9,6 @@ import urllib.parse
 @app.route('/')
 def index():
     return render_template('accueil.html')
-@app.route('/test', methods=['POST'])
-def testvaleur():
-    return test()
-@app.route('/testpage')
-def testpage():
-    return render_template('Connection.html')
 @app.route('/connexionpage')
 def connexionpage():
     return render_template('Connection.html')

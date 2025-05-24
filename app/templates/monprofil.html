@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil - Grenier Intelligent</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #60ad5e;
+            background: linear-gradient(45deg, transparent 20%, rgba(255, 215, 0, 0.2) 50%, transparent 80%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+         
+        header {
+            background-color: green;
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background:  #60ad5e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color:;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-info h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #60ad5e;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            color: #333;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .card-title i {
+            color: #60ad5e;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #60ad5e;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-control:disabled {
+            background: #f8f9fa;
+            color: #6c757d;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #60ad5e;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .grenier-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .grenier-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .grenier-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .grenier-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .grenier-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .grenier-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .info-item i {
+            color: #667eea;
+            width: 16px;
+        }
+
+        .grenier-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .security-section {
+            border-top: 2px solid #e1e5e9;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .password-strength {
+            height: 4px;
+            background: #e1e5e9;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .strength-weak { background: #dc3545; width: 30%; }
+        .strength-medium { background: #ffc107; width: 60%; }
+        .strength-strong { background: #28a745; width: 100%; }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 20px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #28a745;
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-stats {
+                justify-content: center;
+            }
+
+            .grenier-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+        <div class="logo">
+            <i class="fas fa-warehouse"></i>
+            Grenier Intelligent
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/tableaudebord">Tableau de Bord</a></li>
+                <li><a href="/boutiquepage">Boutique</a></li>
+                <li><a href="/mescommandes">Mes Commandes</a></li>
+                <li><a href="/monprofil">Mon profil</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- En-tête du profil -->
+        <div class="header">
+            <div class="profile-header">
+                <div class="profile-avatar" id="avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="profile-info">
+                    <h1 id="fullName">{{ session.get('prenom', 'Jean') }} {{ session.get('nom', 'Dupont') }}</h1>
+                    <p style="color: #666; font-size: 1.1rem;">Gestionnaire de greniers intelligents - {{ session.get('region', 'Région non définie') }}</p>
+                </div>
+            </div>
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="grenierCount">3</div>
+                    <div class="stat-label">Greniers surveillés</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="alertCount">12</div>
+                    <div class="stat-label">Alertes ce mois</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="memberSince">2</div>
+                    <div class="stat-label">Années d'utilisation</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu principal -->
+        <div class="main-content">
+            <!-- Informations personnelles -->
+            <div class="card">
+                <h2 class="card-title">
+                    <i class="fas fa-user-edit"></i>
+                    Informations personnelles
+                </h2>
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label for="firstName">Prénom</label>
+                        <input type="text" id="firstName" class="form-control" value="{{ session.get('prenom', 'Jean') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Nom</label>
+                        <input type="text" id="lastName" class="form-control" value="{{ session.get('nom', 'Dupont') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" value="{{ session.get('email', 'jean.dupont@email.com') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="birthDate">Date de naissance</label>
+                        <input type="date" id="birthDate" class="form-control" value="{{ session.get('date_naissance', '1985-03-15') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="birthPlace">Lieu de naissance</label>
+                        <input type="text" id="birthPlace" class="form-control" value="{{ session.get('lieu_naissance', 'Paris, France') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="region">Région</label>
+                        <input type="text" id="region" class="form-control" value="{{ session.get('region', 'Île-de-France') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Téléphone</label>
+                        <input type="tel" id="phone" class="form-control" value="{{ session.get('telephone', '+33 6 12 34 56 78') }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Enregistrer les modifications
+                    </button>
+                </form>
+            </div>
+
+            <!-- Sécurité et mot de passe -->
+            <div class="card">
+                <h2 class="card-title">
+                    <i class="fas fa-shield-alt"></i>
+                    Sécurité
+                </h2>
+                <div class="security-section">
+                    <h3 style="margin-bottom: 15px; color: #333;">Changer le mot de passe</h3>
+                    <form id="passwordForm">
+                        <div class="form-group">
+                            <label for="currentPassword">Mot de passe actuel</label>
+                            <input type="password" id="currentPassword" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">Nouveau mot de passe</label>
+                            <input type="password" id="newPassword" class="form-control">
+                            <div class="password-strength">
+                                <div class="strength-bar" id="strengthBar"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirmer le mot de passe</label>
+                            <input type="password" id="confirmPassword" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-key"></i>
+                            Changer le mot de passe
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="security-section">
+                    <h3 style="margin-bottom: 15px; color: #333;">Authentification à deux facteurs</h3>
+                    <p style="color: #666; margin-bottom: 15px;">Renforcez la sécurité de votre compte</p>
+                    <button class="btn btn-secondary" id="toggle2FA">
+                        <i class="fas fa-mobile-alt"></i>
+                        Activer 2FA
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mes greniers -->
+            <div class="card full-width">
+                <h2 class="card-title">
+                    <i class="fas fa-warehouse"></i>
+                    Mes greniers surveillés
+                </h2>
+                <div id="greniersList">
+                    <!-- Les greniers seront ajoutés dynamiquement -->
+                </div>
+                <button class="btn btn-primary" id="addGrenierBtn">
+                    <i class="fas fa-plus"></i>
+                    Ajouter un nouveau grenier
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Données simulées - remplacées par les données de session Flask
+        let userData = {
+            firstName: '{{ session.get("prenom", "Jean") }}',
+            lastName: '{{ session.get("nom", "Dupont") }}',
+            email: '{{ session.get("email", "jean.dupont@email.com") }}',
+            birthDate: '{{ session.get("date_naissance", "1985-03-15") }}',
+            birthPlace: '{{ session.get("lieu_naissance", "Paris, France") }}',
+            region: '{{ session.get("region", "Île-de-France") }}',
+            phone: '{{ session.get("telephone", "+33 6 12 34 56 78") }}'
+        };
+
+        let greniersData = [
+            {
+                id: 1,
+                name: 'Grenier Principal',
+                location: 'Maison familiale, Paris',
+                status: 'active',
+                temperature: '18°C',
+                humidity: '45%',
+                lastUpdate: '2024-01-15 14:30',
+                alerts: 2
+            },
+            {
+                id: 2,
+                name: 'Grenier Secondaire',
+                location: 'Résidence secondaire, Lyon',
+                status: 'warning',
+                temperature: '22°C',
+                humidity: '65%',
+                lastUpdate: '2024-01-15 12:15',
+                alerts: 5
+            },
+            {
+                id: 3,
+                name: 'Garage',
+                location: 'Garage, Marseille',
+                status: 'inactive',
+                temperature: '15°C',
+                humidity: '40%',
+                lastUpdate: '2024-01-14 18:45',
+                alerts: 0
+            }
+        ];
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            loadGreniers();
+            setupEventListeners();
+        });
+
+        function loadUserData() {
+            document.getElementById('firstName').value = userData.firstName;
+            document.getElementById('lastName').value = userData.lastName;
+            document.getElementById('email').value = userData.email;
+            document.getElementById('birthDate').value = userData.birthDate;
+            document.getElementById('birthPlace').value = userData.birthPlace;
+            document.getElementById('region').value = userData.region;
+            document.getElementById('phone').value = userData.phone;
+            
+            document.getElementById('fullName').textContent = `${userData.firstName} ${userData.lastName}`;
+            document.getElementById('avatar').textContent = userData.firstName.charAt(0) + userData.lastName.charAt(0);
+        }
+
+        function loadGreniers() {
+            const greniersList = document.getElementById('greniersList');
+            greniersList.innerHTML = '';
+
+            greniersData.forEach(grenier => {
+                const grenierCard = createGrenierCard(grenier);
+                greniersList.appendChild(grenierCard);
+            });
+
+            document.getElementById('grenierCount').textContent = greniersData.length;
+            const totalAlerts = greniersData.reduce((sum, grenier) => sum + grenier.alerts, 0);
+            document.getElementById('alertCount').textContent = totalAlerts;
+        }
+
+        function createGrenierCard(grenier) {
+            const card = document.createElement('div');
+            card.className = 'grenier-card';
+            card.innerHTML = `
+                <div class="grenier-header">
+                    <div class="grenier-name">${grenier.name}</div>
+                    <div class="grenier-status status-${grenier.status}">
+                        ${getStatusText(grenier.status)}
+                    </div>
+                </div>
+                <div class="grenier-info">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${grenier.location}</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-thermometer-half"></i>
+                        <span>${grenier.temperature}</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-tint"></i>
+                        <span>${grenier.humidity}</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Mis à jour: ${formatDate(grenier.lastUpdate)}</span>
+                    </div>
+                </div>
+                <div class="grenier-actions">
+                    <button class="btn btn-primary btn-small" onclick="viewGrenier(${grenier.id})">
+                        <i class="fas fa-eye"></i> Voir détails
+                    </button>
+                    <button class="btn btn-secondary btn-small" onclick="editGrenier(${grenier.id})">
+                        <i class="fas fa-edit"></i> Modifier
+                    </button>
+                    <button class="btn btn-danger btn-small" onclick="deleteGrenier(${grenier.id})">
+                        <i class="fas fa-trash"></i> Supprimer
+                    </button>
+                </div>
+            `;
+            return card;
+        }
+
+        function getStatusText(status) {
+            switch(status) {
+                case 'active': return 'Actif';
+                case 'inactive': return 'Inactif';
+                case 'warning': return 'Attention';
+                default: return 'Inconnu';
+            }
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'});
+        }
+
+        function setupEventListeners() {
+            // Formulaire profil
+            document.getElementById('profileForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveProfile();
+            });
+
+            // Formulaire mot de passe
+            document.getElementById('passwordForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                changePassword();
+            });
+
+            // Vérificateur de force du mot de passe
+            document.getElementById('newPassword').addEventListener('input', checkPasswordStrength);
+
+            // 2FA
+            document.getElementById('toggle2FA').addEventListener('click', toggle2FA);
+
+            // Ajouter grenier
+            document.getElementById('addGrenierBtn').addEventListener('click', addGrenier);
+        }
+
+        function saveProfile() {
+            userData.firstName = document.getElementById('firstName').value;
+            userData.lastName = document.getElementById('lastName').value;
+            userData.email = document.getElementById('email').value;
+            userData.birthDate = document.getElementById('birthDate').value;
+            userData.birthPlace = document.getElementById('birthPlace').value;
+            userData.region = document.getElementById('region').value;
+            userData.phone = document.getElementById('phone').value;
+
+            document.getElementById('fullName').textContent = `${userData.firstName} ${userData.lastName}`;
+            document.getElementById('avatar').textContent = userData.firstName.charAt(0) + userData.lastName.charAt(0);
+
+            // Ici vous pouvez ajouter un appel AJAX pour sauvegarder en base de données
+            // fetch('/update_profile', { method: 'POST', body: JSON.stringify(userData) })
+
+            showNotification('Profil mis à jour avec succès !', 'success');
+        }
+
+        function changePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showNotification('Veuillez remplir tous les champs', 'error');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showNotification('Les mots de passe ne correspondent pas', 'error');
+                return;
+            }
+
+            if (newPassword.length < 8) {
+                showNotification('Le mot de passe doit contenir au moins 8 caractères', 'error');
+                return;
+            }
+
+            // Simulation de changement de mot de passe
+            setTimeout(() => {
+                document.getElementById('passwordForm').reset();
+                document.getElementById('strengthBar').className = 'strength-bar';
+                showNotification('Mot de passe modifié avec succès !', 'success');
+            }, 1000);
+        }
+
+        function checkPasswordStrength() {
+            const password = document.getElementById('newPassword').value;
+            const strengthBar = document.getElementById('strengthBar');
+            
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]/)) strength++;
+            if (password.match(/[A-Z]/)) strength++;
+            if (password.match(/[0-9]/)) strength++;
+            if (password.match(/[^a-zA-Z0-9]/)) strength++;
+
+            strengthBar.className = 'strength-bar';
+            if (strength <= 2) {
+                strengthBar.classList.add('strength-weak');
+            } else if (strength <= 4) {
+                strengthBar.classList.add('strength-medium');
+            } else {
+                strengthBar.classList.add('strength-strong');
+            }
+        }
+
+        function toggle2FA() {
+            const btn = document.getElementById('toggle2FA');
+            if (btn.textContent.includes('Activer')) {
+                btn.innerHTML = '<i class="fas fa-mobile-alt"></i> Désactiver 2FA';
+                btn.classList.remove('btn-secondary');
+                btn.classList.add('btn-danger');
+                showNotification('Authentification à deux facteurs activée', 'success');
+            } else {
+                btn.innerHTML = '<i class="fas fa-mobile-alt"></i> Activer 2FA';
+                btn.classList.remove('btn-danger');
+                btn.classList.add('btn-secondary');
+                showNotification('Authentification à deux facteurs désactivée', 'success');
+            }
+        }
+
+        function viewGrenier(id) {
+            const grenier = greniersData.find(g => g.id === id);
+            showNotification(`Ouverture des détails du ${grenier.name}`, 'success');
+        }
+
+        function editGrenier(id) {
+            const grenier = greniersData.find(g => g.id === id);
+            showNotification(`Modification du ${grenier.name}`, 'success');
+        }
+
+        function deleteGrenier(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce grenier ?')) {
+                greniersData = greniersData.filter(g => g.id !== id);
+                loadGreniers();
+                showNotification('Grenier supprimé avec succès', 'success');
+            }
+        }
+
+        function addGrenier() {
+            const newGrenier = {
+                id: Date.now(),
+                name: 'Nouveau Grenier',
+                location: 'À définir',
+                status: 'inactive',
+                temperature: '20°C',
+                humidity: '50%',
+                lastUpdate: new Date().toISOString().slice(0, 16).replace('T', ' '),
+                alerts: 0
+            };
+            greniersData.push(newGrenier);
+            loadGreniers();
+            showNotification('Nouveau grenier ajouté', 'success');
+        }
+
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

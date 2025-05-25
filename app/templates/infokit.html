@@ -539,11 +539,11 @@
         <div class="sensor-readings">
             <div class="reading">
                 <h3>Température</h3>
-                <div class="value" id="temperature">{{temperature}}</div>
+                <div class="value" id="temperature">{{temperature}}°C</div>
             </div>
             <div class="reading">
                 <h3>Humidité</h3>
-                <div class="value" id="humidity">{{humidite}}</div>
+                <div class="value" id="humidity">{{humidite}} % </div>
             </div>
         </div>
 
@@ -699,31 +699,18 @@
                     </div>
                     <div class="culture-content">
                         <div class="parameters">
+                           
                             <div class="param-row">
-                                <span>Température:</span>
-                                <span class="current-value">
-                                    <span class="status-indicator status-${tempStatus}"></span>
-                                   {{temperature}}°C
-                                </span>
+                                <span>Température Optimale:</span>
+                                <span>${culturetempmin}°C - ${culturetempmax}°C</span>
                             </div>
                             <div class="param-row">
-                                <span>Humidité:</span>
-                                <span class="current-value">
-                                    <span class="status-indicator status-${humStatus}"></span>
-                                    {{humidite}}%
-                                </span>
-                            </div>
-                            <div class="param-row">
-                                <span>Plage optimale (temp.):</span>
-                                <span>${culturetempmin}C -${culturetempmax}C</span>
-                            </div>
-                            <div class="param-row">
-                                <span>Plage optimale (hum.):</span>
-                                <span>${culturehumiditemin}%-${culturehumiditemax}%</span>
+                                <span>Humidité Optimale:</span>
+                                <span>${culturehumiditemin}% - ${culturehumiditemax}%</span>
                             </div>
                             <div class="param-row">
                                 <span>Quantité:</span>
-                                <span>${culturequantite}kg</span>
+                                <span>${culturequantite} kg</span>
                             </div>
                         </div>
                     </div>

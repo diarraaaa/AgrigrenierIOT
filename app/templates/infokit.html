@@ -480,7 +480,11 @@
            <h1>Système de surveillance des cultures</h1>
         </div>
     </header>
-    
+    <div id="infokit">
+        Kit:{{session['nomkit']}} <br>
+        Temperature du grenier:{{temperature}}°C <br>
+        Humidité du grenier:{{humidite}}% <br>
+    </div>
     <main class="container">
         <div class="tabs">
             <div class="tab active" data-tab="dashboard">Tableau de bord</div>
@@ -535,11 +539,11 @@
         <div class="sensor-readings">
             <div class="reading">
                 <h3>Température</h3>
-                <div class="value" id="temperature">23.8°C</div>
+                <div class="value" id="temperature">{{temperature}}</div>
             </div>
             <div class="reading">
                 <h3>Humidité</h3>
-                <div class="value" id="humidity">65%</div>
+                <div class="value" id="humidity">{{humidite}}</div>
             </div>
         </div>
 
@@ -654,12 +658,12 @@
                             <option value="Banane plantain">Banane plantain</option>
                             <option value="Piment (frais)">Piment (frais)</option>
                             <option value="Poivron (frais)">Poivron (frais)</option>
-                            </select>
-                        </div> 
-                        <label for="quantite">Quantité</label> 
+                            </select><br>
+                        </div><br>
+                       <br> <label for="quantite">Quantité</label> 
                         <input type="number" name="quantite" placeholder="Quantité (kg)" required>
                     <div class="actions">
-                        <button type="submit">Ajouter le culture</button>
+                        <button type="submit">Ajouter la culture</button>
                     </div>
                 </form>
             </div>

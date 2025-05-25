@@ -489,7 +489,7 @@
             <!-- Capteurs -->
             <div class="product-card" data-category="capteurs">
                 <div class="product-image">
-                    <img src="/api/placeholder/250/180" alt="Capteur de température">
+                    <img src="{{ url_for('static', filename='temp.png') }}"alt="Capteur de température">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Capteur de température</h3>
@@ -501,7 +501,7 @@
             
             <div class="product-card" data-category="capteurs">
                 <div class="product-image">
-                    <img src="/api/placeholder/250/180" alt="Capteur d'humidité">
+                    <img src="{{ url_for('static', filename='humid.png') }}" alt="Capteur d'humidité">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Capteur d'humidité</h3>
@@ -513,7 +513,7 @@
             
             <div class="product-card" data-category="capteurs">
                 <div class="product-image">
-                    <img src="/api/placeholder/250/180" alt="Capteur de mouvement">
+                    <img src="{{ url_for('static', filename='mouv.png') }}" alt="Capteur de mouvement">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Capteur de mouvement</h3>
@@ -526,7 +526,7 @@
             <!-- Caméras -->
             <div class="product-card" data-category="cameras">
                 <div class="product-image">
-                    <img src="/api/placeholder/250/180" alt="Caméra HD intérieure">
+                    <img src="{{ url_for('static', filename='hd.png') }}" alt="Caméra HD intérieure">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Caméra HD intérieure</h3>
@@ -538,7 +538,7 @@
             
             <div class="product-card" data-category="cameras">
                 <div class="product-image">
-                    <img src="/api/placeholder/250/180" alt="Caméra sans fil">
+                    <img src="{{ url_for('static', filename='cam.png') }}" alt="Caméra sans fil">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Caméra sans fil</h3>
@@ -551,7 +551,7 @@
             <!-- Ventilateurs -->
             <div class="product-card" data-category="ventilateurs">
                 <div class="product-image">
-                    <img src="/api/placeholder/250/180" alt="Ventilateur intelligent">
+                    <img src="{{ url_for('static', filename='vent.png') }}" alt="Ventilateur intelligent">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Ventilateur intelligent</h3>
@@ -563,7 +563,7 @@
             
             <div class="product-card" data-category="ventilateurs">
                 <div class="product-image">
-                    <img src="/api/placeholder/250/180" alt="Système d'aération">
+                    <img src="{{ url_for('static', filename='aera.png') }}" alt="Système d'aération">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Système d'aération</h3>
@@ -581,7 +581,7 @@
                 <div class="product-info">
                     <h3 class="product-name">Kit de base</h3>
                     <p class="product-description">Ensemble comprenant 2 capteurs et 1 caméra pour débuter.</p>
-                    <p class="product-price">55 000 FCFA</p>
+                    <p class="product-price">100 000 FCFA</p>
                     <button class="add-to-cart" data-id="8" data-name="Kit de base" data-price="55000">Ajouter au panier</button>
                 </div>
             </div>
@@ -593,7 +593,7 @@
                 <div class="product-info">
                     <h3 class="product-name">Kit avancé</h3>
                     <p class="product-description">Solution complète avec 4 capteurs, 2 caméras et 1 système d'aération.</p>
-                    <p class="product-price">120 000 FCFA</p>
+                    <p class="product-price">250000FCFA</p>
                     <button class="add-to-cart" data-id="9" data-name="Kit avancé" data-price="120000">Ajouter au panier</button>
                 </div>
             </div>

@@ -558,7 +558,6 @@
             </div>
         </div>
     </div>
-
     <!-- Caméras -->
     <div class="card full-width">
         <div class="card-header">
@@ -657,33 +656,7 @@
                     data.humidity[zone.nom] = [];
                 }
             });
-            
-            // Générer des données pour les dernières 24 heures (par intervalles de 2 heures)
-            for (let i = 12; i >= 0; i--) {
-                const timePoint = new Date(now.getTime() - i * 2 * 60 * 60 * 1000);
-                const hours = timePoint.getHours().toString().padStart(2, '0');
-                const minutes = timePoint.getMinutes().toString().padStart(2, '0');
-                data.labels.push(`${hours}:${minutes}`);
-                
-                ZONES.forEach(zone => {
-                    if (zone.active && CULTURES[zone.culture]) {
-                        const culture = CULTURES[zone.culture];
-                        
-                        // Température: valeur moyenne avec une petite variation
-                        const avgTemp = (culture.temp_min + culture.temp_max) / 2;
-                        const tempVariation = (culture.temp_max - culture.temp_min) * 0.8; // 80% de la plage
-                        const temp = avgTemp + (Math.random() * 2 - 1) * tempVariation;
-                        data.temperatures[zone.nom].push(temp.toFixed(1));
-                        
-                        // Humidité: valeur moyenne avec une petite variation
-                        const avgHum = (culture.humidite_min + culture.humidite_max) / 2;
-                        const humVariation = (culture.humidite_max - culture.humidite_min) * 0.6; // 60% de la plage
-                        const hum = avgHum + (Math.random() * 2 - 1) * humVariation;
-                        data.humidity[zone.nom].push(hum.toFixed(1));
-                    }
-                });
-            }
-            
+        
             return data;
         };
 
@@ -842,109 +815,6 @@
             });
         };
 
-        // Fonctions de gestion des données
-        const refreshZoneData = (zoneId) => {
-            const zoneIndex = ZONES.findIndex(z => z.id === zoneId);
-            if (zoneIndex === -1) return;
-            
-            // Régénérer les valeurs pour cette zone
-            renderCultureCards();
-            
-            // Simuler la vérification des alertes
-            const zone = ZONES[zoneIndex];
-            const currentValues = generateCurrentValues(zone);
-            const culture = CULTURES[zone.culture];
-            
-            if (!culture) return;
-            
-            // Vérifier si les valeurs sont hors limites
-            if (currentValues.temperature < culture.temp_min || currentValues.temperature > culture.temp_max) {
-                const severity = currentValues.temperature < culture.temp_min * 0.9 || currentValues.temperature > culture.temp_max * 1.1 ? "alert" : "warning";
-                const message = `Température ${currentValues.temperature > culture.temp_max ? "trop élevée" : "trop basse"} dans la ${zone.nom} (${culture.nom_affichage}): ${currentValues.temperature}°C, ${currentValues.temperature > culture.temp_max ? "max" : "min"} recommandé: ${currentValues.temperature > culture.temp_max ? culture.temp_max : culture.temp_min}°C`;
-                
-                addNotification(severity, message);
-            }
-            
-            if (currentValues.humidite < culture.humidite_min || currentValues.humidite > culture.humidite_max) {
-                const severity = currentValues.humidite < culture.humidite_min * 0.9 || currentValues.humidite > culture.humidite_max * 1.1 ? "alert" : "warning";
-                const message = `Humidité ${currentValues.humidite > culture.humidite_max ? "trop élevée" : "trop basse"} dans la ${zone.nom} (${culture.nom_affichage}): ${currentValues.humidite}%, ${currentValues.humidite > culture.humidite_max ? "max" : "min"} recommandé: ${currentValues.humidite > culture.humidite_max ? culture.humidite_max : culture.humidite_min}%`;
-                
-                addNotification(severity, message);
-            }
-        };
-
-        const deleteZone = (zoneId) => {
-            const confirmation = confirm("Êtes-vous sûr de vouloir supprimer cette zone ?");
-            if (!confirmation) return;
-            
-            const zoneIndex = ZONES.findIndex(z => z.id === zoneId);
-            if (zoneIndex === -1) return;
-            
-            ZONES[zoneIndex].active = false;
-            renderCultureCards();
-            renderCulturesSettings();
-            initCharts(); // Mise à jour des graphiques
-            
-            addNotification("info", `La zone "${ZONES[zoneIndex].nom}" a été supprimée`);
-        };
-
-        const addNotification = (type, message) => {
-            const newNotification = {
-                id: Date.now(),
-                type: type,
-                message: message,
-                time: new Date().toISOString()
-            };
-            
-            notifications.unshift(newNotification);
-            
-            // Limiter le nombre de notifications à 10
-            if (notifications.length > 10) {
-                notifications.pop();
-            }
-            
-            renderNotifications();
-            
-            // Notification du navigateur si disponible
-            if (Notification.permission === "granted") {
-                new Notification(`Grenier Intelligent - ${type.toUpperCase()}`, {
-                    body: message
-                });
-            }
-        };
-
-        const addZone = () => {
-            const cultureSelect = document.getElementById('new-culture');
-            const zoneName = document.getElementById('new-zone').value.trim();
-            
-            if (!cultureSelect.value || !zoneName) {
-                alert("Veuillez sélectionner une culture et saisir un nom de zone");
-                return;
-            }
-            
-            // Créer un nouvel ID unique
-            const newId = Math.max(...ZONES.map(z => z.id), 0) + 1;
-            
-            // Ajouter la nouvelle zone
-            ZONES.push({
-                id: newId,
-                nom: zoneName,
-                culture: cultureSelect.value,
-                active: true
-            });
-            
-            // Réinitialiser les champs du formulaire
-            cultureSelect.value = "";
-            document.getElementById('new-zone').value = "";
-            
-            // Mettre à jour l'interface
-            renderCultureCards();
-            renderCulturesSettings();
-            initCharts();
-            
-            addNotification("info", `Nouvelle zone "${zoneName}" ajoutée avec succès (culture: ${CULTURES[cultureSelect.value]?.nom_affichage || cultureSelect.value})`);
-        };
-
         // Gestion des onglets
         const setupTabs = () => {
             const tabs = document.querySelectorAll('.tab');
@@ -968,136 +838,6 @@
                     }
                 });
             });
-        };
-
-        // Gestion des graphiques
-        let tempChart, humidityChart;
-
-        const initCharts = () => {
-            const tempCtx = document.getElementById('tempChart');
-            const humCtx = document.getElementById('humidityChart');
-            
-            // Détruire les graphiques existants s'ils existent
-            if (tempChart) tempChart.destroy();
-            if (humidityChart) humidityChart.destroy();
-            
-            // Générer les données historiques
-            const data = generateHistoricalData();
-            
-            // Créer un tableau de couleurs pour les zones
-            const colors = ['#2e7d32', '#1976d2', '#e65100', '#6a1b9a', '#c62828'];
-            
-            // Préparer les datasets pour la température
-            const tempDatasets = [];
-            let colorIndex = 0;
-            
-            Object.keys(data.temperatures).forEach(zoneName => {
-                tempDatasets.push({
-                    label: zoneName,
-                    data: data.temperatures[zoneName],
-                    borderColor: colors[colorIndex % colors.length],
-                    backgroundColor: colors[colorIndex % colors.length] + '20',
-                    tension: 0.4
-                });
-                colorIndex++;
-            });
-            
-            // Préparer les datasets pour l'humidité
-            const humDatasets = [];
-            colorIndex = 0;
-            
-            Object.keys(data.humidity).forEach(zoneName => {
-                humDatasets.push({
-                    label: zoneName,
-                    data: data.humidity[zoneName],
-                    borderColor: colors[colorIndex % colors.length],
-                    backgroundColor: colors[colorIndex % colors.length] + '20',
-                    tension: 0.4
-                });
-                colorIndex++;
-            });
-            
-            // Créer le graphique de température
-            tempChart = new Chart(tempCtx, {
-                type: 'line',
-                data: {
-                    labels: data.labels,
-                    datasets: tempDatasets
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Température (°C)'
-                            }
-                        }
-                    }
-                }
-            });
-            
-            // Créer le graphique d'humidité
-            humidityChart = new Chart(humCtx, {
-                type: 'line',
-                data: {
-                    labels: data.labels,
-                    datasets: humDatasets
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Humidité (%)'
-                            }
-                        }
-                    }
-                }
-            });
-        };
-
-        // Simulation de l'actualisation automatique des données
-        const startAutoRefresh = () => {
-            // Actualiser une zone aléatoire toutes les 45 secondes
-            setInterval(() => {
-                const activeZones = ZONES.filter(z => z.active);
-                if (activeZones.length === 0) return;
-                
-                const randomZone = activeZones[Math.floor(Math.random() * activeZones.length)];
-                refreshZoneData(randomZone.id);
-            }, 45000);
-            
-            // Actualiser toutes les zones toutes les 5 minutes
-            setInterval(() => {
-                ZONES.filter(z => z.active).forEach(zone => {
-                    refreshZoneData(zone.id);
-                });
-                
-                // Mise à jour des graphiques si l'onglet est actif
-                if (document.getElementById('charts').classList.contains('active')) {
-                    initCharts();
-                }
-            }, 300000);
         };
 
         // Initialisation de l'application

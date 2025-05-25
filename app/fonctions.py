@@ -230,6 +230,7 @@ def updateculture():
         infoskits=supabase.table('kits').select("*").eq('id_kit',idkit).execute()
         temperature=infoskits.data[0]['temperature']
         humidite=infoskits.data[0]['humidite']
+        session['nomkit']=infoskits.data[0]['nom']                                                                                                                                             
         #recuperer les cultures qui sont dans le kit
         cultures=supabase.table('kit_culture').select('id_culture').eq('id_kit',idkit).execute()
         for i in range(len(cultures.data)):
@@ -293,4 +294,4 @@ def updateculture():
     alertes=json.dumps(alertes)
     contenu=json.dumps(contenu)
     #je recupére l'id de la culture
-    return render_template('infokit.html',session=session,nomkit=session['nomkit'],cultureajoute="Votre culture a été mise à jour avec succés",alertes=alertes,contenu=contenu,temperature=temperature,humidite=humidite,contenunorme=contenunorme)
+    return render_template('infokit.html',session=session,nomkit=session['nomkit'],cultureajoute="Votre culture a été mise à jour avec succés.",alertes=alertes,contenu=contenu,temperature=temperature,humidite=humidite,contenunorme=contenunorme)

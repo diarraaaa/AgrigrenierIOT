@@ -422,7 +422,7 @@
                     <i class="fas fa-user"></i>
                 </div>
                 <div class="profile-info">
-                    <h1 id="fullName">{{ session.get('prenom', 'Jean') }} {{ session.get('nom', 'Dupont') }}</h1>
+                    <h1 id="fullName">{{ session.get('prenom', 'Jean') }} </h1>
                     <p style="color: #666; font-size: 1.1rem;">Gestionnaire de greniers intelligents - {{ session.get('region', 'Région non définie') }}</p>
                 </div>
             </div>
@@ -457,7 +457,7 @@
                     </div>
                     <div class="form-group">
                         <label for="lastName">Nom</label>
-                        <input type="text" id="lastName" class="form-control" value="{{ session.get('nom', 'Dupont') }}">
+                        <input type="text" id="lastName" class="form-control" value="{{ session.get('nom') }}">
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
@@ -551,10 +551,10 @@
         // Données simulées - remplacées par les données de session Flask
         let userData = {
             firstName: '{{ session.get("prenom", "Jean") }}',
-            lastName: '{{ session.get("nom", "Dupont") }}',
-            email: '{{ session.get("email", "jean.dupont@email.com") }}',
-            birthDate: '{{ session.get("date_naissance", "1985-03-15") }}',
-            birthPlace: '{{ session.get("lieu_naissance", "Paris, France") }}',
+            lastName: '{{ session.get("nom", "Dieng") }}',
+            email: '{{ session.get("email", "") }}',
+            birthDate: '{{ session.get("date_naissance", "2004/06/02") }}',
+            birthPlace: '{{ session.get("lieu_naissance", "Dakar,Sénégal") }}',
             region: '{{ session.get("region", "Île-de-France") }}',
             phone: '{{ session.get("telephone", "+33 6 12 34 56 78") }}'
         };
@@ -562,33 +562,13 @@
         let greniersData = [
             {
                 id: 1,
-                name: 'Grenier Principal',
-                location: 'Maison familiale, Paris',
+                name: 'MonkitAgricole',
+                location: 'Dakar',
                 status: 'active',
-                temperature: '18°C',
-                humidity: '45%',
-                lastUpdate: '2024-01-15 14:30',
+                temperature: '28°C',
+                humidity: '88%',
+                lastUpdate: '2025-01-15 14:30',
                 alerts: 2
-            },
-            {
-                id: 2,
-                name: 'Grenier Secondaire',
-                location: 'Résidence secondaire, Lyon',
-                status: 'warning',
-                temperature: '22°C',
-                humidity: '65%',
-                lastUpdate: '2024-01-15 12:15',
-                alerts: 5
-            },
-            {
-                id: 3,
-                name: 'Garage',
-                location: 'Garage, Marseille',
-                status: 'inactive',
-                temperature: '15°C',
-                humidity: '40%',
-                lastUpdate: '2024-01-14 18:45',
-                alerts: 0
             }
         ];
 

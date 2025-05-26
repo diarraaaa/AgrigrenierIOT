@@ -25,7 +25,7 @@
         }
         
         body {
-            background-color: #f0f4f8;
+            background: linear-gradient(45deg, transparent 20%, rgba(255, 215, 0, 0.2) 50%, transparent 80%);
             color: #333;
         }
         
@@ -38,7 +38,30 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+       #infokit {
+    background-color:rgb(198, 221, 197); /* Couleur douce de fond */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    color: #333;
+    width: fit-content;
+    max-width: 100%;
+    margin: 20px auto;
+    line-height: 1.6;
+    border-left: 6px solid rgb(42, 112, 19); /* Accent visuel */
+}
+
+#infokit::before {
+    content: "📦 Infos du Kit";
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color:vert ;
+}
+
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
@@ -410,26 +433,80 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
         
-        .settings-form {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            margin-top: 1.5rem;
-        }
-        
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-        
-        .form-group {
-            flex: 1;
-            min-width: 200px;
-            margin-right: 1rem;
-            margin-bottom: 1rem;
-        }
+        body {
+    background: linear-gradient(45deg, transparent 20%, rgba(255, 215, 0, 0.2) 50%, transparent 80%);
+    font-family: 'Segoe UI', sans-serif;
+    color: #2f5d2f;
+}
+
+#settings {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    margin: 30px auto;
+    border-left: 6px solid #2f5d2f;
+}
+
+.settings-form h2 {
+    color: #2f5d2f;
+    margin-bottom: 20px;
+    font-size: 22px;
+    border-bottom: 2px solid #2f5d2f;
+    padding-bottom: 10px;
+}
+
+.form-row, .form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #2f5d2f;
+}
+
+select, input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    background-color: #f9f9f9;
+}
+
+.actions {
+    text-align: right;
+    margin-top: 20px;
+}
+
+button {
+    background-color: #2f5d2f;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #3e7c3e;
+}
+
+/* Section pour les mises à jour de cultures */
+#settings form[action="/updateculture"] {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #2f5d2f;
+}
+
         
         label {
             display: block;
@@ -473,6 +550,7 @@
                 <li><a href="/boutiquepage">Boutique</a></li>
                 <li><a href="/mescommandes">Mes Commandes</a></li>
                  <li><a href="/monprofil">Mon profil</a></li>
+                 <li> <a href="/deconnexion">Déconnexion</a></li
             </ul>
         </nav>
     </header>
@@ -531,56 +609,652 @@
        <!-- Onglet contrôle (à ajouter) -->
 <div id="controle" class="tab-content">
     <!-- Données Capteurs -->
-    <div class="card">
-        <div class="card-header">
-            <h2>Données Capteurs</h2>
-            <span id="lastUpdate">Mis à jour à l’instant</span>
+  <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Grenier Connecté</title>
+    <style>
+        :root {
+            --primary-green: rgb(42, 112, 19);
+            --primary-yellow: #fce57e;
+            --light-green: rgba(42, 112, 19, 0.2);
+            --dark-green: rgb(32, 87, 14);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        header h1 {
+            font-size: 24px;
+        }
+        
+        .welcome-section {
+            background-color: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .welcome-section p {
+            margin-bottom: 10px;
+        }
+        
+        .welcome-section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .kits-section {
+            margin-top: 15px;
+        }
+        
+        #kits {
+            background-color: var(--light-green);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .date-time {
+            font-size: 16px;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: relative;
+        }
+        
+        .full-width {
+            grid-column: 1 / span 2;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--light-green);
+            padding-bottom: 10px;
+        }
+        
+        .card-header h2 {
+            color: var(--primary-green);
+            font-size: 18px;
+        }
+        
+        .sensor-readings {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .reading {
+            background-color: var(--light-green);
+            border-radius: 10px;
+            padding: 15px;
+            width: 45%;
+        }
+        
+        .reading h3 {
+            color: var(--primary-green);
+            margin-bottom: 5px;
+        }
+        
+        .reading .value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--dark-green);
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .control-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-green);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .temp-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .temp-control button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background-color: var(--primary-green);
+            color: white;
+            font-size: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .temp-control span {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .camera-feed {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 10px;
+        }
+        
+        .camera {
+            position: relative;
+            height: 150px;
+            background-color: #222;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .camera img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .camera-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            font-size: 12px;
+        }
+        
+        .notifications {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .notification {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary-green);
+            background-color: var(--light-green);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .notification:last-child {
+            margin-bottom: 0;
+        }
+        
+        .notification-time {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .weather {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        
+        .weather-icon {
+            font-size: 40px;
+            color: var(--primary-yellow);
+        }
+        
+        .weather-details {
+            text-align: center;
+        }
+        
+        .weather-temp {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .btn {
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+        
+        .btn:hover {
+            background-color: var(--dark-green);
+        }
+        
+        .btn-yellow {
+            background-color: var(--primary-yellow);
+            color: #333;
+        }
+        
+        .btn-yellow:hover {
+            background-color: #e6cd71;
+        }
+        
+        .footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer a {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        form {
+            margin: 0;
+        }
+        
+        input[type="submit"] {
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        input[type="submit"]:hover {
+            background-color: var(--dark-green);
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .full-width {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dashboard Grenier Connecté</h1>
+            <div class="date-time" id="dateTime">Chargement...</div>
+        </header>
+        
+        <div class="welcome-section">
+            <h2>Bienvenue sur votre tableau de bord, {{ session['prenom'] }}</h2>
+            <p>Voici vos informations :</p>
+            <ul>
+                <li>Prénom : {{ session['prenom'] }}</li>
+                <li>Région : {{ session['region'] }}</li>
+            </ul>
+            
+           
         </div>
-        <div class="sensor-readings">
-            <div class="reading">
-                <h3>Température</h3>
-                <div class="value" id="temperature">{{temperature}}°C</div>
+        
+        <!-- Dashboard affiché dans tous les cas maintenant -->
+        <div class="dashboard">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Données Capteurs</h2>
+                    <span id="lastUpdate">Mis à jour il y a 2 min</span>
+                </div>
+                <div class="sensor-readings">
+                    <div class="reading">
+                        <h3>Température</h3>
+                        <div class="value" id="temperature">24°C</div>
+                    </div>
+                    <div class="reading">
+                        <h3>Humidité</h3>
+                        <div class="value" id="humidity">65%</div>
+                    </div>
+                </div>
+                <div class="card-header">
+                    <h2>Contrôle de Température</h2>
+                </div>
+                <div class="temp-control">
+                    <button id="tempDown">-</button>
+                    <span id="tempTarget">22°C</span>
+                    <button id="tempUp">+</button>
+                </div>
             </div>
-            <div class="reading">
-                <h3>Humidité</h3>
-                <div class="value" id="humidity">{{humidite}} % </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>Contrôles</h2>
+                </div>
+                <div class="controls">
+                    <div class="control-row">
+                        <div>Ventilateurs</div>
+                        <label class="switch">
+                            <input type="checkbox" id="fanSwitch">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="control-row">
+                        <div>Chauffage</div>
+                        <label class="switch">
+                            <input type="checkbox" id="heatSwitch">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="control-row">
+                        <div>Mode Automatique</div>
+                        <label class="switch">
+                            <input type="checkbox" id="autoSwitch" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="control-row">
+                        <div>Lumières</div>
+                        <label class="switch">
+                            <input type="checkbox" id="lightSwitch">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card-header" style="margin-top: 20px;">
+                    <h2>Météo Locale - {{ session['region'] }}</h2>
+                </div>
+                <div class="weather">
+                    <div class="weather-icon">☀️</div>
+                    <div class="weather-details">
+                        <div class="weather-temp" id="outdoorTemp">18°C</div>
+                        <div id="weatherDesc">Ensoleillé</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card full-width">
+                <div class="card-header">
+                    <h2>Caméras de Surveillance</h2>
+                    <button class="btn" id="refreshCameras">Actualiser</button>
+                </div>
+                <div class="camera-feed">
+                    <div class="camera">
+                        <img src="/api/placeholder/400/320" alt="placeholder" />
+                        <div class="camera-label">Caméra 1 - Entrée</div>
+                    </div>
+                    <div class="camera">
+                        <img src="/api/placeholder/400/320" alt="placeholder" />
+                        <div class="camera-label">Caméra 2 - Côté Nord</div>
+                    </div>
+                    <div class="camera">
+                        <img src="/api/placeholder/400/320" alt="placeholder" />
+                        <div class="camera-label">Caméra 3 - Côté Sud</div>
+                    </div>
+                    <div class="camera">
+                        <img src="/api/placeholder/400/320" alt="placeholder" />
+                        <div class="camera-label">Caméra 4 - Fenêtre</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card full-width">
+                <div class="card-header">
+                    <h2>Notifications</h2>
+                    <button class="btn btn-yellow" id="clearNotif">Tout effacer</button>
+                </div>
+                <div class="notifications" id="notificationArea">
+                    <div class="notification">
+                        <div>Température élevée détectée (28°C)</div>
+                        <div class="notification-time">Aujourd'hui, 10:45</div>
+                    </div>
+                    <div class="notification">
+                        <div>Les ventilateurs se sont mis en marche automatiquement</div>
+                        <div class="notification-time">Aujourd'hui, 10:46</div>
+                    </div>
+                    <div class="notification">
+                        <div>Mouvement détecté - Caméra 2</div>
+                        <div class="notification-time">Aujourd'hui, 09:32</div>
+                    </div>
+                    <div class="notification">
+                        <div>Taux d'humidité optimal atteint (65%)</div>
+                        <div class="notification-time">Hier, 18:12</div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="card-header" style="margin-top: 20px;">
-            <h2>Météo Locale - Dakar</h2>
-        </div>
-        <div class="weather">
-            <div class="weather-icon">☀️</div>
-            <div class="weather-details">
-                <div class="weather-temp" id="outdoorTemp">18°C</div>
-                <div id="weatherDesc">Ensoleillé</div>
-            </div>
+        
+        <div class="footer">
+            <form action="/commanderkit" method="POST">
+                <input type="hidden" name="userid" value="{{ session['id'] }}">
+                <input type="hidden" name="userprenom" value="{{ session['prenom'] }}">
+                
+            </form>
+           
         </div>
     </div>
-    <!-- Caméras -->
-    <div class="card full-width">
-        <div class="card-header">
-            <h2>Caméras de Surveillance</h2>
-            <button class="btn" id="refreshCameras">Actualiser</button>
-        </div>
-        <div class="camera-feed">
-            <div class="camera">
-                <img src="/api/placeholder/400/320" alt="placeholder" />
-                <div class="camera-label">Caméra 1 - Entrée</div>
-            </div>
-            <div class="camera">
-                <img src="/api/placeholder/400/320" alt="placeholder" />
-                <div class="camera-label">Caméra 2 - Côté Nord</div>
-            </div>
-            <div class="camera">
-                <img src="/api/placeholder/400/320" alt="placeholder" />
-                <div class="camera-label">Caméra 3 - Côté Sud</div>
-            </div>
-            <div class="camera">
-                <img src="/api/placeholder/400/320" alt="placeholder" />
-                <div class="camera-label">Caméra 4 - Fenêtre</div>
-            </div>
+
+    <script>
+        // Mise à jour de la date et de l'heure
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('dateTime').textContent = now.toLocaleDateString('fr-FR', options);
+        }
+        
+        updateDateTime();
+        setInterval(updateDateTime, 60000); // Mise à jour chaque minute
+        
+        // Simuler des changements de données capteurs
+        function simulateSensorData() {
+            // Simuler des variations de température
+            const currentTemp = parseFloat(document.getElementById('temperature').textContent);
+            const tempChange = (Math.random() * 0.6) - 0.3; // Entre -0.3 et +0.3
+            const newTemp = (currentTemp + tempChange).toFixed(1);
+            document.getElementById('temperature').textContent = newTemp + '°C';
+            
+            // Simuler des variations d'humidité
+            const currentHumidity = parseInt(document.getElementById('humidity').textContent);
+            const humidityChange = Math.floor((Math.random() * 3) - 1); // Entre -1 et +1
+            const newHumidity = Math.min(100, Math.max(0, currentHumidity + humidityChange));
+            document.getElementById('humidity').textContent = newHumidity + '%';
+            
+            // Mise à jour de l'heure de dernière mise à jour
+            document.getElementById('lastUpdate').textContent = 'Mis à jour à l\'instant';
+            
+            // Vérifier les conditions pour ajouter des notifications
+            if (parseFloat(newTemp) > 26) {
+                addNotification('Alerte température élevée (' + newTemp + '°C)');
+            }
+            
+            if (newHumidity > 75) {
+                addNotification('Alerte humidité élevée (' + newHumidity + '%)');
+            }
+        }
+        
+        // Simuler les données toutes les 10 secondes
+        setInterval(simulateSensorData, 10000);
+        
+        // Fonction pour ajouter des notifications
+        function addNotification(message) {
+            const notifArea = document.getElementById('notificationArea');
+            const now = new Date();
+            const timeStr = now.getHours().toString().padStart(2, '0') + ':' + 
+                           now.getMinutes().toString().padStart(2, '0');
+            
+            const notif = document.createElement('div');
+            notif.className = 'notification';
+            notif.innerHTML = `
+                <div>${message}</div>
+                <div class="notification-time">Aujourd'hui, ${timeStr}</div>
+            `;
+            
+            notifArea.prepend(notif); // Ajouter au début
+            
+            // Faire défiler vers le haut
+            notifArea.scrollTop = 0;
+            
+            // Simuler une notification du navigateur
+            if (Notification && Notification.permission === 'granted') {
+                new Notification('Grenier Connecté', {
+                    body: message,
+                    icon: 'https://example.com/icon.png'
+                });
+            }
+        }
+        
+        // Gérer les boutons de contrôle de température
+        document.getElementById('tempUp').addEventListener('click', function() {
+            const currentTemp = parseInt(document.getElementById('tempTarget').textContent);
+            document.getElementById('tempTarget').textContent = (currentTemp + 1) + '°C';
+            addNotification('Température cible augmentée à ' + (currentTemp + 1) + '°C');
+        });
+        
+        document.getElementById('tempDown').addEventListener('click', function() {
+            const currentTemp = parseInt(document.getElementById('tempTarget').textContent);
+            document.getElementById('tempTarget').textContent = (currentTemp - 1) + '°C';
+            addNotification('Température cible diminuée à ' + (currentTemp - 1) + '°C');
+        });
+        
+        // Gérer les interrupteurs
+        document.getElementById('fanSwitch').addEventListener('change', function() {
+            if (this.checked) {
+                addNotification('Ventilateurs activés');
+            } else {
+                addNotification('Ventilateurs désactivés');
+            }
+        });
+        
+        document.getElementById('heatSwitch').addEventListener('change', function() {
+            if (this.checked) {
+                addNotification('Chauffage activé');
+            } else {
+                addNotification('Chauffage désactivé');
+            }
+        });
+        
+        document.getElementById('lightSwitch').addEventListener('change', function() {
+            if (this.checked) {
+                addNotification('Lumières allumées');
+            } else {
+                addNotification('Lumières éteintes');
+            }
+        });
+        
+        document.getElementById('autoSwitch').addEventListener('change', function() {
+            if (this.checked) {
+                addNotification('Mode automatique activé');
+            } else {
+                addNotification('Mode automatique désactivé');
+            }
+        });
+        
+        // Gérer le bouton d'actualisation des caméras
+        document.getElementById('refreshCameras').addEventListener('click', function() {
+            addNotification('Flux des caméras actualisés');
+        });
+        
+        // Gérer le bouton d'effacement des notifications
+        document.getElementById('clearNotif').addEventListener('click', function() {
+            const notifArea = document.getElementById('notificationArea');
+            notifArea.innerHTML = '';
+        });
+        
+        // Demander l'autorisation pour les notifications navigateur
+        if (Notification && Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+            Notification.requestPermission();
+        }
+    </script>
+</body>
+</html>
         </div>
     </div>
 </div>

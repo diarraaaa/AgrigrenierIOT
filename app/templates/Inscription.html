@@ -395,6 +395,25 @@ select {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
     50% { transform: translateY(-10px) rotate(180deg); }
 }
+.container::after {
+    content: '🍃';
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
+    opacity: 0.3;
+    animation: leafFloat 4s ease-in-out infinite;
+}
+
+@keyframes leafFloat {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.3;
+    }
+    50% { 
+        transform: translateY(-10px) rotate(10deg);
+        opacity: 0.6;
+    }
           </style>
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
@@ -403,17 +422,19 @@ select {
         <div class="falling-leaves" id="fallingLeaves"></div>
      
         <script>
-            const leafCount = 15;
-            const container = document.getElementById("fallingLeaves");
-        
-            for (let i = 0; i < leafCount; i++) {
-                const leaf = document.createElement("div");
-                leaf.className = "leaf";
-                leaf.style.left = Math.random() * 100 + "vw";
-                leaf.style.animationDuration = 5 + Math.random() * 5 + "s";
-                leaf.style.animationDelay = Math.random() * 10 + "s";
-                container.appendChild(leaf);
-            }
+           <script>
+    const leafCount = 15;
+    const container = document.getElementById("fallingLeaves");
+
+    for (let i = 0; i < leafCount; i++) {
+      const leaf = document.createElement("div");
+      leaf.className = "leaf";
+      leaf.style.left = Math.random() * 100 + "vw";
+      leaf.style.animationDuration = 5 + Math.random() * 5 + "s";
+      leaf.style.animationDelay = Math.random() * 10 + "s";
+      container.appendChild(leaf);
+    }
+  </script>
         </script>
 
         <div class="container">

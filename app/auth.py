@@ -62,13 +62,14 @@ def connexioncode():
     infos=supabase.table('profiles').select("*").eq('email',email).execute()
     prenom=infos.data[0]['prenom']
     id=infos.data[0]['id']
+
     region=infos.data[0]['region'] 
     telephone=infos.data[0]['telephone'] 
 
     #Je crée les variables de session
     session['prenom']=prenom
     session['email']=email
-    session['id']=id
+    session['userid']=id
     session['region']=region
     session['telephone']=telephone
 

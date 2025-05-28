@@ -212,6 +212,7 @@ header h1 {
             <ul>
                 <li>Prénom : {{ session['prenom'] }}</li>
                 <li>Région : {{ session['region'] }}</li>
+                <li type="hidden" value="{{session['id']}}" id="userid"></li>
             </ul>
             
             {% if session['kits'] %}
@@ -221,7 +222,7 @@ header h1 {
                     <div id="kits">
                         <span>{{ kit['nom'] }}</span>
                         <form action="/infokit" method="POST" style="display: inline;">
-                            <input type="hidden" name="id_kit" value="{{ kit['id_kit'] }}">
+                            <input type="hidden" id="id_kit" name="id_kit" value="{{ kit['id_kit'] }}">
                             <input type="hidden" name="nomkit" value="{{ kit['nom'] }}">
                             <input type="submit" value="Voir les détails de ce grenier">
                         </form>
@@ -361,7 +362,8 @@ header h1 {
   const chatPopup = document.getElementById("chatPopup");
   const chatMessages = document.getElementById("chatMessages");
   const chatInput = document.getElementById("chatInput");
-
+  const userid = document.getElementById("userid").getAttribute("value");
+  const idkit =document.getElementById("id_kit").getAttribute("value");
   function getSessionId() {
     let sessionId = localStorage.getItem("sessionId");
     if (!sessionId) {
@@ -403,7 +405,7 @@ header h1 {
       const res = await fetch("https://diarrad.app.n8n.cloud/webhook/d5f954db-a659-4e82-82e9-05aeb259b62b", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: "Utilisateur", message, sessionId })
+        body: JSON.stringify({ name: "Utilisateur", message, sessionId, userid ,idkit})
       });
       const response = await res.text();
       appendMessage(response, "chat-bot");

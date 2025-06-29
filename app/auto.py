@@ -78,7 +78,8 @@ def automatictask():
                 #envoyer un mail de confirmation de la commande
                 if alertes:
                     send_alert(nomkit, prenom, nom, tel, alertes)
-        time.sleep(1200)
+        time.sleep(1200) #  # Attendre 20 minutes avant de vérifier à nouveau
+        
         
 def send_alert(nomkit, prenom, nom, tel, alertes):
 

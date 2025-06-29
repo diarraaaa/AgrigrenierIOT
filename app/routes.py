@@ -1,6 +1,5 @@
 from flask  import Flask, render_template,request,jsonify
 from app import app
-from supabase import create_client, Client
 from app.fonctions import deconnection,commanderkit,infokitdetails,alertecode,ajouterculture,boutiquepagecode,enregistrercommandecode,voirmescommandescode,updateculture
 import os
 from dotenv import load_dotenv

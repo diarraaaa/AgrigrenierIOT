@@ -2,90 +2,322 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Commande de Kit Agrigrenier</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commande de Kit - Grenier Intelligent</title>
     <style>
+        :root {
+            --primary-color: rgb(42, 112, 19);
+            --secondary-color: #fce57e;
+            --background-color: linear-gradient(45deg, transparent 20%, rgba(255, 215, 0, 0.2) 50%, transparent 80%);
+            --text-color: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin: 0;
-                padding: 0;
-                min-height: 100vh;
-                background: linear-gradient(135deg,rgb(42, 112, 19), #fce57e); /* dégradé vert-jaune */
-                display: flex;
-                align-items: center;
-                justify-content: center;
-           
+            background: linear-gradient(45deg, transparent 20%, rgba(255, 215, 0, 0.2) 50%, transparent 80%);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
+        .logo i {
+            color: #ffd700;
+            font-size: 2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+        
         .container {
-            max-width: 700px;
-            margin: 60px auto;
-            padding: 30px;
-            background-color: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 128, 0, 0.1);
-            border-left: 8px solid #aad576;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
         }
-
-        h1 {
-            color: #388e3c;
-        }
-
-        .kit-description {
-            background-color: #fef6e0;
-            padding: 20px;
-            border-left: 6px solid #ffcd38;
-            margin: 20px 0;
+        
+        .welcome-card {
+            background-color: white;
             border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
         }
-
+        
+        .welcome-card h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .welcome-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .kit-description {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 6px solid var(--secondary-color);
+        }
+        
+        .kit-description h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .kit-description p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .kit-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-3px);
+        }
+        
+        .feature-item i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+        
+        .feature-text {
+            flex: 1;
+        }
+        
+        .feature-text strong {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+        
+        .feature-text span {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
         .kit-form {
             text-align: center;
-            margin-top: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
         }
-
+        
         .kit-form button {
-            background-color: #4caf50;
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 12px 24px;
-            font-size: 16px;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .kit-form button:hover {
+            background-color: #1e5b0c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(42, 112, 19, 0.3);
+        }
+        
+        .kit-form button i {
+            font-size: 1.2rem;
         }
 
-        .kit-form button:hover {
-            background-color: #388e3c;
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem;
+            }
+            
+            .welcome-card h1 {
+                font-size: 1.5rem;
+            }
+            
+            .kit-features {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-     <nav>
+    <header>
+        <div class="logo">
+            <i class="fas fa-warehouse"></i>
+            Grenier Intelligent
+        </div>
+        <nav>
             <ul>
                 <li><a href="/">Accueil</a></li>
                 <li><a href="/tableaudebord">Tableau de Bord</a></li>
                 <li><a href="/boutiquepage">Boutique</a></li>
                 <li><a href="/mescommandes">Mes Commandes</a></li>
-                 <li><a href="/monprofil">Mon profil</a></li>
+                <li><a href="/monprofil">Mon profil</a></li>
+                <li><a href="/deconnexion">Déconnexion</a></li>
             </ul>
         </nav>
+    </header>
+
     <div class="container">
-        <h1>Bienvenue {{ session['prenom'] }} 👋</h1>
-        <p>
-            Avec l'email enregistré, bienvenue sur la page de commande de kit.
-        </p>
-        <div class="kit-description">
-            <h2>Kit Agrigrenier 🌾</h2>
+        <div class="welcome-card">
+            <h1>
+                <i class="fas fa-hand-wave"></i>
+                Bienvenue <span id="user-name">Amadou</span>
+            </h1>
             <p>
-                Les kits Agrigreniers sont des kits intelligents pour vos greniers.<br>
-                Ils permettent de visualiser <strong>la température</strong> et <strong>l'humidité</strong> en temps réel.
+                Bienvenue sur la page de commande de kit. Avec votre email enregistré, vous pouvez commander votre kit Agrigrenier personnalisé.
             </p>
         </div>
+
+        <div class="kit-description">
+            <h2>
+                <i class="fas fa-box-open"></i>
+                Kit Agrigrenier
+            </h2>
+            <p>
+                Les kits Agrigreniers sont des solutions intelligentes conçues spécialement pour la surveillance et la gestion de vos greniers agricoles. Ils vous permettent de suivre en temps réel les conditions de stockage de vos récoltes.
+            </p>
+            
+            <div class="kit-features">
+                <div class="feature-item">
+                    <i class="fas fa-thermometer-half"></i>
+                    <div class="feature-text">
+                        <strong>Température</strong>
+                        <span>Surveillance en temps réel</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-tint"></i>
+                    <div class="feature-text">
+                        <strong>Humidité</strong>
+                        <span>Contrôle précis</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-bell"></i>
+                    <div class="feature-text">
+                        <strong>Alertes</strong>
+                        <span>Notifications instantanées</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-chart-line"></i>
+                    <div class="feature-text">
+                        <strong>Statistiques</strong>
+                        <span>Historique détaillé</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <form action="/requestkit" method="post" class="kit-form">
-            <input type="hidden" name="userprenom" value="{{ session['prenom'] }}">
-            <input type="hidden" name="userid" value="{{ session['id'] }}">
-            <button type="submit">Commander un Kit</button>
+            <input type="hidden" name="userprenom" id="form-prenom" value="">
+            <input type="hidden" name="userid" id="form-userid" value="">
+            <button type="submit">
+                <i class="fas fa-shopping-cart"></i>
+                Commander un Kit
+            </button>
         </form>
     </div>
+
+    <script>
+        // Simulation de données pour la démo (à remplacer par vos vraies données backend)
+        const sessionData = {
+            prenom: "Amadou",
+            id: "12345"
+        };
+
+        // Afficher le prénom de l'utilisateur
+        document.getElementById('user-name').textContent = sessionData.prenom;
+        
+        // Remplir les champs cachés du formulaire
+        document.getElementById('form-prenom').value = sessionData.prenom;
+        document.getElementById('form-userid').value = sessionData.id;
+    </script>
 </body>
 </html>

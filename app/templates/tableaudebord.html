@@ -4,239 +4,676 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Grenier Connecté</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-    body {
-    background: linear-gradient(45deg, transparent 20%, rgba(255, 215, 0, 0.2) 50%, transparent 80%);
-    font-family: 'Segoe UI', sans-serif;
-    color: #2f5d2f;
-    margin: 0;
-    padding: 0;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.container {
-    max-width: 900px;
-    margin: 30px auto;
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-}
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-/* Header */
-header {
-    
-            background-color: rgb(42, 112, 19);
-            color: white;
-            padding: 1rem 2rem;
-            box-shadow: var(--shadow);
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(74, 222, 128, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-       }
+            padding: 0 3rem;
+        }
 
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            transition: transform 0.3s ease;
+        }
 
-header h1 {
-    font-size: 28px;
-    color:white;
-    margin-bottom: 10px;
-}
+        .logo:hover {
+            transform: scale(1.05);
+        }
 
-     .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color:#ffd700;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
+        .logo i {
+            color: #4ade80;
+            font-size: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
 
-.logo i {
-    color: #ffd700;
-    font-size: 2rem;
-}
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
 
-.logo span {
-    color: #ffd700;
-}        
+        .logo span {
+            color: #4ade80;
+        }
+
         nav ul {
             display: flex;
             list-style: none;
+            gap: 0.5rem;
         }
-         nav ul li {
-            margin-left: 1.5rem;
-        }
-        
+
         nav ul li a {
-            color: white;
+            color: #64748b;
             text-decoration: none;
+            padding: 0.7rem 1.3rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
             font-weight: 500;
-            transition: color 0.3s;
+            position: relative;
         }
-        
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #4ade80;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
         nav ul li a:hover {
-            color: var(--secondary-color);
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
         }
-       
-.date-time {
-    font-size: 16px;
-    color: #555;
-}
 
-/* Welcome Section */
-.welcome-section h2 {
-    font-size: 22px;
-    margin-bottom: 10px;
-}
+        nav ul li a:hover::before {
+            width: 60%;
+        }
 
-.welcome-section p {
-    font-size: 16px;
-}
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            animation: fadeInUp 0.8s ease;
+        }
 
-.welcome-section ul {
-    list-style: none;
-    padding-left: 0;
-    margin-top: 10px;
-}
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-.welcome-section li {
-    padding: 6px 0;
-}
+        /* Dashboard Header */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(74, 222, 128, 0.1);
+        }
 
-/* Kits Section */
-.kits-section {
-    margin-top: 20px;
-}
+        .dashboard-header h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+        }
 
-#kits {
-    background-color: #f4f9f4;
-    padding: 12px 18px;
-    border: 1px solid #dcdcdc;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        .date-time {
+            font-size: 1rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(74, 222, 128, 0.1);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+        }
 
-#kits span {
-    font-weight: bold;
-}
+        .date-time i {
+            color: #4ade80;
+        }
 
-#kits form input[type="submit"] {
-    background-color: #2f5d2f;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-}
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
 
-#kits form input[type="submit"]:hover {
-    background-color: #3e7c3e;
-}
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
 
-/* Weather Card */
-.card-header h2 {
-    font-size: 20px;
-    border-bottom: 2px solid #2f5d2f;
-    padding-bottom: 5px;
-    margin-bottom: 15px;
-}
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
 
-.weather {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background-color: #eaf4e6;
-    padding: 15px 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(47, 93, 47, 0.1);
-}
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(74, 222, 128, 0.15);
+            border-color: #4ade80;
+        }
 
-.weather-icon {
-    font-size: 40px;
-}
+        .card:hover::before {
+            transform: scaleX(1);
+        }
 
-.weather-details {
-    display: flex;
-    flex-direction: column;
-}
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
 
-.weather-temp {
-    font-size: 22px;
-    font-weight: bold;
-}
+        .card-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4ade80;
+            font-size: 1.6rem;
+            transition: all 0.3s ease;
+        }
 
-#weatherDesc {
-    font-size: 16px;
-    color: #444;
-}
+        .card:hover .card-icon {
+            transform: scale(1.1) rotate(-5deg);
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+        }
 
-/* Footer */
-.footer {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 14px;
-    color: #666;
-}
+        .card h2 {
+            font-size: 1.3rem;
+            color: #1a1a1a;
+            font-weight: 700;
+        }
 
+        /* Welcome Section */
+        .welcome-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.08), rgba(34, 197, 94, 0.08));
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(74, 222, 128, 0.1);
+        }
+
+        .info-item:hover {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(34, 197, 94, 0.15));
+            transform: translateX(5px);
+            border-color: #4ade80;
+        }
+
+        .info-item i {
+            color: #4ade80;
+            font-size: 1.2rem;
+            width: 30px;
+        }
+
+        /* Kit Cards */
+        .kit-item {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.08), rgba(34, 197, 94, 0.08));
+            padding: 1.5rem;
+            border-radius: 18px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .kit-item:hover {
+            border-color: #4ade80;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(34, 197, 94, 0.15));
+            transform: scale(1.02);
+        }
+
+        .kit-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.05rem;
+        }
+
+        .kit-name i {
+            color: #4ade80;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Weather Section */
+        .weather {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .weather-icon {
+            font-size: 4rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .weather-details {
+            flex: 1;
+        }
+
+        .weather-temp {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        #weatherDesc {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+        }
+
+        /* Chat Button */
+        #chatToggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(74, 222, 128, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        #chatToggle:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 12px 40px rgba(74, 222, 128, 0.5);
+            animation: none;
+        }
+
+        /* Chat Popup */
+        #chatPopup {
+            position: fixed;
+            bottom: 120px;
+            right: 30px;
+            width: 380px;
+            max-height: 550px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 999;
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #chatPopupHeader {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            padding: 1.3rem 1.5rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #chatPopupHeader button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #chatPopupHeader button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        #chatMessages {
+            padding: 1.5rem;
+            height: 350px;
+            overflow-y: auto;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        #chatMessages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #chatMessages::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            border-radius: 10px;
+        }
+
+        .chat-msg {
+            padding: 1rem 1.2rem;
+            border-radius: 18px;
+            max-width: 80%;
+            animation: messageSlide 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+        }
+
+        .chat-bot {
+            align-self: flex-start;
+            background: white;
+            color: #1a1a1a;
+            border: 1px solid rgba(74, 222, 128, 0.2);
+        }
+
+        #chatForm {
+            display: flex;
+            border-top: 1px solid rgba(74, 222, 128, 0.2);
+            background: white;
+        }
+
+        #chatInput {
+            flex: 1;
+            padding: 1rem 1.2rem;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+            font-family: inherit;
+        }
+
+        #chatSend {
+            padding: 1rem 1.5rem;
+            border: none;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        #chatSend:hover {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        }
+
+        /* No kits message */
+        .no-kits {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #64748b;
+        }
+
+        .no-kits i {
+            font-size: 3rem;
+            color: #4ade80;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            #chatPopup {
+                right: 10px;
+                left: 10px;
+                width: auto;
+            }
+
+            #chatToggle {
+                bottom: 20px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
+            }
+
+            .kit-item {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">
-           <i class="fas fa-warehouse"></i>
-            Grenier Intelligent
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-warehouse"></i>
+                Grenier<span>Smart</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="/tableaudebord"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="/boutiquepage"><i class="fas fa-shopping-cart"></i> Boutique</a></li>
+                    <li><a href="/mescommandes"><i class="fas fa-box"></i> Commandes</a></li>
+                    <li><a href="/monprofil"><i class="fas fa-user"></i> Profil</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav>
-            <ul>
-                <li><a href="/">Accueil</a></li>
-                <li><a href="/tableaudebord">Tableau de Bord</a></li>
-                <li><a href="/boutiquepage">Boutique</a></li>
-                <li><a href="/mescommandes">Mes Commandes</a></li>
-                 <li><a href="/monprofil">Mon profil</a></li>
-            </ul>
-        </nav>
     </header>
+
     <div class="container">
-        <header>
+        <div class="dashboard-header">
             <h1>Dashboard Grenier Connecté</h1>
-            <div class="date-time" id="dateTime">Chargement...</div>
-        </header>
-        
-        <div class="welcome-section">
-            <h2>Bienvenue sur votre tableau de bord, {{ session['prenom'] }}</h2>
-            <p>Voici vos informations :</p>
-            <ul>
-                <li>Prénom : {{ session['prenom'] }}</li>
-                <li>Région : {{ session['region'] }}</li>
-                <li type="hidden" value="{{session['id']}}" id="userid"></li>
-            </ul>
-            
-            {% if session['kits'] %}
-                <div class="kits-section">
-                    <h3>Vos greniers connectés :</h3>
-                    {% for kit in session['kits'] %}
-                    <div id="kits">
-                        <span>{{ kit['nom'] }}</span>
-                        <form action="/infokit" method="POST" style="display: inline;">
-                            <input type="hidden" id="id_kit" name="id_kit" value="{{ kit['id_kit'] }}">
-                            <input type="hidden" name="nomkit" value="{{ kit['nom'] }}">
-                            <input type="submit" value="Voir les détails de ce grenier">
-                        </form>
-                    </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p>Aucun grenier connecté disponible.</p>
-            {% endif %}
+            <div class="date-time">
+                <i class="fas fa-clock"></i>
+                <span id="dateTime">Chargement...</span>
+            </div>
         </div>
-        
-        
-                <div class="card-header" style="margin-top: 20px;">
-                    <h2>Météo Locale - {{ session['region'] }}</h2>
+
+        <div class="grid">
+            <!-- Welcome Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h2>Bienvenue, {{ session['prenom'] }}</h2>
+                </div>
+                <div class="welcome-info">
+                    <div class="info-item">
+                        <i class="fas fa-user"></i>
+                        <span><strong>Prénom:</strong> {{ session['prenom'] }}</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><strong>Région:</strong> {{ session['region'] }}</span>
+                    </div>
+                    <input type="hidden" value="{{session['id']}}" id="userid">
+                </div>
+            </div>
+
+            <!-- Weather Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <h2>Météo - {{ session['region'] }}</h2>
                 </div>
                 <div class="weather">
                     <div class="weather-icon">☀️</div>
@@ -246,177 +683,143 @@ header h1 {
                     </div>
                 </div>
             </div>
- <style>
-  #chatToggle {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    background-color: #2f5d2f;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    z-index: 999;
-  }
+        </div>
 
-  #chatPopup {
-    position: fixed;
-    bottom: 100px;
-    right: 25px;
-    width: 350px;
-    max-height: 500px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    display: none;
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 999;
-  }
+        <!-- Kits Section -->
+        {% if session['kits'] %}
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-warehouse"></i>
+                </div>
+                <h2>Vos Greniers Connectés</h2>
+            </div>
+            {% for kit in session['kits'] %}
+            <div class="kit-item">
+                <div class="kit-name">
+                    <i class="fas fa-box"></i>
+                    <span>{{ kit['nom'] }}</span>
+                </div>
+                <form action="/infokit" method="POST" style="display: inline;">
+                    <input type="hidden" id="id_kit" name="id_kit" value="{{ kit['id_kit'] }}">
+                    <input type="hidden" name="nomkit" value="{{ kit['nom'] }}">
+                    <button type="submit" class="btn">
+                        <i class="fas fa-eye"></i> Voir détails
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-warehouse"></i>
+                </div>
+                <h2>Greniers Connectés</h2>
+            </div>
+            <div class="no-kits">
+                <i class="fas fa-info-circle"></i>
+                <p>Aucun grenier connecté disponible pour le moment.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
 
-  #chatPopupHeader {
-    background-color: #2f5d2f;
-    color: white;
-    padding: 10px;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+    <!-- Chat Widget -->
+    <button id="chatToggle">💬</button>
 
-  #chatPopupHeader button {
-    background: transparent;
-    color: white;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-  }
+    <div id="chatPopup">
+        <div id="chatPopupHeader">
+            <span><i class="fas fa-robot"></i> Agrigrenier Assistant</span>
+            <button onclick="toggleChat()">✖</button>
+        </div>
+        <div id="chatMessages"></div>
+        <form id="chatForm" onsubmit="sendChat(event)">
+            <input type="text" id="chatInput" placeholder="Posez votre question..." required />
+            <button type="submit" id="chatSend">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
 
-  #chatMessages {
-    padding: 10px;
-    height: 300px;
-    overflow-y: auto;
-    background: #f9f9f9;
-    display: flex;
-    flex-direction: column;
-  }
+    <script>
+        // Date and Time
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('dateTime').textContent = now.toLocaleDateString('fr-FR', options);
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 60000);
 
-  .chat-msg {
-    margin: 5px 0;
-    padding: 8px 12px;
-    border-radius: 10px;
-    max-width: 75%;
-  }
+        // Chat functionality
+        const chatToggle = document.getElementById("chatToggle");
+        const chatPopup = document.getElementById("chatPopup");
+        const chatMessages = document.getElementById("chatMessages");
+        const chatInput = document.getElementById("chatInput");
+        const userid = document.getElementById("userid").value;
+        const idkitElement = document.getElementById("id_kit");
+        const idkit = idkitElement ? idkitElement.value : null;
 
-  .chat-user {
-    align-self: flex-end;
-    background-color: #d0f0ff;
-  }
+        function getSessionId() {
+            let sessionId = sessionStorage.getItem("sessionId");
+            if (!sessionId) {
+                sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                sessionStorage.setItem("sessionId", sessionId);
+            }
+            return sessionId;
+        }
 
-  .chat-bot {
-    align-self: flex-start;
-    background-color: #e6ffe6;
-  }
+        const sessionId = getSessionId();
 
-  #chatForm {
-    display: flex;
-    border-top: 1px solid #ddd;
-  }
+        function toggleChat() {
+            chatPopup.style.display = chatPopup.style.display === "flex" ? "none" : "flex";
+        }
 
-  #chatInput {
-    flex: 1;
-    padding: 8px;
-    border: none;
-    font-size: 1rem;
-  }
+        chatToggle.addEventListener("click", toggleChat);
 
-  #chatSend {
-    padding: 8px 12px;
-    border: none;
-    background: #2f5d2f;
-    color: white;
-    cursor: pointer;
-  }
-</style>
+        function appendMessage(text, sender) {
+            const div = document.createElement("div");
+            div.className = `chat-msg ${sender}`;
+            div.textContent = text;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
 
-<button id="chatToggle">💬</button>
+        async function sendChat(event) {
+            event.preventDefault();
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            appendMessage(message, "chat-user");
+            chatInput.value = "";
 
-<div id="chatPopup">
-  <div id="chatPopupHeader">
-    Agrigrenier
-    <button onclick="toggleChat()">✖</button>
-  </div>
-  <div id="chatMessages"></div>
-  <form id="chatForm" onsubmit="sendChat(event)">
-    <input type="text" id="chatInput" placeholder="Écrivez ici..." required />
-    <button type="submit" id="chatSend">Envoyer</button>
-  </form>
-</div>
-
-<script>
-  const chatToggle = document.getElementById("chatToggle");
-  const chatPopup = document.getElementById("chatPopup");
-  const chatMessages = document.getElementById("chatMessages");
-  const chatInput = document.getElementById("chatInput");
-  const userid = document.getElementById("userid").getAttribute("value");
-  const idkit =document.getElementById("id_kit").getAttribute("value");
-  function getSessionId() {
-    let sessionId = localStorage.getItem("sessionId");
-    if (!sessionId) {
-      sessionId = crypto.randomUUID ? crypto.randomUUID() :
-        'xxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-          const r = Math.random() * 16 | 0;
-          const v = c === 'x' ? r : (r & 0x3 | 0x8);
-          return v.toString(16);
-        });
-      localStorage.setItem("sessionId", sessionId);
-    }
-    return sessionId;
-  }
-
-  const sessionId = getSessionId();
-
-  function toggleChat() {
-    chatPopup.style.display = chatPopup.style.display === "flex" ? "none" : "flex";
-  }
-
-  chatToggle.addEventListener("click", toggleChat);
-
-  function appendMessage(text, sender) {
-    const div = document.createElement("div");
-    div.className = `chat-msg ${sender}`;
-    div.textContent = text;
-    chatMessages.appendChild(div);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  async function sendChat(event) {
-    event.preventDefault();
-    const message = chatInput.value.trim();
-    if (!message) return;
-    appendMessage(message, "chat-user");
-    chatInput.value = "";
-
-    try {
-      const res = await fetch("https://diarrad.app.n8n.cloud/webhook/d5f954db-a659-4e82-82e9-05aeb259b62b", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: "Utilisateur", message, sessionId, userid ,idkit})
-      });
-      const response = await res.text();
-      appendMessage(response, "chat-bot");
-    } catch (e) {
-      appendMessage("Erreur de connexion à LIA.", "chat-bot");
-    }
-  }
-</script>
+            try {
+                const res = await fetch("https://diarrad.app.n8n.cloud/webhook/d5f954db-a659-4e82-82e9-05aeb259b62b", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        name: "Utilisateur", 
+                        message, 
+                        sessionId, 
+                        userid,
+                        idkit 
+                    })
+                });
+                const response = await res.text();
+                appendMessage(response, "chat-bot");
+            } catch (e) {
+                appendMessage("Erreur de connexion à l'assistant. Veuillez réessayer.", "chat-bot");
+            }
+        }
+    </script>
 </body>
-
 </html>
-
-
-

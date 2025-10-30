@@ -1,203 +1,557 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Confirmation de commande</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #bfe7b2, #fce57e);
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de Commande - Grenier Intelligent</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .confirmation-card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      padding: 40px;
-      max-width: 700px;
-      width: 95%;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-    .confirmation-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 8px;
-      background: linear-gradient(90deg, #4CAF50, #8BC34A);
-    }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(74, 222, 128, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            animation: gradientShift 15s ease infinite;
+        }
 
-    .confirmation-icon {
-      font-size: 60px;
-      color: #4CAF50;
-      margin-bottom: 20px;
-    }
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
 
-    h1 {
-      color: #2E7D32;
-      margin-bottom: 10px;
-    }
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
 
-    p {
-      color: #555;
-      font-size: 18px;
-      line-height: 1.6;
-    }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 3rem;
+        }
 
-    .home-link {
-      display: inline-block;
-      background: #4CAF50;
-      color: white;
-      text-decoration: none;
-      padding: 12px 30px;
-      border-radius: 50px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      margin-top: 20px;
-    }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
 
-    .home-link:hover {
-      background: #388E3C;
-      transform: translateY(-2px);
-    }
+        .logo:hover {
+            transform: scale(1.05);
+        }
 
-    .invoice {
-      text-align: left;
-      margin-top: 30px;
-      background-color: #f9f9f9;
-      padding: 20px;
-      border-radius: 12px;
-    }
+        .logo i {
+            color: #4ade80;
+            font-size: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
 
-    .invoice h2 {
-      color: #388E3C;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 10px;
-    }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
 
-    .invoice table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
+        .logo span {
+            color: #4ade80;
+        }
 
-    .invoice th, .invoice td {
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
-    }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+        }
 
-    .invoice th {
-      background-color: #4CAF50;
-      color: white;
-      text-align: left;
-    }
+        nav ul li a {
+            color: #64748b;
+            text-decoration: none;
+            padding: 0.7rem 1.3rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    .summary {
-      text-align: right;
-      margin-top: 10px;
-    }
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #4ade80;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
 
-    .summary p {
-      margin: 5px 0;
-      font-weight: bold;
-    }
+        nav ul li a:hover {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+        }
 
-    .info-ligne {
-      margin-bottom: 5px;
-    }
+        nav ul li a:hover::before {
+            width: 60%;
+        }
 
-    .pdf-button {
-      background: #388E3C;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin-top: 15px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            animation: fadeInUp 0.8s ease;
+        }
 
-    .pdf-button:hover {
-      background: #2E7D32;
-    }
-  </style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Confirmation Card */
+        .confirmation-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .confirmation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+        }
+
+        .confirmation-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: white;
+            box-shadow: 0 8px 30px rgba(74, 222, 128, 0.3);
+            animation: scaleIn 0.6s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .confirmation-card h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .confirmation-card > p {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Invoice Section */
+        .invoice {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            text-align: left;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .invoice::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+        }
+
+        .invoice h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .invoice h2 i {
+            color: #4ade80;
+        }
+
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.08), rgba(34, 197, 94, 0.08));
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 2px solid rgba(74, 222, 128, 0.1);
+        }
+
+        .info-item strong {
+            display: block;
+            color: #1a1a1a;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .info-item span {
+            color: #64748b;
+            font-size: 1.05rem;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+        }
+
+        th {
+            color: white;
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(74, 222, 128, 0.1);
+            color: #64748b;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.05), rgba(34, 197, 94, 0.05));
+        }
+
+        .summary {
+            text-align: right;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid rgba(74, 222, 128, 0.2);
+        }
+
+        .summary p {
+            color: #64748b;
+            margin: 0.5rem 0;
+            font-size: 1.05rem;
+        }
+
+        .summary .total {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 1rem;
+        }
+
+        /* Buttons */
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4ade80;
+            border: 2px solid #4ade80;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(74, 222, 128, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .confirmation-card, .invoice {
+                padding: 2rem 1.5rem;
+            }
+
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.7rem;
+            }
+        }
+    </style>
 </head>
 <body>
-   <nav>
-            <ul>
-                <li><a href="/">Accueil</a></li>
-                <li><a href="/tableaudebord">Tableau de Bord</a></li>
-                <li><a href="/boutiquepage">Boutique</a></li>
-                <li><a href="/mescommandes">Mes Commandes</a></li>
-                 <li><a href="/monprofil">Mon profil</a></li>
-            </ul>
-        </nav>
-  <div class="confirmation-card" id="facture">
-    <div class="confirmation-icon">✓</div>
-    <h1>Merci pour votre commande !</h1>
-    <p>Votre kit sera livré bientôt à l'adresse indiquée.</p>
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-warehouse"></i>
+                Grenier<span>Smart</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="/tableaudebord"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="/boutiquepage"><i class="fas fa-shopping-cart"></i> Boutique</a></li>
+                    <li><a href="/mescommandes"><i class="fas fa-box"></i> Commandes</a></li>
+                    <li><a href="/monprofil"><i class="fas fa-user"></i> Profil</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-    <div class="invoice">
-      <h2>Facture</h2>
-      <div class="info-ligne"><strong>Nom du client :</strong> {{nom }}</div>
-      <div class="info-ligne"><strong>Adresse de livraison :</strong> {{ region }}</div>
-      <div class="info-ligne"><strong>Date de commande :</strong> {{ date_commande }}</div>
-      <div class="info-ligne"><strong>Livraison estimée :</strong> {{ date_livraison }}</div>
+    <div class="container">
+        <div class="confirmation-card">
+            <div class="confirmation-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h1>Merci pour votre commande !</h1>
+            <p>Votre kit sera livré bientôt à l'adresse indiquée. Un email de confirmation vous a été envoyé.</p>
+        </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Produit</th>
-            <th>Quantité</th>
-            <th>Prix unitaire</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for produit in produits %}
-          <tr>
-            <td>{{ produit.nom }}</td>
-            <td>{{ produit.qte }}</td>
-            <td>{{ produit.prix }}€</td>
-            <td>{{ produit.qte * produit.prix }}€</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+        <div class="invoice" id="facture">
+            <h2>
+                <i class="fas fa-file-invoice"></i>
+                Détails de votre commande
+            </h2>
 
-      <div class="summary">
-        <p>Sous-total : {{ sous_total }}CFA</p>
-        <p>Frais de livraison : {{ livraison }}CFA</p>
-        <p><strong>Total TTC : {{ total }}CFA</strong></p>
-      </div>       
+            <div class="info-section">
+                <div class="info-item">
+                    <strong><i class="fas fa-user"></i> Nom du client</strong>
+                    <span>{{ nom }}</span>
+                </div>
+                <div class="info-item">
+                    <strong><i class="fas fa-map-marker-alt"></i> Adresse de livraison</strong>
+                    <span>{{ region }}</span>
+                </div>
+                <div class="info-item">
+                    <strong><i class="fas fa-calendar"></i> Date de commande</strong>
+                    <span>{{ date_commande }}</span>
+                </div>
+                <div class="info-item">
+                    <strong><i class="fas fa-truck"></i> Livraison estimée</strong>
+                    <span>{{ date_livraison }}</span>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Quantité</th>
+                            <th>Prix unitaire</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for produit in produits %}
+                        <tr>
+                            <td><strong>{{ produit.nom }}</strong></td>
+                            <td>{{ produit.qte }}</td>
+                            <td>{{ produit.prix }} FCFA</td>
+                            <td><strong>{{ produit.qte * produit.prix }} FCFA</strong></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="summary">
+                <p>Sous-total : <strong>{{ sous_total }} FCFA</strong></p>
+                <p>Frais de livraison : <strong>{{ livraison }} FCFA</strong></p>
+                <p class="total">Total TTC : {{ total }} FCFA</p>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary" onclick="downloadPDF()">
+                <i class="fas fa-download"></i>
+                Télécharger la facture
+            </button>
+            <a href="/tableaudebord" class="btn btn-secondary">
+                <i class="fas fa-chart-line"></i>
+                Tableau de bord
+            </a>
+            <a href="/mescommandes" class="btn btn-secondary">
+                <i class="fas fa-box"></i>
+                Mes commandes
+            </a>
+        </div>
     </div>
 
-    <button class="pdf-button" onclick="downloadPDF()">Télécharger la facture</button><br>
-    <a href="/" class="home-link">Retour à l'accueil</a>
-    <a href="/tableaudebord" class="home-link">Retour au tableau de bord</a>
-    
-       
-    
-       
-  </div>
+    <!-- html2pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        function downloadPDF() {
+            const element = document.getElementById('facture');
+            
+            const opt = {
+                margin: 10,
+                filename: 'facture_commande_{{ date_commande }}.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
 
-  <!-- html2pdf -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script>
-    function downloadPDF() {
-      const element = document.getElementById('facture');
-      html2pdf().from(element).save('facture_commande.pdf');
-    }
-  </script>
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // Animation de confettis (optionnel)
+        setTimeout(() => {
+            const icon = document.querySelector('.confirmation-icon');
+            if (icon) {
+                icon.style.animation = 'pulse 2s ease-in-out infinite';
+            }
+        }, 600);
+    </script>
 </body>
 </html>

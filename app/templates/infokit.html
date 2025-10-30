@@ -3,781 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grenier Intelligent - Surveillance des Cultures</title>
+    <title>Surveillance des Cultures - Grenier Intelligent</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #2e7d32;
-            --primary-light: #60ad5e;
-            --primary-dark: #005005;
-            --secondary: #ff8f00;
-            --danger: #d32f2f;
-            --warning: #ffa000;
-            --success: #388e3c;
-            --gray-light: #f5f5f5;
-            --gray: #9e9e9e;
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background: linear-gradient(45deg, transparent 20%, rgba(255, 215, 0, 0.2) 50%, transparent 80%);
-            color: #333;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
-        
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(74, 222, 128, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Header */
         header {
-            background-color: rgb(42, 112, 19);
-            color: white;
-            padding: 1rem 2rem;
-            box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0 3rem;
         }
-       #infokit {
-    background-color:rgb(198, 221, 197); /* Couleur douce de fond */
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 16px;
-    color: #333;
-    width: fit-content;
-    max-width: 100%;
-    margin: 20px auto;
-    line-height: 1.6;
-    border-left: 6px solid rgb(42, 112, 19); /* Accent visuel */
-}
 
-#infokit::before {
-    content: "📦 Infos du Kit";
-    display: block;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color:vert ;
-}
-  .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color:#ffd700;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
 
-.logo i {
-    color: #ffd700;
-    font-size: 2rem;
-}
+        .logo:hover {
+            transform: scale(1.05);
+        }
 
-.logo span {
-    color: #ffd700;
-}
-        
+        .logo i {
+            color: #4ade80;
+            font-size: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .logo span {
+            color: #4ade80;
+        }
+
         nav ul {
             display: flex;
             list-style: none;
+            gap: 0.5rem;
         }
-         nav ul li {
-            margin-left: 1.5rem;
-        }
-        
+
         nav ul li a {
-            color: white;
+            color: #64748b;
             text-decoration: none;
+            padding: 0.7rem 1.3rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
             font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        nav ul li a:hover {
-            color: var(--secondary-color);
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
-        }
-        
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        
-
-.card.full-width {
-  width: 100%;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 8px;
-  margin-bottom: 15px;
-  font-size: 1.1rem;
-  color: #2f5d2f;
-  font-weight: bold;
-}
-
-/* --- CAPTEURS --- */
-.sensor-readings {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
-.reading {
-  flex: 1;
-  background: #e6f5e6;
-  padding: 15px;
-  border-radius: 8px;
-  text-align: center;
-}
-
-.reading h3 {
-  font-size: 1rem;
-  margin-bottom: 10px;
-  color: #2f5d2f;
-}
-
-.reading .value {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-/* --- CONTRÔLE TEMPÉRATURE --- */
-.temp-control {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-}
-
-.temp-control button {
-  background-color: #2f5d2f;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  font-size: 1.2rem;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.temp-control span {
-  font-size: 1.3rem;
-  font-weight: bold;
-}
-
-/* --- CONTRÔLES --- */
-.controls .control-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-}
-
-/* --- SWITCH (toggle) --- */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 44px;
-  height: 24px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0; left: 0;
-  right: 0; bottom: 0;
-  background-color: #ccc;
-  transition: .4s;
-  border-radius: 24px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 18px; width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
-}
-
-.switch input:checked + .slider {
-  background-color: #4CAF50;
-}
-
-.switch input:checked + .slider:before {
-  transform: translateX(20px);
-}
-
-/* --- MÉTÉO --- */
-.weather {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.weather-icon {
-  font-size: 2rem;
-}
-
-.weather-details {
-  font-size: 1rem;
-}
-
-.weather-temp {
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-/* --- CAMÉRAS --- */
-.camera-feed {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.camera {
-  background: #111;
-  color: white;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.camera img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  display: block;
-}
-
-.camera-label {
-  background: black;
-  padding: 5px 10px;
-  font-size: 0.9rem;
-}
-        .culture-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        
-        .culture-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-        }
-        
-        .culture-header {
-            padding: 1rem;
-            background-color: var(--primary-light);
-            color: white;
+            position: relative;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 0.5rem;
         }
-        
-        .culture-content {
-            padding: 1rem;
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #4ade80;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
         }
-        
-        .parameters {
-            margin: 1rem 0;
+
+        nav ul li a:hover {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
         }
-        
-        .param-row {
+
+        nav ul li a:hover::before {
+            width: 60%;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 3rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Page Title */
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Info Kit Card */
+        .info-kit-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-kit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+        }
+
+        .info-kit-header {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-kit-header i {
+            font-size: 2rem;
+            color: #4ade80;
+        }
+
+        .info-kit-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .info-kit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-item {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.08), rgba(34, 197, 94, 0.08));
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 2px solid rgba(74, 222, 128, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            border-color: #4ade80;
+            transform: translateY(-3px);
+        }
+
+        .info-item strong {
+            display: block;
+            color: #1a1a1a;
+            font-weight: 700;
             margin-bottom: 0.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #eee;
         }
-        
-        .current-value {
-            font-weight: bold;
+
+        .info-item span {
+            color: #64748b;
+            font-size: 1.1rem;
         }
-        
-        .status-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 5px;
-        }
-        
-        .status-normal {
-            background-color: var(--success);
-        }
-        
-        .status-warning {
-            background-color: var(--warning);
-        }
-        
-        .status-alert {
-            background-color: var(--danger);
-        }
-        
-        .notifications {
-            margin-top: 2rem;
-            background: white;
-            border-radius: 8px;
-            padding: 1rem;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .notification-item {
-            padding: 0.8rem;
-            border-left: 4px solid var(--gray);
-            background-color: var(--gray-light);
-            margin-bottom: 0.8rem;
-            border-radius: 0 4px 4px 0;
-        }
-        
-        .notification-alert {
-            border-left-color: var(--danger);
-        }
-        
-        .notification-warning {
-            border-left-color: var(--warning);
-        }
-        
-        .notification-info {
-            border-left-color: var(--primary);
-        }
-        
-        .notification-time {
-            font-size: 0.8rem;
-            color: var(--gray);
-            margin-top: 0.3rem;
-        }
-        
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1rem;
-        }
-        
-        button {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 4px;
-            background-color: var(--primary);
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-        
-        button:hover {
-            background-color: var(--primary-dark);
-        }
-        
-        .btn-danger {
-            background-color: var(--danger);
-        }
-        
-        .btn-danger:hover {
-            background-color: #b71c1c;
-        }
-        
+
+        /* Tabs */
         .tabs {
             display: flex;
-            margin-top: 1.5rem;
-            border-bottom: 1px solid #ddd;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
-        
+
         .tab {
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            background: white;
+            border: 2px solid rgba(74, 222, 128, 0.2);
+            color: #64748b;
             cursor: pointer;
-            border-bottom: 3px solid transparent;
-        }
-        
-        .tab.active {
-            border-bottom-color: var(--primary);
+            transition: all 0.3s ease;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        
+
+        .tab:hover {
+            border-color: #4ade80;
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.05);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 6px 25px rgba(74, 222, 128, 0.3);
+        }
+
         .tab-content {
             display: none;
         }
-        
+
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.3s ease;
         }
-        
-        .charts-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .chart-box {
-            background: white;
-            border-radius: 8px;
-            padding: 1rem;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        body {
-    background: linear-gradient(45deg, transparent 20%, rgba(255, 215, 0, 0.2) 50%, transparent 80%);
-    font-family: 'Segoe UI', sans-serif;
-    color: #2f5d2f;
-}
 
-#settings {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 700px;
-    margin: 30px auto;
-    border-left: 6px solid #2f5d2f;
-}
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-.settings-form h2 {
-    color: #2f5d2f;
-    margin-bottom: 20px;
-    font-size: 22px;
-    border-bottom: 2px solid #2f5d2f;
-    padding-bottom: 10px;
-}
-
-.form-row, .form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: bold;
-    color: #2f5d2f;
-}
-
-select, input[type="number"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 15px;
-    background-color: #f9f9f9;
-}
-
-.actions {
-    text-align: right;
-    margin-top: 20px;
-}
-
-button {
-    background-color: #2f5d2f;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #3e7c3e;
-}
-
-/* Section pour les mises à jour de cultures */
-#settings form[action="/updateculture"] {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 15px;
-    border-radius: 10px;
-    margin: 15px 0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    border-left: 4px solid #2f5d2f;
-}
-
-        
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 0.6rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        .actions {
-            margin-top: 1.5rem;
-            text-align: right;
-        }
-        
-        @media screen and (max-width: 768px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-            
-            .charts-container {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-       <header>
-        <div class="logo">
-            <i class="fas fa-warehouse"></i>
-            Grenier Intelligent
-        </div>
-        <nav>
-            <ul>
-                <li><a href="/">Accueil</a></li>
-                <li><a href="/tableaudebord">Tableau de Bord</a></li>
-                <li><a href="/boutiquepage">Boutique</a></li>
-                <li><a href="/mescommandes">Mes Commandes</a></li>
-                 <li><a href="/monprofil">Mon profil</a></li>
-                 <li> <a href="/deconnexion">Déconnexion</a></li>
-            </ul>
-        </nav>
-    </header>
-        <div class="container">
-           <h1>Système de surveillance des cultures</h1>
-        </div>
-    </header>
-    <div id="infokit">
-        Kit:{{session['nomkit']}} <br>
-        Temperature du grenier:{{temperature}}°C <br>
-        Humidité du grenier:{{humidite}}% <br>
-    </div>
-    <main class="container">
-        <div class="tabs">
-            <div class="tab active" data-tab="dashboard">Tableau de bord</div>
-            <div class="tab" data-tab="charts">Graphiques</div>
-            <div class="tab" data-tab="settings">Paramètres</div>
-             <div class="tab" data-tab="controle">Contrôle </div>
-        </div>
-        {%if culturepresent %}
-        <div class="kit-description">
-            <p style="color: red;">{{culturepresent}}</p>
-        </div>
-        {%elif cultureajoute%}
-        <div class="kit-description">
-            <p style="color: green;">{{cultureajoute}}</p>
-        </div>
-        {%endif%}
-        
-        <div id="dashboard" class="tab-content active">
-            <div class="dashboard" id="cultures-container">
-                <!-- Les cartes des cultures seront injectées ici par JavaScript -->
-            </div>             
-      
-       
-            <div class="notifications">
-                <h2>Notifications récentes</h2>
-                <div id="notifications-container">
-                    <!-- Les notifications seront injectées ici par JavaScript -->
-                </div>
-            </div>
-        </div>
-        
-        <div id="charts" class="tab-content">
-            <div class="charts-container">
-                <div class="chart-box">
-                    <h3>Température par zone (dernières 24h)</h3>
-                    <canvas id="tempChart"></canvas>
-                </div>
-                <div class="chart-box">
-                    <h3>Humidité par zone (dernières 24h)</h3>
-                    <canvas id="humidityChart"></canvas>
-                </div>
-            </div>
-        </div>
-       <!-- Onglet contrôle (à ajouter) -->
-<div id="controle" class="tab-content">
-    <!-- Données Capteurs -->
-  <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Grenier Connecté</title>
-    <style>
-        :root {
-            --primary-green: rgb(42, 112, 19);
-            --primary-yellow: #fce57e;
-            --light-green: rgba(42, 112, 19, 0.2);
-            --dark-green: rgb(32, 87, 14);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            background-color: var(--primary-green);
-            color: white;
-            padding: 20px;
-            border-radius: 10px 10px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        header h1 {
-            font-size: 24px;
-        }
-        
-        .welcome-section {
-            background-color: white;
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .welcome-section p {
-            margin-bottom: 10px;
-        }
-        
-        .welcome-section ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-        
-        .kits-section {
-            margin-top: 15px;
-        }
-        
-        #kits {
-            background-color: var(--light-green);
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .date-time {
-            font-size: 16px;
-        }
-        
+        /* Dashboard Grid */
         .dashboard {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-gap: 20px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
-        
+
+        /* Card */
         .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
         }
-        
-        .full-width {
-            grid-column: 1 / span 2;
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
         }
-        
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(74, 222, 128, 0.15);
+            border-color: #4ade80;
+        }
+
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--light-green);
-            padding-bottom: 10px;
+            margin-bottom: 1.5rem;
         }
-        
+
         .card-header h2 {
-            color: var(--primary-green);
-            font-size: 18px;
-        }
-        
-        .sensor-readings {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1a1a1a;
             display: flex;
-            justify-content: space-around;
-            text-align: center;
-            margin: 20px 0;
+            align-items: center;
+            gap: 0.5rem;
         }
-        
+
+        .card-header i {
+            color: #4ade80;
+        }
+
+        .card-header small {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        /* Sensor Readings */
+        .sensor-readings {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
         .reading {
-            background-color: var(--light-green);
-            border-radius: 10px;
-            padding: 15px;
-            width: 45%;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.08), rgba(34, 197, 94, 0.08));
+            padding: 1.2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid rgba(74, 222, 128, 0.1);
+            transition: all 0.3s ease;
         }
-        
+
+        .reading:hover {
+            border-color: #4ade80;
+            transform: scale(1.05);
+        }
+
         .reading h3 {
-            color: var(--primary-green);
-            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
         }
-        
+
         .reading .value {
-            font-size: 32px;
-            font-weight: bold;
-            color: var(--dark-green);
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
+
+        /* Controls */
         .controls {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 1rem;
         }
-        
+
         .control-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.05), rgba(34, 197, 94, 0.05));
+            border-radius: 12px;
         }
-        
+
+        .control-row label {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        /* Switch */
         .switch {
             position: relative;
             display: inline-block;
-            width: 60px;
-            height: 34px;
+            width: 52px;
+            height: 28px;
         }
-        
+
         .switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
-        
+
         .slider {
             position: absolute;
             cursor: pointer;
@@ -787,494 +425,537 @@ button:hover {
             bottom: 0;
             background-color: #ccc;
             transition: .4s;
-            border-radius: 34px;
+            border-radius: 28px;
         }
-        
+
         .slider:before {
             position: absolute;
             content: "";
-            height: 26px;
-            width: 26px;
+            height: 20px;
+            width: 20px;
             left: 4px;
             bottom: 4px;
             background-color: white;
             transition: .4s;
             border-radius: 50%;
         }
-        
+
         input:checked + .slider {
-            background-color: var(--primary-green);
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
         }
-        
+
         input:checked + .slider:before {
-            transform: translateX(26px);
+            transform: translateX(24px);
         }
-        
+
+        /* Temperature Control */
         .temp-control {
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.08), rgba(34, 197, 94, 0.08));
+            border-radius: 12px;
         }
-        
+
         .temp-control button {
-            width: 40px;
-            height: 40px;
-            border: none;
-            background-color: var(--primary-green);
-            color: white;
-            font-size: 24px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            font-size: 1.5rem;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
         }
-        
+
+        .temp-control button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.4);
+        }
+
         .temp-control span {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            min-width: 70px;
+            text-align: center;
         }
-        
+
+        /* Camera Feed */
         .camera-feed {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
         }
-        
+
         .camera {
             position: relative;
-            height: 150px;
-            background-color: #222;
-            border-radius: 5px;
+            border-radius: 12px;
             overflow: hidden;
+            background: #111;
+            aspect-ratio: 4/3;
         }
-        
+
         .camera img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
+
         .camera-label {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             color: white;
-            padding: 5px;
-            font-size: 12px;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
         }
-        
+
+        /* Notifications */
         .notifications {
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
         }
-        
-        .notification {
-            padding: 10px;
-            margin-bottom: 10px;
-            border-left: 4px solid var(--primary-green);
-            background-color: var(--light-green);
-            border-radius: 0 5px 5px 0;
+
+        .notifications::-webkit-scrollbar {
+            width: 6px;
         }
-        
-        .notification:last-child {
-            margin-bottom: 0;
+
+        .notifications::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            border-radius: 10px;
         }
-        
+
+        .notification-item {
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            border-left: 4px solid #4ade80;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.08), rgba(34, 197, 94, 0.08));
+            border-radius: 0 12px 12px 0;
+            transition: all 0.3s ease;
+        }
+
+        .notification-item:hover {
+            transform: translateX(5px);
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(34, 197, 94, 0.15));
+        }
+
         .notification-time {
-            font-size: 12px;
-            color: #666;
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 0.5rem;
         }
-        
-        .weather {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
+
+        /* Culture Cards */
+        .culture-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        
-        .weather-icon {
-            font-size: 40px;
-            color: var(--primary-yellow);
+
+        .culture-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
         }
-        
-        .weather-details {
-            text-align: center;
+
+        .culture-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(74, 222, 128, 0.15);
+            border-color: #4ade80;
         }
-        
-        .weather-temp {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        
-        .btn {
-            background-color: var(--primary-green);
+
+        .culture-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
             color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 14px;
-        }
-        
-        .btn:hover {
-            background-color: var(--dark-green);
-        }
-        
-        .btn-yellow {
-            background-color: var(--primary-yellow);
-            color: #333;
-        }
-        
-        .btn-yellow:hover {
-            background-color: #e6cd71;
-        }
-        
-        .footer {
-            margin-top: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
-        .footer a {
-            color: var(--primary-green);
-            text-decoration: none;
-            font-weight: bold;
+
+        .culture-header h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
         }
-        
-        .footer a:hover {
-            text-decoration: underline;
+
+        .culture-content {
+            padding: 1.5rem;
         }
-        
-        form {
-            margin: 0;
+
+        .param-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(74, 222, 128, 0.1);
         }
-        
-        input[type="submit"] {
-            background-color: var(--primary-green);
+
+        .param-row:last-child {
+            border-bottom: none;
+        }
+
+        .param-row span:first-child {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .param-row span:last-child {
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        /* Form */
+        .settings-form {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .settings-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+        }
+
+        .settings-form h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .settings-form h2 i {
+            color: #4ade80;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 0.9rem;
+            border: 2px solid rgba(74, 222, 128, 0.2);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #4ade80;
+            box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+            font-family: inherit;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        
-        input[type="submit"]:hover {
-            background-color: var(--dark-green);
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.4);
         }
-        
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .alert-success {
+            background: rgba(74, 222, 128, 0.15);
+            color: #22c55e;
+            border: 2px solid rgba(74, 222, 128, 0.3);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 2px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
             .dashboard {
                 grid-template-columns: 1fr;
             }
-            
-            .full-width {
-                grid-column: auto;
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .sensor-readings {
+                grid-template-columns: 1fr;
+            }
+
+            .camera-feed {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-warehouse"></i>
+                Grenier<span>Smart</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="/tableaudebord"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="/boutiquepage"><i class="fas fa-shopping-cart"></i> Boutique</a></li>
+                    <li><a href="/mescommandes"><i class="fas fa-box"></i> Commandes</a></li>
+                    <li><a href="/monprofil"><i class="fas fa-user"></i> Profil</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
     <div class="container">
-        <header>
-            <h1>Dashboard Grenier Connecté</h1>
-            <div class="date-time" id="dateTime">Chargement...</div>
-        </header>
-        
-        <div class="welcome-section">
-            <h2>Bienvenue sur votre tableau de bord, {{ session['prenom'] }}</h2>
-            <p>Voici vos informations :</p>
-            <ul>
-                <li>Prénom : {{ session['prenom'] }}</li>
-                <li>Région : {{ session['region'] }}</li>
-            </ul>
-            
-           
+        <h1 class="page-title">Surveillance des Cultures</h1>
+
+        <!-- Kit Info -->
+        <div class="info-kit-card">
+            <div class="info-kit-header">
+                <i class="fas fa-box-open"></i>
+                <h3>Informations du Kit</h3>
+            </div>
+            <div class="info-kit-grid">
+                <div class="info-item">
+                    <strong><i class="fas fa-tag"></i> Nom du Kit</strong>
+                    <span>{{session['nomkit']}}</span>
+                </div>
+                <div class="info-item">
+                    <strong><i class="fas fa-thermometer-half"></i> Température</strong>
+                    <span>{{temperature}}°C</span>
+                </div>
+                <div class="info-item">
+                    <strong><i class="fas fa-tint"></i> Humidité</strong>
+                    <span>{{humidite}}%</span>
+                </div>
+            </div>
         </div>
-        
-        <!-- Dashboard affiché dans tous les cas maintenant -->
-        <div class="dashboard">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Données Capteurs</h2>
-                    <span id="lastUpdate">Mis à jour il y a 2 min</span>
-                </div>
-                <div class="sensor-readings">
-                    <div class="reading">
-                        <h3>Température</h3>
-                        <div class="value" id="temperature">24°C</div>
-                    </div>
-                    <div class="reading">
-                        <h3>Humidité</h3>
-                        <div class="value" id="humidity">65%</div>
-                    </div>
-                </div>
-                <div class="card-header">
-                    <h2>Contrôle de Température</h2>
-                </div>
-                <div class="temp-control">
-                    <button id="tempDown">-</button>
-                    <span id="tempTarget">22°C</span>
-                    <button id="tempUp">+</button>
-                </div>
+
+        <!-- Alerts -->
+        {% if culturepresent %}
+        <div class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i> {{culturepresent}}
+        </div>
+        {% elif cultureajoute %}
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> {{cultureajoute}}
+        </div>
+        {% endif %}
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-tab="dashboard">
+                <i class="fas fa-th-large"></i> Tableau de bord
             </div>
-            
-            <div class="card">
-                <div class="card-header">
-                    <h2>Contrôles</h2>
-                </div>
-                <div class="controls">
-                    <div class="control-row">
-                        <div>Ventilateurs</div>
-                        <label class="switch">
-                            <input type="checkbox" id="fanSwitch">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="control-row">
-                        <div>Chauffage</div>
-                        <label class="switch">
-                            <input type="checkbox" id="heatSwitch">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="control-row">
-                        <div>Mode Automatique</div>
-                        <label class="switch">
-                            <input type="checkbox" id="autoSwitch" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="control-row">
-                        <div>Lumières</div>
-                        <label class="switch">
-                            <input type="checkbox" id="lightSwitch">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="card-header" style="margin-top: 20px;">
-                    <h2>Météo Locale - {{ session['region'] }}</h2>
-                </div>
-                <div class="weather">
-                    <div class="weather-icon">☀️</div>
-                    <div class="weather-details">
-                        <div class="weather-temp" id="outdoorTemp">18°C</div>
-                        <div id="weatherDesc">Ensoleillé</div>
-                    </div>
-                </div>
+            <div class="tab" data-tab="controle">
+                <i class="fas fa-sliders-h"></i> Contrôle
             </div>
-            
+            <div class="tab" data-tab="settings">
+                <i class="fas fa-cog"></i> Paramètres
+            </div>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="dashboard" id="cultures-container">
+                <!-- Culture cards will be injected here -->
+            </div>
+
             <div class="card full-width">
                 <div class="card-header">
-                    <h2>Caméras de Surveillance</h2>
-                    <button class="btn" id="refreshCameras">Actualiser</button>
+                    <h2><i class="fas fa-bell"></i> Notifications récentes</h2>
+                    <button class="btn"><i class="fas fa-sync"></i> Actualiser</button>
                 </div>
-                <div class="camera-feed">
-                    <div class="camera">
-                        <img src="/api/placeholder/400/320" alt="placeholder" />
-                        <div class="camera-label">Caméra 1 - Entrée</div>
-                    </div>
-                    <div class="camera">
-                        <img src="/api/placeholder/400/320" alt="placeholder" />
-                        <div class="camera-label">Caméra 2 - Côté Nord</div>
-                    </div>
-                    <div class="camera">
-                        <img src="/api/placeholder/400/320" alt="placeholder" />
-                        <div class="camera-label">Caméra 3 - Côté Sud</div>
-                    </div>
-                    <div class="camera">
-                        <img src="/api/placeholder/400/320" alt="placeholder" />
-                        <div class="camera-label">Caméra 4 - Fenêtre</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card full-width">
-                <div class="card-header">
-                    <h2>Notifications</h2>
-                    <button class="btn btn-yellow" id="clearNotif">Tout effacer</button>
-                </div>
-                <div class="notifications" id="notificationArea">
-                    <div class="notification">
-                        <div>Température élevée détectée (28°C)</div>
-                        <div class="notification-time">Aujourd'hui, 10:45</div>
-                    </div>
-                    <div class="notification">
-                        <div>Les ventilateurs se sont mis en marche automatiquement</div>
-                        <div class="notification-time">Aujourd'hui, 10:46</div>
-                    </div>
-                    <div class="notification">
-                        <div>Mouvement détecté - Caméra 2</div>
-                        <div class="notification-time">Aujourd'hui, 09:32</div>
-                    </div>
-                    <div class="notification">
-                        <div>Taux d'humidité optimal atteint (65%)</div>
-                        <div class="notification-time">Hier, 18:12</div>
-                    </div>
+                <div class="notifications" id="notifications-container">
+                    <!-- Notifications will be injected here -->
                 </div>
             </div>
         </div>
-        
-        <div class="footer">
-            <form action="/commanderkit" method="POST">
-                <input type="hidden" name="userid" value="{{ session['id'] }}">
-                <input type="hidden" name="userprenom" value="{{ session['prenom'] }}">
-                
-            </form>
-           
-        </div>
-    </div>
 
-    <script>
-        // Mise à jour de la date et de l'heure
-        function updateDateTime() {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-            document.getElementById('dateTime').textContent = now.toLocaleDateString('fr-FR', options);
-        }
-        
-        updateDateTime();
-        setInterval(updateDateTime, 60000); // Mise à jour chaque minute
-        
-        // Simuler des changements de données capteurs
-        function simulateSensorData() {
-            // Simuler des variations de température
-            const currentTemp = parseFloat(document.getElementById('temperature').textContent);
-            const tempChange = (Math.random() * 0.6) - 0.3; // Entre -0.3 et +0.3
-            const newTemp = (currentTemp + tempChange).toFixed(1);
-            document.getElementById('temperature').textContent = newTemp + '°C';
-            
-            // Simuler des variations d'humidité
-            const currentHumidity = parseInt(document.getElementById('humidity').textContent);
-            const humidityChange = Math.floor((Math.random() * 3) - 1); // Entre -1 et +1
-            const newHumidity = Math.min(100, Math.max(0, currentHumidity + humidityChange));
-            document.getElementById('humidity').textContent = newHumidity + '%';
-            
-            // Mise à jour de l'heure de dernière mise à jour
-            document.getElementById('lastUpdate').textContent = 'Mis à jour à l\'instant';
-            
-            // Vérifier les conditions pour ajouter des notifications
-            if (parseFloat(newTemp) > 26) {
-                addNotification('Alerte température élevée (' + newTemp + '°C)');
-            }
-            
-            if (newHumidity > 75) {
-                addNotification('Alerte humidité élevée (' + newHumidity + '%)');
-            }
-        }
-        
-        // Simuler les données toutes les 10 secondes
-        setInterval(simulateSensorData, 10000);
-        
-        // Fonction pour ajouter des notifications
-        function addNotification(message) {
-            const notifArea = document.getElementById('notificationArea');
-            const now = new Date();
-            const timeStr = now.getHours().toString().padStart(2, '0') + ':' + 
-                           now.getMinutes().toString().padStart(2, '0');
-            
-            const notif = document.createElement('div');
-            notif.className = 'notification';
-            notif.innerHTML = `
-                <div>${message}</div>
-                <div class="notification-time">Aujourd'hui, ${timeStr}</div>
-            `;
-            
-            notifArea.prepend(notif); // Ajouter au début
-            
-            // Faire défiler vers le haut
-            notifArea.scrollTop = 0;
-            
-            // Simuler une notification du navigateur
-            if (Notification && Notification.permission === 'granted') {
-                new Notification('Grenier Connecté', {
-                    body: message,
-                    icon: 'https://example.com/icon.png'
-                });
-            }
-        }
-        
-        // Gérer les boutons de contrôle de température
-        document.getElementById('tempUp').addEventListener('click', function() {
-            const currentTemp = parseInt(document.getElementById('tempTarget').textContent);
-            document.getElementById('tempTarget').textContent = (currentTemp + 1) + '°C';
-            addNotification('Température cible augmentée à ' + (currentTemp + 1) + '°C');
-        });
-        
-        document.getElementById('tempDown').addEventListener('click', function() {
-            const currentTemp = parseInt(document.getElementById('tempTarget').textContent);
-            document.getElementById('tempTarget').textContent = (currentTemp - 1) + '°C';
-            addNotification('Température cible diminuée à ' + (currentTemp - 1) + '°C');
-        });
-        
-        // Gérer les interrupteurs
-        document.getElementById('fanSwitch').addEventListener('change', function() {
-            if (this.checked) {
-                addNotification('Ventilateurs activés');
-            } else {
-                addNotification('Ventilateurs désactivés');
-            }
-        });
-        
-        document.getElementById('heatSwitch').addEventListener('change', function() {
-            if (this.checked) {
-                addNotification('Chauffage activé');
-            } else {
-                addNotification('Chauffage désactivé');
-            }
-        });
-        
-        document.getElementById('lightSwitch').addEventListener('change', function() {
-            if (this.checked) {
-                addNotification('Lumières allumées');
-            } else {
-                addNotification('Lumières éteintes');
-            }
-        });
-        
-        document.getElementById('autoSwitch').addEventListener('change', function() {
-            if (this.checked) {
-                addNotification('Mode automatique activé');
-            } else {
-                addNotification('Mode automatique désactivé');
-            }
-        });
-        
-        // Gérer le bouton d'actualisation des caméras
-        document.getElementById('refreshCameras').addEventListener('click', function() {
-            addNotification('Flux des caméras actualisés');
-        });
-        
-        // Gérer le bouton d'effacement des notifications
-        document.getElementById('clearNotif').addEventListener('click', function() {
-            const notifArea = document.getElementById('notificationArea');
-            notifArea.innerHTML = '';
-        });
-        
-        // Demander l'autorisation pour les notifications navigateur
-        if (Notification && Notification.permission !== 'granted' && Notification.permission !== 'denied') {
-            Notification.requestPermission();
-        }
-    </script>
-</body>
-</html>
-        </div>
-    </div>
-</div>
+        <!-- Control Tab -->
+        <div id="controle" class="tab-content">
+            <div class="dashboard">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-temperature-high"></i> Données Capteurs</h2>
+                        <small id="lastUpdate">Mis à jour</small>
+                    </div>
+                    <div class="sensor-readings">
+                        <div class="reading">
+                            <h3>Température</h3>
+                            <div class="value" id="temperature">24°C</div>
+                        </div>
+                        <div class="reading">
+                            <h3>Humidité</h3>
+                            <div class="value" id="humidity">65%</div>
+                        </div>
+                    </div>
+                    <div class="card-header">
+                        <h2><i class="fas fa-adjust"></i> Contrôle Température</h2>
+                    </div>
+                    <div class="temp-control">
+                        <button id="tempDown">-</button>
+                        <span id="tempTarget">22°C</span>
+                        <button id="tempUp">+</button>
+                    </div>
+                </div>
 
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-toggle-on"></i> Contrôles</h2>
+                    </div>
+                    <div class="controls">
+                        <div class="control-row">
+                            <label>Ventilateurs</label>
+                            <label class="switch">
+                                <input type="checkbox" id="fanSwitch">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="control-row">
+                            <label>Chauffage</label>
+                            <label class="switch">
+                                <input type="checkbox" id="heatSwitch">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="control-row">
+                            <label>Mode Automatique</label>
+                            <label class="switch">
+                                <input type="checkbox" id="autoSwitch" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="control-row">
+                            <label>Lumières</label>
+                            <label class="switch">
+                                <input type="checkbox" id="lightSwitch">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card full-width">
+                    <div class="card-header">
+                        <h2><i class="fas fa-video"></i> Caméras de Surveillance</h2>
+                        <button class="btn" id="refreshCameras"><i class="fas fa-sync"></i> Actualiser</button>
+                    </div>
+                    <div class="camera-feed">
+                        <div class="camera">
+                            <img src="/api/placeholder/400/300" alt="Caméra 1">
+                            <div class="camera-label">Caméra 1 - Entrée</div>
+                        </div>
+                        <div class="camera">
+                            <img src="/api/placeholder/400/300" alt="Caméra 2">
+                            <div class="camera-label">Caméra 2 - Côté Nord</div>
+                        </div>
+                        <div class="camera">
+                            <img src="/api/placeholder/400/300" alt="Caméra 3">
+                            <div class="camera-label">Caméra 3 - Côté Sud</div>
+                        </div>
+                        <div class="camera">
+                            <img src="/api/placeholder/400/300" alt="Caméra 4">
+                            <div class="camera-label">Caméra 4 - Fenêtre</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
         <div id="settings" class="tab-content">
             <div class="settings-form">
-                <h2>Configuration des cultures</h2>
+                <h2><i class="fas fa-plus-circle"></i> Ajouter une Culture</h2>
                 <form id="cultures-form" action="/ajouterculture" method="post">
-                    <div id="cultures-settings">
-                        <!-- Les paramètres des cultures seront injectés ici par JavaScript -->
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="produit">Choisissez un produit :</label>
-                            <select id="new-culture" name="culture">
+                    <div class="form-group">
+                        <label for="new-culture"><i class="fas fa-seedling"></i> Choisissez un produit</label>
+                        <select id="new-culture" name="culture" required>
+                            <option value="">-- Sélectionnez --</option>
                             <option value="Mil">Mil</option>
                             <option value="Maïs">Maïs</option>
                             <option value="Riz(brut)">Riz (brut)</option>
@@ -1290,198 +971,53 @@ button:hover {
                             <option value="Banane plantain">Banane plantain</option>
                             <option value="Piment (frais)">Piment (frais)</option>
                             <option value="Poivron (frais)">Poivron (frais)</option>
-                            </select><br>
-                        </div><br>
-                       <br> <label for="quantite">Quantité</label> 
-                        <input type="number" name="quantite" placeholder="Quantité (kg)" required>
-                    <div class="actions">
-                        <button type="submit">Ajouter la culture</button>
+                        </select>
                     </div>
+                    <div class="form-group">
+                        <label for="quantite"><i class="fas fa-weight"></i> Quantité (kg)</label>
+                        <input type="number" name="quantite" id="quantite" placeholder="Ex: 100" required min="1">
+                    </div>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-plus"></i> Ajouter la culture
+                    </button>
                 </form>
             </div>
+
+            {% if contenunorme %}
+            <div class="settings-form">
+                <h2><i class="fas fa-edit"></i> Mettre à jour mes cultures</h2>
+                {% for culture in contenunorme %}
+                <form action="/updateculture" method="post" style="margin-bottom: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(74, 222, 128, 0.05), rgba(34, 197, 94, 0.05)); border-radius: 12px; border: 2px solid rgba(74, 222, 128, 0.1);">
+                    <h3 style="color: #1a1a1a; margin-bottom: 1rem; font-size: 1.2rem;">
+                        <i class="fas fa-leaf"></i> {{culture.nom}}
+                    </h3>
+                    <div style="display: grid; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Quantité actuelle</label>
+                            <input type="text" value="{{culture.quantité}} kg" disabled style="background: rgba(0,0,0,0.05);">
+                        </div>
+                        <div class="form-group">
+                            <label for="newquantite">Nouvelle quantité (kg)</label>
+                            <input type="number" name="newquantite" placeholder="Nouvelle quantité" required min="0">
+                        </div>
+                        <input type="hidden" name="nom" value="{{culture.nom}}">
+                        <button type="submit" class="btn">
+                            <i class="fas fa-save"></i> Mettre à jour {{culture.nom}}
+                        </button>
+                    </div>
+                </form>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
-        <div> Mettre à jour mes cultures</div><br>
-        {% for culture in contenunorme %}
-        <form action="/updateculture" method="post">{{culture.nom}}
-            <label for="quantite"> Quantité:{{culture.quantité}}</label><br>
-            <label for="newquantite">Nouvelle quantité</label>
-            <input type="hidden" name="nom" value="{{culture.nom}}">
-            <input type="number" name="newquantite" placeholder="Nouvelle quantité Quantité (kg)" required>
-            <button type="submit">Mettre à jour {{culture.nom}}</button>
-        </form>
-        {% endfor %}
-    </main>
+    </div>
+
     <script>
-        // Définition des cultures et leurs paramètres optimaux
-
+        // Data from backend
         const CULTURES = JSON.parse({{contenu|tojson}});
+        const notifications = JSON.parse({{alertes|tojson}});
 
-        // Notifications
-        let notifications = JSON.parse({{alertes|tojson}});
-
-        // Données simulées pour les graphiques
-        const generateHistoricalData = () => {
-            const now = new Date();
-            const data = {
-                labels: [],
-                temperatures: {},
-                humidity: {}
-            };
-            
-            // Initialiser les données pour chaque zone
-            ZONES.forEach(zone => {
-                if (zone.active) {
-                    data.temperatures[zone.nom] = [];
-                    data.humidity[zone.nom] = [];
-                }
-            });
-        
-            return data;
-        };
-
-
-        // Fonction pour évaluer si une valeur est dans la plage optimale
-        const evaluateStatus = (value, min, max) => {
-            if (value < min * 0.9 || value > max * 1.1) return "alert";
-            if (value < min || value > max) return "warning";
-            return "normal";
-        };
-
-        // Fonction pour formater la date/heure
-        const formatDateTime = (dateString) => {
-            const date = new Date(dateString);
-            const options = { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' };
-            return date.toLocaleDateString('fr-FR', options);
-        };
-
-        // Fonctions d'affichage des informations
-        const renderCultureCards = () => {
-            const container = document.getElementById('cultures-container');
-            container.innerHTML = '';
-            
-            CULTURES.forEach(culture => {
-
-                const cultureName = culture.nom
-                const culturetempmin=culture.temperaturemin
-                const culturetempmax=culture.temperaturemax 
-                const culturehumiditemin=culture.humiditemin
-                const culturehumiditemax=culture.humiditemax
-                const culturequantite=culture.quantité
-                // Déterminer le statut des valeurs actuelles
-                let tempStatus = "normal";
-                let humStatus = "normal";     
-                const card = document.createElement('div');
-                card.className = 'culture-card';
-                card.innerHTML = `
-                    <div class="culture-header">
-                        <h2>${cultureName}</h2>
-                    </div>
-                    <div class="culture-content">
-                        <div class="parameters">
-                           
-                            <div class="param-row">
-                                <span>Température Optimale:</span>
-                                <span>${culturetempmin}°C - ${culturetempmax}°C</span>
-                            </div>
-                            <div class="param-row">
-                                <span>Humidité Optimale:</span>
-                                <span>${culturehumiditemin}% - ${culturehumiditemax}%</span>
-                            </div>
-                            <div class="param-row">
-                                <span>Quantité:</span>
-                                <span>${culturequantite} kg</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                container.appendChild(card);
-            });
-            
-            // Ajouter les écouteurs d'événements
-            document.querySelectorAll('.refresh-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const zoneId = parseInt(this.getAttribute('data-zone-id'));
-                    refreshZoneData(zoneId);
-                });
-            });
-            
-            document.querySelectorAll('.delete-zone-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const zoneId = parseInt(this.getAttribute('data-zone-id'));
-                    deleteZone(zoneId);
-                });
-            });
-        };
-
-        const renderNotifications = () => {
-            const container = document.getElementById('notifications-container');
-            container.innerHTML = '';
-            
-            if (notifications.length === 0) {
-                container.innerHTML = '<p>Aucune notification récente</p>';
-                return;
-            }
-            
-            
-            notifications.forEach(notif => {
-                const item = document.createElement('div');
-                item.className = `notification-item notification-`;
-                item.innerHTML = `
-                    <div class="notification-content">${notif.enonce}</div>
-                    <div class="notification-time">${formatDateTime(notif.date_alerte)}</div>
-                `;
-                container.appendChild(item);
-            });
-        };
-
-        const renderCulturesSettings = () => {
-            const container = document.getElementById('cultures-settings');
-            container.innerHTML = '';
-            
-            ZONES.forEach((zone, index) => {
-                if (!zone.active) return;
-                
-                const culture = CULTURES[zone.culture] || {
-                    temp_min: 0,
-                    temp_max: 10,
-                    humidite_min: 60,
-                    humidite_max: 90,
-                    nom_affichage: "Personnalisée"
-                };
-                
-                const settingGroup = document.createElement('div');
-                settingGroup.className = 'settings-group';
-                settingGroup.innerHTML = `
-                    <h3>${zone.nom} - ${culture.nom_affichage}</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="temp-min-${zone.id}">Température minimale (°C):</label>
-                            <input type="number" step="0.1" id="temp-min-${zone.id}" value="${culture.temp_min}" data-zone-id="${zone.id}" data-param="temp_min">
-                        </div>
-                        <div class="form-group">
-                            <label for="temp-max-${zone.id}">Température maximale (°C):</label>
-                            <input type="number" step="0.1" id="temp-max-${zone.id}" value="${culture.temp_max}" data-zone-id="${zone.id}" data-param="temp_max">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="hum-min-${zone.id}">Humidité minimale (%):</label>
-                            <input type="number" step="1" id="hum-min-${zone.id}" value="${culture.humidite_min}" data-zone-id="${zone.id}" data-param="humidite_min">
-                        </div>
-                        <div class="form-group">
-                            <label for="hum-max-${zone.id}">Humidité maximale (%):</label>
-                            <input type="number" step="1" id="hum-max-${zone.id}" value="${culture.humidite_max}" data-zone-id="${zone.id}" data-param="humidite_max">
-                        </div>
-                    </div>
-                    ${index < ZONES.filter(z => z.active).length - 1 ? '<hr style="margin: 1.5rem 0;">' : ''}
-                `;
-                
-                container.appendChild(settingGroup);
-            });
-        };
-
-        // Gestion des onglets
+        // Tab management
         const setupTabs = () => {
             const tabs = document.querySelectorAll('.tab');
             const tabContents = document.querySelectorAll('.tab-content');
@@ -1490,86 +1026,139 @@ button:hover {
                 tab.addEventListener('click', () => {
                     const targetId = tab.getAttribute('data-tab');
                     
-                    // Réinitialiser tous les onglets et contenus
                     tabs.forEach(t => t.classList.remove('active'));
                     tabContents.forEach(c => c.classList.remove('active'));
                     
-                    // Activer l'onglet et le contenu sélectionnés
                     tab.classList.add('active');
                     document.getElementById(targetId).classList.add('active');
-                    
-                    // Si l'onglet est "charts", initialiser les graphiques
-                    if (targetId === 'charts') {
-                        initCharts();
-                    }
                 });
             });
         };
 
-        // Initialisation de l'application
-        document.addEventListener('DOMContentLoaded', function() {
-            // Gestion des onglets
-            setupTabs();
+        // Format date
+        const formatDateTime = (dateString) => {
+            const date = new Date(dateString);
+            const options = { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' };
+            return date.toLocaleDateString('fr-FR', options);
+        };
+
+        // Render culture cards
+        const renderCultureCards = () => {
+            const container = document.getElementById('cultures-container');
+            container.innerHTML = '';
             
-            // Affichage initial des données
-            renderCultureCards();
-            renderNotifications();
-            renderCulturesSettings();
-            
-            // Initialisation des graphiques (importation de Chart.js)
-            const chartScript = document.createElement('script');
-            chartScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js';
-            chartScript.onload = function() {
-                initCharts();
-            };
-            document.body.appendChild(chartScript);
-            
-            // Écouteurs d'événements pour les boutons d'ajout
-            document.getElementById('add-culture-btn').addEventListener('click', addZone);
-            
-            // Écouteurs d'événements pour les formulaires
-            document.getElementById('cultures-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Récupérer les nouvelles valeurs des paramètres
-                const inputs = document.querySelectorAll('#cultures-settings input[type="number"]');
-                inputs.forEach(input => {
-                    const zoneId = parseInt(input.getAttribute('data-zone-id'));
-                    const param = input.getAttribute('data-param');
-                    const value = parseFloat(input.value);
-                    
-                    const zoneIndex = ZONES.findIndex(z => z.id === zoneId);
-                    if (zoneIndex !== -1) {
-                        const culture = ZONES[zoneIndex].culture;
-                        if (!CULTURES[culture]) {
-                            CULTURES[culture] = {
-                                nom_affichage: "Personnalisée"
-                            };
-                        }
-                        CULTURES[culture][param] = value;
-                    }
-                });
-                
-                alert("Paramètres des cultures enregistrés avec succès");
-                renderCultureCards();
-            });
-            
-            document.getElementById('notifications-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Simuler l'enregistrement des paramètres de notification
-                alert("Paramètres de notification enregistrés avec succès");
-            });
-            
-            // Demander la permission pour les notifications du navigateur
-            if ('Notification' in window) {
-                if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
-                    Notification.requestPermission();
-                }
+            if (CULTURES.length === 0) {
+                container.innerHTML = `
+                    <div class="card full-width">
+                        <div style="text-align: center; padding: 2rem; color: #64748b;">
+                            <i class="fas fa-seedling" style="font-size: 3rem; margin-bottom: 1rem; color: #4ade80; opacity: 0.5;"></i>
+                            <p>Aucune culture enregistrée. Ajoutez-en une dans l'onglet Paramètres.</p>
+                        </div>
+                    </div>
+                `;
+                return;
             }
             
-            // Démarrer l'actualisation automatique
-            startAutoRefresh();
+            CULTURES.forEach(culture => {
+                const card = document.createElement('div');
+                card.className = 'culture-card';
+                card.innerHTML = `
+                    <div class="culture-header">
+                        <h2><i class="fas fa-leaf"></i> ${culture.nom}</h2>
+                    </div>
+                    <div class="culture-content">
+                        <div class="parameters">
+                            <div class="param-row">
+                                <span><i class="fas fa-thermometer-half"></i> Température Optimale</span>
+                                <span>${culture.temperaturemin}°C - ${culture.temperaturemax}°C</span>
+                            </div>
+                            <div class="param-row">
+                                <span><i class="fas fa-tint"></i> Humidité Optimale</span>
+                                <span>${culture.humiditemin}% - ${culture.humiditemax}%</span>
+                            </div>
+                            <div class="param-row">
+                                <span><i class="fas fa-weight"></i> Quantité</span>
+                                <span>${culture.quantité} kg</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        };
+
+        // Render notifications
+        const renderNotifications = () => {
+            const container = document.getElementById('notifications-container');
+            container.innerHTML = '';
+            
+            if (notifications.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #64748b; padding: 2rem;">Aucune notification récente</p>';
+                return;
+            }
+            
+            notifications.forEach(notif => {
+                const item = document.createElement('div');
+                item.className = 'notification-item';
+                item.innerHTML = `
+                    <div><i class="fas fa-info-circle"></i> ${notif.enonce}</div>
+                    <div class="notification-time"><i class="fas fa-clock"></i> ${formatDateTime(notif.date_alerte)}</div>
+                `;
+                container.appendChild(item);
+            });
+        };
+
+        // Temperature control
+        document.getElementById('tempUp')?.addEventListener('click', function() {
+            const currentTemp = parseInt(document.getElementById('tempTarget').textContent);
+            document.getElementById('tempTarget').textContent = (currentTemp + 1) + '°C';
+        });
+        
+        document.getElementById('tempDown')?.addEventListener('click', function() {
+            const currentTemp = parseInt(document.getElementById('tempTarget').textContent);
+            document.getElementById('tempTarget').textContent = (currentTemp - 1) + '°C';
+        });
+
+        // Switch controls
+        const switches = ['fanSwitch', 'heatSwitch', 'lightSwitch', 'autoSwitch'];
+        switches.forEach(switchId => {
+            const element = document.getElementById(switchId);
+            if (element) {
+                element.addEventListener('change', function() {
+                    console.log(`${switchId}: ${this.checked ? 'ON' : 'OFF'}`);
+                });
+            }
+        });
+
+        // Refresh cameras
+        document.getElementById('refreshCameras')?.addEventListener('click', function() {
+            console.log('Caméras actualisées');
+        });
+
+        // Update date/time
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            const lastUpdate = document.getElementById('lastUpdate');
+            if (lastUpdate) {
+                lastUpdate.textContent = 'Mis à jour il y a quelques secondes';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupTabs();
+            renderCultureCards();
+            renderNotifications();
+            updateDateTime();
+            setInterval(updateDateTime, 60000);
         });
     </script>
 </body>

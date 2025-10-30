@@ -3,326 +3,652 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes Alertes - Grenier Intelligent</title>
+    <title>Commande de Kit - Grenier Intelligent</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: rgb(42, 112, 19);
-            --secondary-color: #fce57e;
-            --background-color: linear-gradient(45deg, transparent 20%, rgba(255, 215, 0, 0.2) 50%, transparent 80%);
-            --text-color: #333;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background: linear-gradient(45deg, transparent 20%, rgba(255, 215, 0, 0.2) 50%, transparent 80%);
-            color: var(--text-color);
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
-        
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(74, 222, 128, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Header */
         header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem 2rem;
-            box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0 3rem;
         }
-        
+
         .logo {
             font-size: 1.8rem;
-            font-weight: bold;
-            color: #ffd700;
+            font-weight: 800;
+            color: #1a1a1a;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.7rem;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
         }
 
         .logo i {
-            color: #ffd700;
+            color: #4ade80;
             font-size: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         .logo span {
-            color: #ffd700;
+            color: #4ade80;
         }
-        
+
         nav ul {
             display: flex;
             list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 1.5rem;
-        }
-        
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        nav ul li a:hover {
-            color: var(--secondary-color);
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        
-        .page-title {
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            text-align: center;
-            font-size: 2rem;
-        }
-        
-        .welcome-message {
-            text-align: center;
-            font-size: 1.1rem;
-            color: var(--text-color);
-            margin-bottom: 2rem;
-        }
-        
-        .alerts-section {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .alerts-header {
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
             gap: 0.5rem;
-        }
-        
-        .alerts-header i {
-            font-size: 1.8rem;
-        }
-        
-        .alerts-list {
-            list-style: none;
-        }
-        
-        .alert-item {
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-left: 4px solid var(--primary-color);
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .alert-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .alert-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .alert-header {
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .alert-date {
-            font-size: 0.9rem;
-            color: #666;
-        }
-        
-        .alert-kit {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-        
-        .alert-message {
-            color: #555;
-            line-height: 1.5;
-            margin-top: 0.5rem;
-        }
-        
-        .no-alerts {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: #666;
-        }
-        
-        .no-alerts i {
-            font-size: 4rem;
-            color: #ccc;
-            margin-bottom: 1rem;
-        }
-        
-        .no-alerts p {
-            font-size: 1.1rem;
-        }
-        
-        .back-button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            display: block;
-            margin: 0 auto;
-        }
-        
-        .back-button:hover {
-            background-color: #1e5b0c;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                padding: 1rem;
+        nav ul li a {
+            color: #64748b;
+            text-decoration: none;
+            padding: 0.7rem 1.3rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #4ade80;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        nav ul li a:hover::before {
+            width: 60%;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
-            
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Welcome Card */
+        .welcome-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+        }
+
+        .welcome-card h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: #1a1a1a;
+        }
+
+        .welcome-card h1 i {
+            color: #4ade80;
+            animation: wave 2s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(20deg); }
+            75% { transform: rotate(-20deg); }
+        }
+
+        .welcome-card h1 .user-name {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-card p {
+            color: #64748b;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        /* Kit Description */
+        .kit-description {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kit-description::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+        }
+
+        .kit-description h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: #1a1a1a;
+        }
+
+        .kit-description h2 i {
+            color: #4ade80;
+            font-size: 2rem;
+        }
+
+        .kit-description > p {
+            color: #64748b;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .kit-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.08), rgba(34, 197, 94, 0.08));
+            border-radius: 16px;
+            border: 2px solid rgba(74, 222, 128, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            border-color: #4ade80;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(34, 197, 94, 0.15));
+            box-shadow: 0 10px 30px rgba(74, 222, 128, 0.2);
+        }
+
+        .feature-item i {
+            color: #4ade80;
+            font-size: 2rem;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-text strong {
+            color: #1a1a1a;
+            display: block;
+            margin-bottom: 0.3rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .feature-text span {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        /* Kit Form */
+        .kit-form {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kit-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+        }
+
+        .kit-form h3 {
+            color: #1a1a1a;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .kit-form p {
+            color: #64748b;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .kit-form button {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            font-size: 1.15rem;
+            font-weight: 700;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 8px 25px rgba(74, 222, 128, 0.3);
+            font-family: inherit;
+        }
+
+        .kit-form button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(74, 222, 128, 0.4);
+        }
+
+        .kit-form button:active {
+            transform: translateY(-1px);
+        }
+
+        .kit-form button i {
+            font-size: 1.3rem;
+        }
+
+        /* Price Tag */
+        .price-info {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(34, 197, 94, 0.1));
+            border: 2px solid rgba(74, 222, 128, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .price-label {
+            color: #64748b;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .price-value {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Benefits Section */
+        .benefits-section {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(74, 222, 128, 0.1);
+        }
+
+        .benefits-section h3 {
+            color: #1a1a1a;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .benefits-section h3 i {
+            color: #4ade80;
+        }
+
+        .benefits-list {
+            list-style: none;
+        }
+
+        .benefit-item {
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.05), rgba(34, 197, 94, 0.05));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(34, 197, 94, 0.1));
+            transform: translateX(5px);
+        }
+
+        .benefit-item i {
+            color: #4ade80;
+            font-size: 1.2rem;
+            min-width: 24px;
+        }
+
+        .benefit-item span {
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
             nav ul {
-                margin-top: 1rem;
                 flex-wrap: wrap;
                 justify-content: center;
             }
-            
-            nav ul li {
-                margin: 0.5rem;
+
+            .container {
+                padding: 0 1rem;
             }
-            
-            .page-title {
-                font-size: 1.5rem;
+
+            .welcome-card h1 {
+                font-size: 1.8rem;
+                flex-direction: column;
+                text-align: center;
             }
-            
-            .alerts-section {
-                padding: 1.5rem;
+
+            .kit-features {
+                grid-template-columns: 1fr;
+            }
+
+            .kit-form button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .price-info {
+                flex-direction: column;
+                text-align: center;
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <header>
-        <div class="logo">
-            <i class="fas fa-warehouse"></i>
-            Grenier Intelligent
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-warehouse"></i>
+                Grenier<span>Smart</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="/tableaudebord"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="/boutiquepage"><i class="fas fa-shopping-cart"></i> Boutique</a></li>
+                    <li><a href="/mescommandes"><i class="fas fa-box"></i> Commandes</a></li>
+                    <li><a href="/monprofil"><i class="fas fa-user"></i> Profil</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav>
-            <ul>
-                <li><a href="/">Accueil</a></li>
-                <li><a href="/tableaudebord">Tableau de Bord</a></li>
-                <li><a href="/boutiquepage">Boutique</a></li>
-                <li><a href="/mescommandes">Mes Commandes</a></li>
-                <li><a href="/monprofil">Mon profil</a></li>
-                <li><a href="/deconnexion">Déconnexion</a></li>
-            </ul>
-        </nav>
     </header>
 
     <div class="container">
-        <h1 class="page-title">Mes Alertes</h1>
-        
-        <p class="welcome-message">Bienvenue sur la page de vos alertes, <span id="user-name">Utilisateur</span></p>
-        
-        <div class="alerts-section">
-            <h2 class="alerts-header">
-                <i class="fas fa-bell"></i>
-                Vos alertes
+        <div class="welcome-card">
+            <h1>
+                <i class="fas fa-hand-wave"></i>
+                Bienvenue <span class="user-name" id="user-name">{{ session.get('prenom', 'Utilisateur') }}</span> !
+            </h1>
+            <p>
+                Nous sommes ravis de vous accompagner dans la gestion intelligente de vos greniers. Commandez dès maintenant votre kit Agrigrenier personnalisé et profitez d'une surveillance optimale de vos récoltes.
+            </p>
+        </div>
+
+        <div class="kit-description">
+            <h2>
+                <i class="fas fa-box-open"></i>
+                Kit Agrigrenier Complet
             </h2>
+            <p>
+                Le kit Agrigrenier est une solution tout-en-un conçue pour transformer votre grenier en un espace de stockage intelligent. Grâce à des capteurs de pointe et une interface intuitive, surveillez et contrôlez tous les paramètres essentiels à la conservation optimale de vos récoltes.
+            </p>
             
-            <ul class="alerts-list" id="alerts-container">
-                <!-- Les alertes seront affichées ici par JavaScript -->
+            <div class="kit-features">
+                <div class="feature-item">
+                    <i class="fas fa-thermometer-half"></i>
+                    <div class="feature-text">
+                        <strong>Température</strong>
+                        <span>Surveillance 24/7</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-tint"></i>
+                    <div class="feature-text">
+                        <strong>Humidité</strong>
+                        <span>Contrôle précis</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-bell"></i>
+                    <div class="feature-text">
+                        <strong>Alertes SMS</strong>
+                        <span>Notifications instantanées</span>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-chart-line"></i>
+                    <div class="feature-text">
+                        <strong>Statistiques</strong>
+                        <span>Analyses détaillées</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="benefits-section">
+            <h3>
+                <i class="fas fa-star"></i>
+                Avantages du Kit
+            </h3>
+            <ul class="benefits-list">
+                <li class="benefit-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Installation simple et rapide en moins de 30 minutes</span>
+                </li>
+                <li class="benefit-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Application mobile et web pour un accès partout</span>
+                </li>
+                <li class="benefit-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Alertes personnalisables selon vos besoins</span>
+                </li>
+                <li class="benefit-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Historique complet des données sur 12 mois</span>
+                </li>
+                <li class="benefit-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Support technique dédié et garantie 2 ans</span>
+                </li>
             </ul>
         </div>
-        
-        <form action="/tableaudebord">
-            <input type="submit" value="Retour au tableau de bord" class="back-button">
+
+        <form action="/requestkit" method="post" class="kit-form">
+            <h3>Prêt à commander ?</h3>
+            <p>Transformez votre grenier en espace de stockage intelligent</p>
+            
+            <div class="price-info">
+                <span class="price-label">À partir de</span>
+                <span class="price-value">55 000 FCFA</span>
+            </div>
+
+            <input type="hidden" name="userprenom" id="form-prenom" value="{{ session.get('prenom', '') }}">
+            <input type="hidden" name="userid" id="form-userid" value="{{ session.get('id', '') }}">
+            
+            <button type="submit">
+                <i class="fas fa-shopping-cart"></i>
+                Commander mon Kit Maintenant
+            </button>
         </form>
     </div>
 
     <script>
-        // Simulation de données pour la démo (à remplacer par vos vraies données backend)
+        // Récupération des données de session depuis Flask
         const sessionData = {
-            prenom: "Amadou"
+            prenom: "{{ session.get('prenom', 'Utilisateur') }}",
+            id: "{{ session.get('id', '') }}"
         };
 
-        // Exemple d'alertes (à remplacer par vos vraies données)
-        const alertes = [
-            {
-                date_alerte: "29/10/2024 14:30",
-                nom_kit: "Kit Capteur Température A1",
-                enonce: "La température dans le grenier a dépassé le seuil de 35°C. Veuillez vérifier la ventilation."
-            },
-            {
-                date_alerte: "28/10/2024 09:15",
-                nom_kit: "Kit Humidité B2",
-                enonce: "Niveau d'humidité élevé détecté (85%). Risque de moisissure."
-            },
-            {
-                date_alerte: "27/10/2024 18:45",
-                nom_kit: "Kit Sécurité C3",
-                enonce: "Mouvement détecté dans le grenier à 18h45."
-            }
-        ];
-
         // Afficher le prénom de l'utilisateur
-        document.getElementById('user-name').textContent = sessionData.prenom;
-
-        // Afficher les alertes
-        const alertsContainer = document.getElementById('alerts-container');
-        
-        if (alertes.length > 0) {
-            alertes.forEach(alerte => {
-                const alertItem = document.createElement('li');
-                alertItem.className = 'alert-item';
-                alertItem.innerHTML = `
-                    <div class="alert-header">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <span class="alert-date">${alerte.date_alerte}</span>
-                        <span>-</span>
-                        <span class="alert-kit">${alerte.nom_kit}</span>
-                    </div>
-                    <div class="alert-message">
-                        ${alerte.enonce}
-                    </div>
-                `;
-                alertsContainer.appendChild(alertItem);
-            });
-        } else {
-            alertsContainer.innerHTML = `
-                <div class="no-alerts">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Aucune alerte disponible.</p>
-                    <p style="color: #999; font-size: 0.9rem; margin-top: 0.5rem;">Votre grenier fonctionne normalement.</p>
-                </div>
-            `;
+        if (sessionData.prenom) {
+            document.getElementById('user-name').textContent = sessionData.prenom;
         }
+        
+        // Remplir les champs cachés du formulaire
+        document.getElementById('form-prenom').value = sessionData.prenom;
+        document.getElementById('form-userid').value = sessionData.id;
 
-        // Pour tester sans alertes, décommentez la ligne ci-dessous:
-        // alertes.length = 0; // puis rechargez la page
+        // Animation au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.kit-description, .benefits-section, .kit-form').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
     </script>
 </body>
 </html>

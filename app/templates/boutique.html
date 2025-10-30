@@ -4,302 +4,538 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boutique - Grenier Intelligent</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: rgb(42, 112, 19);
-            --secondary-color: #fce57e;
-            --background-color: linear-gradient(45deg, transparent 20%, rgba(255, 215, 0, 0.2) 50%, transparent 80%);
-            --text-color: #333;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background: linear-gradient(45deg, transparent 20%, rgba(255, 215, 0, 0.2) 50%, transparent 80%);
-            color: var(--text-color);
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
-        
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(74, 222, 128, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Header */
         header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem 2rem;
-            box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0 3rem;
         }
-        
-       .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color:#ffd700;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
 
-.logo i {
-    color: #ffd700;
-    font-size: 2rem;
-}
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
 
-.logo span {
-    color: #ffd700;
-}
-        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo i {
+            color: #4ade80;
+            font-size: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .logo span {
+            color: #4ade80;
+        }
+
         nav ul {
             display: flex;
             list-style: none;
+            gap: 0.5rem;
         }
-        
-        nav ul li {
-            margin-left: 1.5rem;
-        }
-        
+
         nav ul li a {
-            color: white;
+            color: #64748b;
             text-decoration: none;
+            padding: 0.7rem 1.3rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
             font-weight: 500;
-            transition: color 0.3s;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #4ade80;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
         nav ul li a:hover {
-            color: var(--secondary-color);
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
         }
-        
+
+        nav ul li a:hover::before {
+            width: 60%;
+        }
+
+        /* Container */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 2rem auto;
-            padding: 0 1rem;
+            padding: 0 3rem;
+            animation: fadeInUp 0.8s ease;
         }
-        
-        .page-title {
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Page Title */
+        .page-header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
             text-align: center;
-            font-size: 2rem;
+            border: 1px solid rgba(74, 222, 128, 0.1);
         }
-        
+
+        .page-title {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        /* Categories */
         .shop-categories {
             display: flex;
             justify-content: center;
+            gap: 1rem;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
-        
+
         .category-btn {
-            background-color: white;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            padding: 0.5rem 1rem;
-            margin: 0 0.5rem;
-            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.98);
+            border: 2px solid rgba(74, 222, 128, 0.2);
+            color: #64748b;
+            padding: 0.8rem 1.5rem;
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        
-        .category-btn:hover, .category-btn.active {
-            background-color: var(--primary-color);
+
+        .category-btn:hover {
+            background: rgba(74, 222, 128, 0.1);
+            border-color: #4ade80;
+            color: #4ade80;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.15);
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
             color: white;
+            border-color: transparent;
+            box-shadow: 0 6px 25px rgba(74, 222, 128, 0.3);
         }
-        
+
+        /* Products Grid */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 2rem;
+            margin-bottom: 3rem;
         }
-        
+
         .product-card {
-            background-color: white;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
         }
-        
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
         .product-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(74, 222, 128, 0.15);
+            border-color: #4ade80;
         }
-        
+
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+
         .product-image {
-            height: 180px;
-            background-color:white;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.05), rgba(34, 197, 94, 0.05));
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            position: relative;
         }
-        
+
         .product-image img {
-            max-width: 100%;
-            max-height: 160px;
+            max-width: 80%;
+            max-height: 180px;
             object-fit: contain;
+            transition: transform 0.3s ease;
         }
-        
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
         .product-info {
-            padding: 1rem;
+            padding: 1.5rem;
         }
-        
+
         .product-name {
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 1.2rem;
             margin-bottom: 0.5rem;
-            color: var(--primary-color);
+            color: #1a1a1a;
         }
-        
+
         .product-description {
-            font-size: 0.9rem;
-            color: #666;
+            font-size: 0.95rem;
+            color: #64748b;
             margin-bottom: 1rem;
+            line-height: 1.5;
         }
-        
+
         .product-price {
-            font-weight: bold;
-            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 1rem;
         }
-        
+
         .add-to-cart {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
             color: white;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
             width: 100%;
             cursor: pointer;
-            transition: background-color 0.3s;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1rem;
         }
-        
+
         .add-to-cart:hover {
-            background-color: #1e5b0c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.4);
         }
-        
+
+        .add-to-cart:active {
+            transform: translateY(0);
+        }
+
+        /* Cart Section */
         .cart-section {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            padding: 1.5rem;
-            margin-top: 2rem;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            position: sticky;
+            top: 120px;
         }
-        
+
         .cart-title {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-        
-        .cart-items {
             margin-bottom: 1.5rem;
-            max-height: 300px;
-            overflow-y: auto;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(74, 222, 128, 0.1);
         }
-        
+
+        .cart-title h2 {
+            font-size: 1.5rem;
+            color: #1a1a1a;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cart-title h2 i {
+            color: #4ade80;
+        }
+
+        #cart-count {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .cart-items {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-items::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .cart-items::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            border-radius: 10px;
+        }
+
         .cart-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid #eee;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.05), rgba(34, 197, 94, 0.05));
+            border-radius: 12px;
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            transition: all 0.3s ease;
         }
-        
-        .item-info {
+
+        .cart-item:hover {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(34, 197, 94, 0.1));
+            border-color: #4ade80;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .cart-item-price {
+            color: #4ade80;
+            font-weight: 600;
+        }
+
+        .cart-item-quantity {
             display: flex;
             align-items: center;
+            gap: 0.8rem;
         }
-        
-        .item-image {
-            width: 50px;
-            height: 50px;
-            border-radius: 5px;
-            background-color: #f0f0f0;
+
+        .quantity-btn {
+            background: white;
+            border: 2px solid rgba(74, 222, 128, 0.3);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-weight: 700;
+            cursor: pointer;
+            color: #4ade80;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 1rem;
         }
-        
-        .item-image img {
-            max-width: 40px;
-            max-height: 40px;
+
+        .quantity-btn:hover {
+            background: #4ade80;
+            color: white;
+            transform: scale(1.1);
         }
-        
-        .item-details h4 {
-            font-size: 1rem;
-            margin-bottom: 0.2rem;
+
+        .quantity {
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
         }
-        
-        .item-price {
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-        
-        .item-quantity {
+
+        .remove-btn {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 2px solid rgba(239, 68, 68, 0.2);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
-        
-        .quantity-btn {
-            background-color: #eee;
-            border: none;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            font-weight: bold;
-            cursor: pointer;
+
+        .remove-btn:hover {
+            background: #ef4444;
+            color: white;
+            transform: scale(1.1);
         }
-        
-        .quantity-input {
-            width: 40px;
+
+        .empty-cart {
             text-align: center;
-            margin: 0 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            padding: 0.2rem;
+            padding: 3rem 2rem;
+            color: #64748b;
         }
-        
-        .remove-item {
-            color: #f44336;
-            background: none;
-            border: none;
-            cursor: pointer;
+
+        .empty-cart i {
+            font-size: 3rem;
+            color: #4ade80;
+            margin-bottom: 1rem;
+            opacity: 0.5;
         }
-        
+
         .cart-summary {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #eee;
+            padding-top: 1.5rem;
+            border-top: 2px solid rgba(74, 222, 128, 0.1);
         }
-        
+
         .total-price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
+
         .checkout-btn {
-            background-color: var(--secondary-color);
-            color: var(--primary-color);
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
             border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 5px;
-            font-weight: bold;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
         }
-        
-        .checkout-btn:hover {
-            background-color: #e9d16c;
+
+        .checkout-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.4);
         }
-        
+
+        .checkout-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Payment Modal */
         .payment-modal {
             display: none;
             position: fixed;
@@ -308,204 +544,305 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            animation: fadeIn 0.3s ease;
         }
-        
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         .modal-content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 10px;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 24px;
             width: 90%;
             max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
         }
-        
+
         .modal-title {
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            margin-bottom: 2rem;
             text-align: center;
         }
-        
+
         .payment-options {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            gap: 1rem;
         }
-        
+
         .payment-option {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             cursor: pointer;
+            padding: 1.5rem;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(74, 222, 128, 0.1);
         }
-        
+
+        .payment-option:hover {
+            background: rgba(74, 222, 128, 0.05);
+            border-color: #4ade80;
+        }
+
+        .payment-option.selected {
+            background: rgba(74, 222, 128, 0.1);
+            border-color: #4ade80;
+        }
+
         .payment-logo {
             width: 80px;
             height: 80px;
-            border-radius: 10px;
-            background-color: #f0f0f0;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(34, 197, 94, 0.1));
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            transition: all 0.3s ease;
         }
-        
+
         .payment-option.selected .payment-logo {
-            border: 2px solid var(--primary-color);
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
         }
-        
+
         .payment-form {
             margin-top: 1.5rem;
         }
-        
+
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
-        
+
         .form-group label {
             display: block;
-            margin-bottom: 0.3rem;
-            color: #666;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+            font-weight: 600;
         }
-        
+
         .form-group input {
             width: 100%;
-            padding: 0.7rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 1rem;
+            border: 2px solid rgba(74, 222, 128, 0.2);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
-        
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4ade80;
+            box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.1);
+        }
+
         .modal-buttons {
             display: flex;
-            justify-content: space-between;
-            margin-top: 1.5rem;
+            gap: 1rem;
+            margin-top: 2rem;
         }
-        
-        .cancel-btn {
-            background-color: #f5f5f5;
-            color: #666;
-            border: 1px solid #ddd;
-            padding: 0.7rem 1.5rem;
-            border-radius: 5px;
+
+        .cancel-btn, .pay-btn {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
             cursor: pointer;
-        }
-        
-        .pay-btn {
-            background-color: var(--primary-color);
-            color: white;
+            transition: all 0.3s ease;
             border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
+            font-size: 1rem;
         }
-        
+
+        .cancel-btn {
+            background: rgba(0, 0, 0, 0.05);
+            color: #64748b;
+        }
+
+        .cancel-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .pay-btn {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+        }
+
+        .pay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.4);
+        }
+
         .order-success {
-            display: none;
             text-align: center;
             padding: 2rem;
         }
-        
+
         .success-icon {
-            color: var(--primary-color);
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-        
-        .back-to-shop {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 5px;
-            margin-top: 1rem;
-            cursor: pointer;
-        }
-        
-        .empty-cart {
-            text-align: center;
-            color: #666;
-            padding: 2rem 0;
+            color: #4ade80;
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: scaleIn 0.5s ease;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                padding: 1rem;
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
             }
-            
-            nav ul {
-                margin-top: 1rem;
+            to {
+                transform: scale(1);
+                opacity: 1;
             }
-            
-            nav ul li {
-                margin-left: 1rem;
-                margin-right: 1rem;
-            }
-            
-            .shop-categories {
-                flex-wrap: wrap;
-            }
-            
-            .category-btn {
-                margin-bottom: 0.5rem;
-            }
-            
-            .modal-content {
-                width: 95%;
-                padding: 1.5rem;
-            }
+        }
+
+        .order-success h2 {
+            font-size: 2rem;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        .order-success p {
+            color: #64748b;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .back-to-shop {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+            font-size: 1rem;
+        }
+
+        .back-to-shop:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.4);
         }
 
         .hidden {
             display: none;
         }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .cart-section {
+                position: static;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .payment-options {
+                flex-direction: column;
+            }
+        }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <header>
-        <div class="logo">
-            <i class="fas fa-warehouse"></i>
-            Grenier Intelligent
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-warehouse"></i>
+                Grenier<span>Smart</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="/tableaudebord"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="/boutiquepage"><i class="fas fa-shopping-cart"></i> Boutique</a></li>
+                    <li><a href="/mescommandes"><i class="fas fa-box"></i> Commandes</a></li>
+                    <li><a href="/monprofil"><i class="fas fa-user"></i> Profil</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav>
-            <ul>
-                <li><a href="/">Accueil</a></li>
-                <li><a href="/tableaudebord">Tableau de Bord</a></li>
-                <li><a href="/boutiquepage">Boutique</a></li>
-                <li><a href="/mescommandes">Mes Commandes</a></li>
-                <li><a href="/monprofil">Mon profil</a></li>
-                <li> <a href="/deconnexion">Déconnexion</a></li>
-            </ul>
-        </nav>
     </header>
+
     <div class="container">
-        <h1 class="page-title">Boutique d'équipement</h1>
-        
-        <div class="shop-categories">
-            <button class="category-btn active" data-category="all">Tous</button>
-            <button class="category-btn" data-category="capteurs">Capteurs</button>
-            <button class="category-btn" data-category="cameras">Caméras</button>
-            <button class="category-btn" data-category="ventilateurs">Ventilateurs</button>
-            <button class="category-btn" data-category="kits">Kits complets</button>
+        <div class="page-header">
+            <h1 class="page-title">🛒 Boutique d'Équipement</h1>
+            <p class="page-subtitle">Découvrez notre gamme complète de capteurs et équipements pour votre grenier intelligent</p>
         </div>
-        
+
+        <div class="shop-categories">
+            <button class="category-btn active" data-category="all">
+                <i class="fas fa-th"></i> Tous les produits
+            </button>
+            <button class="category-btn" data-category="capteurs">
+                <i class="fas fa-thermometer-half"></i> Capteurs
+            </button>
+            <button class="category-btn" data-category="cameras">
+                <i class="fas fa-video"></i> Caméras
+            </button>
+            <button class="category-btn" data-category="ventilateurs">
+                <i class="fas fa-fan"></i> Ventilateurs
+            </button>
+            <button class="category-btn" data-category="kits">
+                <i class="fas fa-box-open"></i> Kits complets
+            </button>
+        </div>
+
         <div class="products-grid">
             <!-- Capteurs -->
             <div class="product-card" data-category="capteurs">
                 <div class="product-image">
-                    <img src="{{ url_for('static', filename='temp.png') }}"alt="Capteur de température">
+                    <img src="{{ url_for('static', filename='temp.png') }}" alt="Capteur de température">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Capteur de température</h3>
-                    <p class="product-description">Capteur haute précision pour surveiller la température de votre grenier.</p>
+                    <p class="product-description">Capteur haute précision pour surveiller la température de votre grenier en temps réel.</p>
                     <p class="product-price">15 000 FCFA</p>
-                    <button class="add-to-cart" data-id="1" data-name="Capteur de température" data-price="15000">Ajouter au panier</button>
+                    <button class="add-to-cart" data-id="1" data-name="Capteur de température" data-price="15000">
+                        <i class="fas fa-cart-plus"></i> Ajouter au panier
+                    </button>
                 </div>
             </div>
-            
+
             <div class="product-card" data-category="capteurs">
                 <div class="product-image">
                     <img src="{{ url_for('static', filename='humid.png') }}" alt="Capteur d'humidité">
@@ -514,10 +851,12 @@
                     <h3 class="product-name">Capteur d'humidité</h3>
                     <p class="product-description">Mesure précise de l'humidité ambiante avec alarme paramétrable.</p>
                     <p class="product-price">18 000 FCFA</p>
-                    <button class="add-to-cart" data-id="2" data-name="Capteur d'humidité" data-price="18000">Ajouter au panier</button>
+                    <button class="add-to-cart" data-id="2" data-name="Capteur d'humidité" data-price="18000">
+                        <i class="fas fa-cart-plus"></i> Ajouter au panier
+                    </button>
                 </div>
             </div>
-            
+
             <div class="product-card" data-category="capteurs">
                 <div class="product-image">
                     <img src="{{ url_for('static', filename='mouv.png') }}" alt="Capteur de mouvement">
@@ -526,10 +865,12 @@
                     <h3 class="product-name">Capteur de mouvement</h3>
                     <p class="product-description">Détection de mouvement à infrarouge pour sécuriser votre espace.</p>
                     <p class="product-price">12 500 FCFA</p>
-                    <button class="add-to-cart" data-id="3" data-name="Capteur de mouvement" data-price="12500">Ajouter au panier</button>
+                    <button class="add-to-cart" data-id="3" data-name="Capteur de mouvement" data-price="12500">
+                        <i class="fas fa-cart-plus"></i> Ajouter au panier
+                    </button>
                 </div>
             </div>
-            
+
             <!-- Caméras -->
             <div class="product-card" data-category="cameras">
                 <div class="product-image">
@@ -537,12 +878,14 @@
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Caméra HD intérieure</h3>
-                    <p class="product-description">Caméra 1080p avec vision nocturne pour surveiller votre grenier.</p>
+                    <p class="product-description">Caméra 1080p avec vision nocturne pour surveiller votre grenier 24/7.</p>
                     <p class="product-price">35 000 FCFA</p>
-                    <button class="add-to-cart" data-id="4" data-name="Caméra HD intérieure" data-price="35000">Ajouter au panier</button>
+                    <button class="add-to-cart" data-id="4" data-name="Caméra HD intérieure" data-price="35000">
+                        <i class="fas fa-cart-plus"></i> Ajouter au panier
+                    </button>
                 </div>
             </div>
-            
+
             <div class="product-card" data-category="cameras">
                 <div class="product-image">
                     <img src="{{ url_for('static', filename='cam.png') }}" alt="Caméra sans fil">
@@ -551,10 +894,12 @@
                     <h3 class="product-name">Caméra sans fil</h3>
                     <p class="product-description">Caméra Wi-Fi rechargeable, installation facile sans câble.</p>
                     <p class="product-price">45 000 FCFA</p>
-                    <button class="add-to-cart" data-id="5" data-name="Caméra sans fil" data-price="45000">Ajouter au panier</button>
+                    <button class="add-to-cart" data-id="5" data-name="Caméra sans fil" data-price="45000">
+                        <i class="fas fa-cart-plus"></i> Ajouter au panier
+                    </button>
                 </div>
             </div>
-            
+
             <!-- Ventilateurs -->
             <div class="product-card" data-category="ventilateurs">
                 <div class="product-image">
@@ -564,226 +909,216 @@
                     <h3 class="product-name">Ventilateur intelligent</h3>
                     <p class="product-description">Ventilateur contrôlable à distance avec ajustement automatique.</p>
                     <p class="product-price">25 000 FCFA</p>
-                    <button class="add-to-cart" data-id="6" data-name="Ventilateur intelligent" data-price="25000">Ajouter au panier</button>
+                    <button class="add-to-cart" data-id="6" data-name="Ventilateur intelligent" data-price="25000">
+                        <i class="fas fa-cart-plus"></i> Ajouter au panier
+                    </button>
                 </div>
             </div>
-            
+
             <div class="product-card" data-category="ventilateurs">
                 <div class="product-image">
                     <img src="{{ url_for('static', filename='aera.png') }}" alt="Système d'aération">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Système d'aération</h3>
-                    <p class="product-description">Système complet pour l'aération de votre grenier, facile à installer.</p>
+                    <p class="product-description">Système complet pour l'aération de votre grenier, installation facile.</p>
                     <p class="product-price">60 000 FCFA</p>
-                    <button class="add-to-cart" data-id="7" data-name="Système d'aération" data-price="60000">Ajouter au panier</button>
+                    <button class="add-to-cart" data-id="7" data-name="Système d'aération" data-price="60000">
+                        <i class="fas fa-cart-plus"></i> Ajouter au panier
+                    </button>
                 </div>
             </div>
-            
+
             <!-- Kits complets -->
             <div class="product-card" data-category="kits">
                 <div class="product-image">
-                    <img src="/api/placeholder/250/180" alt="Kit de base">
+                    <i class="fas fa-box" style="font-size: 4rem; color: #4ade80;"></i>
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Kit de base</h3>
-                    <p class="product-description">Ensemble comprenant 2 capteurs et 1 caméra pour débuter.</p>
+                    <p class="product-description">Ensemble comprenant 2 capteurs et 1 caméra pour débuter votre grenier connecté.</p>
                     <p class="product-price">100 000 FCFA</p>
-                    <button class="add-to-cart" data-id="8" data-name="Kit de base" data-price="55000">Ajouter au panier</button>
+                    <button class="add-to-cart" data-id="8" data-name="Kit de base" data-price="100000">
+                        <i class="fas fa-cart-plus"></i> Ajouter au panier
+                    </button>
                 </div>
             </div>
-            
+
             <div class="product-card" data-category="kits">
                 <div class="product-image">
-                    <img src="/api/placeholder/250/180" alt="Kit avancé">
+                    <i class="fas fa-boxes" style="font-size: 4rem; color: #4ade80;"></i>
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Kit avancé</h3>
                     <p class="product-description">Solution complète avec 4 capteurs, 2 caméras et 1 système d'aération.</p>
-                    <p class="product-price">250000FCFA</p>
-                    <button class="add-to-cart" data-id="9" data-name="Kit avancé" data-price="120000">Ajouter au panier</button>
+                    <p class="product-price">250 000 FCFA</p>
+                    <button class="add-to-cart" data-id="9" data-name="Kit avancé" data-price="250000">
+                        <i class="fas fa-cart-plus"></i> Ajouter au panier
+                    </button>
                 </div>
             </div>
         </div>
-        
-        <div class="cart-section">                
+
+        <div class="cart-section">
             <div class="cart-title">
-                <h2>Votre Panier</h2>
+                <h2><i class="fas fa-shopping-cart"></i> Votre Panier</h2>
                 <span id="cart-count">0 article(s)</span>
             </div>
-            
+
             <div id="cart-items" class="cart-items">
-                <div class="empty-cart">Votre panier est vide</div>
-                <!-- Items will be added here dynamically -->
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-basket"></i>
+                    <p>Votre panier est vide</p>
+                </div>
             </div>
-            
+
             <div class="cart-summary">
                 <div class="total-price">Total: 0 FCFA</div>
-                <button class="checkout-btn" id="checkout-btn" disabled>Passer à la caisse</button>
+                <button class="checkout-btn" id="checkout-btn" disabled>
+                    <i class="fas fa-credit-card"></i> Passer à la caisse
+                </button>
             </div>
         </div>
     </div>
-    
+
     <!-- Payment Modal -->
     <div class="payment-modal" id="payment-modal">
         <div class="modal-content">
-            <h2 class="modal-title">Choisissez votre méthode de paiement</h2>
-            
+            <h2 class="modal-title">Méthode de paiement</h2>
+
             <div class="payment-options">
                 <div class="payment-option" data-method="orange">
                     <div class="payment-logo">
-                        <img src="/api/placeholder/70/70" alt="Orange Money">
+                        🟠
                     </div>
-                    <span>Orange Money</span>
+                    <span><strong>Orange Money</strong></span>
                 </div>
-                
+
                 <div class="payment-option" data-method="wave">
                     <div class="payment-logo">
-                        <img src="/api/placeholder/70/70" alt="Wave">
+                        💙
                     </div>
-                    <span>Wave</span>
+                    <span><strong>Wave</strong></span>
                 </div>
             </div>
-            
+
             <div id="orange-money-form" class="payment-form hidden">
                 <div class="form-group">
-                    <label for="orange-phone">Numéro de téléphone Orange</label>
+                    <label for="orange-phone"><i class="fas fa-phone"></i> Numéro Orange Money</label>
                     <input type="tel" id="orange-phone" placeholder="Entrez votre numéro">
                 </div>
             </div>
-            
+
             <div id="wave-form" class="payment-form hidden">
                 <div class="form-group">
-                    <label for="wave-phone">Numéro de téléphone Wave</label>
+                    <label for="wave-phone"><i class="fas fa-phone"></i> Numéro Wave</label>
                     <input type="tel" id="wave-phone" placeholder="Entrez votre numéro">
                 </div>
             </div>
-            
+
             <div class="modal-buttons">
                 <button class="cancel-btn" id="cancel-payment">Annuler</button>
                 <button class="pay-btn" id="confirm-payment">Confirmer le paiement</button>
             </div>
         </div>
     </div>
-    
+
     <!-- Order Success -->
     <div class="payment-modal" id="success-modal">
         <div class="modal-content order-success">
             <div class="success-icon">
                 <i class="fas fa-check-circle"></i>
             </div>
-            <h2>Commande confirmée !</h2>
+            <h2>Commande confirmée ! 🎉</h2>
             <p>Votre commande a été traitée avec succès. Vous recevrez bientôt un SMS de confirmation.</p>
             <form id="redirect-form" action="/requestkit" method="POST">
-                <button type="submit" class="back-to-shop">Voir mes commandes</button>
+                <button type="submit" class="back-to-shop">
+                    <i class="fas fa-box"></i> Voir mes commandes
+                </button>
             </form>
         </div>
     </div>
+
     <script>
-        const userid="{{session['id']}}";
+        const userid = "{{session['id']}}";
         const urlParams = new URLSearchParams(window.location.search);
         const message = urlParams.get('message');
         if (message) {
             alert(decodeURIComponent(message));
         }
 
-        // Code pour la gestion du panier et des produits
-        const cartItemsContainer = document.getElementById('cart-items');
-        const cartCountElement = document.getElementById('cart-count');
-        const totalPriceElement = document.querySelector('.total-price');
-        const checkoutBtn = document.getElementById('checkout-btn');
-        let cart = [];
-        
-        // Ajouter un produit au panier
-        document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', () => {
-                const productId = button.dataset.id;
-                const productName = button.dataset.name;
-                const productPrice = parseInt(button.dataset.price);
-                
-                // Vérifier si le produit est déjà dans le panier
-                const existingItem = cart.find(item => item.id === productId);
-                
-                if (existingItem) {
-                    existingItem.quantity += 1;
-                } else {
-                    cart.push({
-                        id: productId,
-                        name: productName,
-                        price: productPrice,
-                        quantity: 1
-                    });
-                }
-                
-                updateCart();
-            });
-        });
-    document.addEventListener('DOMContentLoaded', function() {
-        // Gestion des 
-        const categoryButtons = document.querySelectorAll('.category-btn');
-        const productCards = document.querySelectorAll('.product-card');
-        
-        categoryButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Retirer la classe active de tous les boutons
-                categoryButtons.forEach(btn => btn.classList.remove('active'));
-                // Ajouter la classe active au bouton cliqué
-                button.classList.add('active');
-                
-                const category = button.dataset.category;
-                
-                // Filtrer les produits
-                productCards.forEach(card => {
-                    if (category === 'all' || card.dataset.category === category) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-        
         // Gestion du panier
         const cartItemsContainer = document.getElementById('cart-items');
         const cartCountElement = document.getElementById('cart-count');
         const totalPriceElement = document.querySelector('.total-price');
         const checkoutBtn = document.getElementById('checkout-btn');
         let cart = [];
-        
-        // Ajouter un produit au panier
-        document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', () => {
-                const productId = button.dataset.id;
-                const productName = button.dataset.name;
-                const productPrice = parseInt(button.dataset.price);
-                
-                // Vérifier si le produit est déjà dans le panier
-                const existingItem = cart.find(item => item.id === productId);
-                
-                if (existingItem) {
-                    existingItem.quantity += 1;
-                } else {
-                    cart.push({
-                        id: productId,
-                        name: productName,
-                        price: productPrice,
-                        quantity: 1
+
+        // Gestion des catégories
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const productCards = document.querySelectorAll('.product-card');
+
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const category = button.dataset.category;
+
+                    productCards.forEach(card => {
+                        if (category === 'all' || card.dataset.category === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
                     });
-                }
-                
-                updateCart();
+                });
+            });
+
+            // Ajouter un produit au panier
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', () => {
+                    const productId = button.dataset.id;
+                    const productName = button.dataset.name;
+                    const productPrice = parseInt(button.dataset.price);
+
+                    const existingItem = cart.find(item => item.id === productId);
+
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({
+                            id: productId,
+                            name: productName,
+                            price: productPrice,
+                            quantity: 1
+                        });
+                    }
+
+                    updateCart();
+                    
+                    // Animation de succès
+                    button.innerHTML = '<i class="fas fa-check"></i> Ajouté !';
+                    setTimeout(() => {
+                        button.innerHTML = '<i class="fas fa-cart-plus"></i> Ajouter au panier';
+                    }, 1500);
+                });
             });
         });
-        
+
         // Mettre à jour le panier
         function updateCart() {
-            // Mettre à jour le compteur
             const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
             cartCountElement.textContent = `${totalItems} article(s)`;
-            
-            // Mettre à jour la liste des articles
+
             if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<div class="empty-cart">Votre panier est vide</div>';
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-basket"></i>
+                        <p>Votre panier est vide</p>
+                    </div>
+                `;
                 checkoutBtn.disabled = true;
             } else {
                 cartItemsContainer.innerHTML = '';
@@ -793,7 +1128,7 @@
                     cartItemElement.innerHTML = `
                         <div class="cart-item-info">
                             <span class="cart-item-name">${item.name}</span>
-                            <span class="cart-item-price">${item.price} FCFA</span>
+                            <span class="cart-item-price">${item.price.toLocaleString()} FCFA</span>
                         </div>
                         <div class="cart-item-quantity">
                             <button class="quantity-btn minus" data-id="${item.id}">-</button>
@@ -804,21 +1139,19 @@
                     `;
                     cartItemsContainer.appendChild(cartItemElement);
                 });
-                
-                // Activer le bouton de paiement
+
                 checkoutBtn.disabled = false;
             }
-            
-            // Mettre à jour le total
+
             const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-            totalPriceElement.textContent = `Total: ${totalPrice} FCFA`;
-            
-            // Ajouter les événements pour les boutons de quantité
+            totalPriceElement.textContent = `Total: ${totalPrice.toLocaleString()} FCFA`;
+
+            // Événements pour les boutons de quantité
             document.querySelectorAll('.quantity-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const productId = this.dataset.id;
                     const item = cart.find(item => item.id === productId);
-                    
+
                     if (this.classList.contains('minus')) {
                         if (item.quantity > 1) {
                             item.quantity -= 1;
@@ -828,12 +1161,12 @@
                     } else if (this.classList.contains('plus')) {
                         item.quantity += 1;
                     }
-                    
+
                     updateCart();
                 });
             });
-            
-            // Ajouter les événements pour les boutons de suppression
+
+            // Événements pour les boutons de suppression
             document.querySelectorAll('.remove-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const productId = this.dataset.id;
@@ -842,7 +1175,7 @@
                 });
             });
         }
-        
+
         // Gestion du paiement
         const paymentModal = document.getElementById('payment-modal');
         const successModal = document.getElementById('success-modal');
@@ -852,24 +1185,21 @@
         const cancelPaymentBtn = document.getElementById('cancel-payment');
         const confirmPaymentBtn = document.getElementById('confirm-payment');
         let selectedPaymentMethod = null;
-        
-        // Ouvrir le modal de paiement
+
         checkoutBtn.addEventListener('click', () => {
             paymentModal.style.display = 'flex';
         });
-        
-        // Choisir une méthode de paiement
+
         paymentOptions.forEach(option => {
             option.addEventListener('click', () => {
                 paymentOptions.forEach(opt => opt.classList.remove('selected'));
                 option.classList.add('selected');
-                
+
                 selectedPaymentMethod = option.dataset.method;
-                
-                // Afficher le formulaire correspondant
+
                 orangeForm.classList.add('hidden');
                 waveForm.classList.add('hidden');
-                
+
                 if (selectedPaymentMethod === 'orange') {
                     orangeForm.classList.remove('hidden');
                 } else if (selectedPaymentMethod === 'wave') {
@@ -877,8 +1207,7 @@
                 }
             });
         });
-        
-        // Annuler le paiement
+
         cancelPaymentBtn.addEventListener('click', () => {
             paymentModal.style.display = 'none';
             selectedPaymentMethod = null;
@@ -886,28 +1215,25 @@
             orangeForm.classList.add('hidden');
             waveForm.classList.add('hidden');
         });
-        
-        // Confirmer le paiement (simulé)
+
         confirmPaymentBtn.addEventListener('click', () => {
             if (!selectedPaymentMethod) {
                 alert('Veuillez sélectionner une méthode de paiement');
                 return;
             }
-            
+
             const phoneField = selectedPaymentMethod === 'orange' 
                 ? document.getElementById('orange-phone') 
                 : document.getElementById('wave-phone');
-            
+
             if (!phoneField.value) {
                 alert('Veuillez entrer votre numéro de téléphone');
                 return;
             }
-            
-            // Simuler un paiement réussi
+
             paymentModal.style.display = 'none';
             successModal.style.display = 'flex';
-            
-            // Sauvegarder la commande dans le localStorage
+
             const order = {
                 date: new Date(),
                 items: [...cart],
@@ -916,46 +1242,39 @@
                 status: 'En traitement',
                 userId: userid
             };
-            fetch('/commande',{
-                method:'POST',
+
+            fetch('/commande', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(order) ,
+                body: JSON.stringify(order),
             })
-        .then(response => response.json()
-        .then(data => {
-            if(data.status === 'success'){
-                console.log('Commande enregistrée avec succès');
-                window.location.href = '/boutiquepage?message=Votre%20commande%20a%20été%20enregistrée%20avec%20succès';
-
-            } else {
-                console.error('Erreur lors de l\'enregistrement de la commande');
-            }
-        }));
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === 'success'){
+                    console.log('Commande enregistrée avec succès');
+                    window.location.href = '/boutiquepage?message=Votre%20commande%20a%20été%20enregistrée%20avec%20succès';
+                } else {
+                    console.error('Erreur lors de l\'enregistrement de la commande');
+                }
+            });
 
             let orders = JSON.parse(localStorage.getItem('orders') || '[]');
             orders.push(order);
             localStorage.setItem('orders', JSON.stringify(orders));
-            
-            // Vider le panier
+
             cart = [];
             updateCart();
         });
-        
-        // Redirection vers la page des commandes
+
         document.getElementById('redirect-form').addEventListener('submit', function(e) {
             e.preventDefault();
             successModal.style.display = 'none';
-            
-            // Stocker les informations pour la page des commandes
             localStorage.setItem('showOrders', 'true');
-            
-            // Rediriger vers la page des commandes
             window.location.href = '/requestkit';
         });
-        
-        // Fermer le modal de succès si on clique à l'extérieur
+
         window.addEventListener('click', (e) => {
             if (e.target === paymentModal) {
                 paymentModal.style.display = 'none';
@@ -964,83 +1283,77 @@
                 successModal.style.display = 'none';
             }
         });
-    });
-    
-    // Code pour la page des commandes (/requestkit)
-    if (window.location.pathname === '/requestkit') {
-        document.addEventListener('DOMContentLoaded', function() {
-            const ordersContainer = document.querySelector('.orders-container') || document.createElement('div');
-            
-            // Vérifier si on doit afficher les commandes
-            if (localStorage.getItem('showOrders') === 'true') {
-                localStorage.removeItem('showOrders');
-                
-                const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-                
-                if (orders.length === 0) {
-                    ordersContainer.innerHTML = '<p>Aucune commande trouvée</p>';
-                } else {
-                    ordersContainer.innerHTML = '<h2>Mes Commandes</h2>';
-                    
-                    orders.forEach(order => {
-                        const orderElement = document.createElement('div');
-                        orderElement.className = 'order-card';
-                        orderElement.innerHTML = `
-                            <div class="order-header">
-                                <span class="order-id">Commande #${order.id}</span>
-                                <span class="order-date">${order.date}</span>
-                                <span class="order-status">${order.status}</span>
-                            </div>
-                            <div class="order-items">
-                                ${order.items.map(item => `
-                                    <div class="order-item" data-category="${item.name.includes('Capteur') ? 'capteurs' : 
-                                        item.name.includes('Caméra') ? 'cameras' : 
-                                        item.name.includes('Ventilateur') ? 'ventilateurs' : 'kits'}">
-                                        <span class="item-name">${item.name}</span>
-                                        <span class="item-quantity">${item.quantity}x</span>
-                                        <span class="item-price">${item.price * item.quantity} FCFA</span>
-                                    </div>
-                                `).join('')}
-                            </div>
-                            <div class="order-footer">
-                                <span class="order-total">Total: ${order.total} FCFA</span>
-                                <span class="order-payment">Paiement: ${order.paymentMethod === 'orange' ? 'Orange Money' : 'Wave'}</span>
-                            </div>
-                        `;
-                        ordersContainer.appendChild(orderElement);
-                    });
-                    
-                    // Ajouter des événements pour les éléments de commande
-                    document.querySelectorAll('.order-item').forEach(item => {
-                        item.addEventListener('click', function() {
-                            const category = this.dataset.category;
-                            // Stocker la catégorie sélectionnée
-                            localStorage.setItem('selectedCategory', category);
-                            // Rediriger vers la boutique
-                            window.location.href = '/boutiquepage';
+
+        // Code pour la page des commandes
+        if (window.location.pathname === '/requestkit') {
+            document.addEventListener('DOMContentLoaded', function() {
+                const ordersContainer = document.querySelector('.orders-container') || document.createElement('div');
+
+                if (localStorage.getItem('showOrders') === 'true') {
+                    localStorage.removeItem('showOrders');
+
+                    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+
+                    if (orders.length === 0) {
+                        ordersContainer.innerHTML = '<p>Aucune commande trouvée</p>';
+                    } else {
+                        ordersContainer.innerHTML = '<h2>Mes Commandes</h2>';
+
+                        orders.forEach(order => {
+                            const orderElement = document.createElement('div');
+                            orderElement.className = 'order-card';
+                            orderElement.innerHTML = `
+                                <div class="order-header">
+                                    <span class="order-id">Commande #${order.id}</span>
+                                    <span class="order-date">${order.date}</span>
+                                    <span class="order-status">${order.status}</span>
+                                </div>
+                                <div class="order-items">
+                                    ${order.items.map(item => `
+                                        <div class="order-item" data-category="${item.name.includes('Capteur') ? 'capteurs' : 
+                                            item.name.includes('Caméra') ? 'cameras' : 
+                                            item.name.includes('Ventilateur') ? 'ventilateurs' : 'kits'}">
+                                            <span class="item-name">${item.name}</span>
+                                            <span class="item-quantity">${item.quantity}x</span>
+                                            <span class="item-price">${item.price * item.quantity} FCFA</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <div class="order-footer">
+                                    <span class="order-total">Total: ${order.total} FCFA</span>
+                                    <span class="order-payment">Paiement: ${order.paymentMethod === 'orange' ? 'Orange Money' : 'Wave'}</span>
+                                </div>
+                            `;
+                            ordersContainer.appendChild(orderElement);
                         });
+
+                        document.querySelectorAll('.order-item').forEach(item => {
+                            item.addEventListener('click', function() {
+                                const category = this.dataset.category;
+                                localStorage.setItem('selectedCategory', category);
+                                window.location.href = '/boutiquepage';
+                            });
+                        });
+                    }
+                }
+            });
+        }
+
+        // Filtrer les produits si on vient de la page des commandes
+        if (window.location.pathname === '/boutiquepage' && localStorage.getItem('selectedCategory')) {
+            document.addEventListener('DOMContentLoaded', function() {
+                const category = localStorage.getItem('selectedCategory');
+                localStorage.removeItem('selectedCategory');
+
+                const categoryButton = document.querySelector(`.category-btn[data-category="${category}"]`);
+                if (categoryButton) {
+                    categoryButton.click();
+                    document.querySelector('.shop-categories').scrollIntoView({
+                        behavior: 'smooth'
                     });
                 }
-            }
-        });
-    }
-    
-    // Code pour filtrer les produits si on vient de la page des commandes
-    if (window.location.pathname === '/boutiquepage' && localStorage.getItem('selectedCategory')) {
-        document.addEventListener('DOMContentLoaded', function() {
-            const category = localStorage.getItem('selectedCategory');
-            localStorage.removeItem('selectedCategory');
-            
-            // Trouver le bouton correspondant et simuler un clic
-            const categoryButton = document.querySelector(`.category-btn[data-category="${category}"]`);
-            if (categoryButton) {
-                categoryButton.click();
-                
-                // Faire défiler jusqu'à la section boutique
-                document.querySelector('.shop-categories').scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
-        });
-    }
-</script>  
+            });
+        }
+    </script>
+</body>
+</html>
